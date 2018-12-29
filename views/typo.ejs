@@ -1,0 +1,43 @@
+<% include layout/header.ejs %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+      <br />
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="#">Home</a></li>
+        <li class="breadcrumb-item"><a href="#">Library</a></li>
+        <li class="breadcrumb-item active">Data</li>
+      </ol>
+      <div class="jumbotron">
+        <h1 class="display-3">Hello, world!</h1>
+        <p class="lead">
+          This is a simple hero unit, a simple jumbotron-style component for
+          calling extra attention to featured content or information.
+        </p>
+        <hr class="my-4" />
+        <p>
+          It uses utility classes for typography and spacing to space content
+          out within the larger container.
+        </p>
+        <p class="lead">
+          <a class="btn btn-primary btn-lg" href="#" role="button"
+            >Learn more</a
+          >
+        </p>
+      </div>
+      <ul>
+        <% arr.forEach(function(item){ %>
+        <li><%= item %></li>
+        <% }); %>
+      </ul>
+      <br />
+      <% include layout/tabs.ejs %> <% include layout/drop.ejs %>
+    </div>
+
+    <div class="col-lg-4">
+      <br />
+      <% include layout/sidebar.ejs %>
+    </div>
+  </div>
+</div>
+<% include layout/footer.ejs %>
