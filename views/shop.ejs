@@ -1,0 +1,43 @@
+<% include layout/header.ejs %>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-8">
+      <br />
+      <H1>Магазин</H1>
+      <% arr.forEach(function(item){ %>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-5">
+            <div class="border-primary">
+              <img
+                style="width: 100%; display: block;"
+                src="<%= item.url %>"
+                alt="Card image"
+              />
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <a href="/shop/<%= item.id %>"
+              ><h5 class="card-title"><%= item.name %></h5></a
+            >
+
+            <h6 class="text-muted">
+              Модель: <%= item.model %>, ID: <%= item.id %>
+            </h6>
+            <h6 class="text-muted">Цена: <%= item.price %>грн.</h6>
+
+            <button type="button" class="btn btn-success btn-sm">
+              В Корзину
+            </button>
+          </div>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <div class="col-lg-4">
+      <br />
+      <% include layout/sidebar.ejs %>
+    </div>
+  </div>
+</div>
+<% include layout/footer.ejs %>

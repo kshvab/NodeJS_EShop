@@ -2,20 +2,18 @@
 <div class="container">
   <div class="row">
     <div class="col-md-4 col-md-offset-4">
-      <div class="login-panel panel panel-default">
-        <div class="panel-heading">
-          <h2 class="panel-title">Пожалуйста, войдите</h2>
-        </div>
+      <div class="login login-panel panel panel-default">
+        <div class="panel-heading"><h2 class="panel-title">Вход</h2></div>
         <div class="panel-body">
-          <form role="form">
+          <form role="form" method="post" class="login">
             <fieldset>
               <div class="form-group">
                 <input
                   class="form-control"
-                  placeholder="E-mail"
-                  name="email"
-                  type="email"
-                  autofocus
+                  placeholder="Логин"
+                  name="login"
+                  type="login"
+                  id="login-login"
                 />
               </div>
               <div class="form-group">
@@ -25,6 +23,7 @@
                   name="password"
                   type="password"
                   value=""
+                  id="login-password"
                 />
               </div>
 
@@ -34,7 +33,7 @@
                 <input
                   type="checkbox"
                   class="custom-control-input"
-                  id="customCheck2"
+                  id="login-chBstayLogged"
                 />
                 <label class="custom-control-label" for="customCheck2"
                   >Запомнить меня</label
@@ -42,8 +41,77 @@
               </div>
 
               <!-- Change this to a button or input when using this as a form -->
-              <a href="index.html" class="btn btn-lg btn-success btn-block"
-                >Login</a
+              <a href="#" class="login-button btn btn-lg btn-primary btn-block"
+                >Вход</a
+              >
+              <a
+                href="#"
+                class="switch-button btn btn-block btn-outline-primary btn-sm"
+                >Еще нет учетной записи?</a
+              >
+            </fieldset>
+          </form>
+        </div>
+      </div>
+
+      <div class="register login-panel panel panel-default">
+        <div class="panel-heading">
+          <h2 class="panel-title">Регистрация</h2>
+        </div>
+        <div class="panel-body">
+          <form role="form" method="post" class="register">
+            <fieldset>
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  placeholder="E-mail"
+                  name="email"
+                  type="email"
+                  id="register-email"
+                  autofocus
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  placeholder="Логин"
+                  name="login"
+                  type="login"
+                  id="register-login"
+                />
+              </div>
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  placeholder="Пароль"
+                  name="password"
+                  type="password"
+                  value=""
+                  id="register-password"
+                />
+              </div>
+
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  placeholder="Подтвердите пароль"
+                  name="password2"
+                  type="password2"
+                  id="register-password2"
+                  value=""
+                />
+              </div>
+
+              <!-- Change this to a button or input when using this as a form -->
+              <a
+                href="#"
+                class="register-button btn btn-lg btn-primary btn-block"
+                >Регистрация</a
+              >
+              <a
+                href="#"
+                class="switch-button btn btn-block btn-outline-primary btn-sm"
+                >Уже есть учетная запись?</a
               >
             </fieldset>
           </form>
@@ -52,4 +120,5 @@
     </div>
   </div>
 </div>
+
 <% include layout/footer.ejs %>
