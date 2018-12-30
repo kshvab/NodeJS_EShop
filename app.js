@@ -80,4 +80,17 @@ app.get('/shop', function(req, res) {
   res.render('shop', { arr: arr });
 });
 
+let string = fs.readFileSync('./import/myBd76.txt', { encoding: 'UTF-8' });
+
+//console.log(string);
+let arr2 = JSON.parse(string);
+//console.dir(arr2);
+
+for (let i = 0; i < arr2.length; i++) {
+  let adr = '/shop/' + arr2[i].id;
+  app.get(adr, function(req, res) {
+    res.render('item', { item: arr2[i] });
+  });
+}
+
 module.exports = app;
