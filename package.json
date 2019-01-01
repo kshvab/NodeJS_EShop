@@ -1,27 +1,27 @@
 {
   "name": "nodesite",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.0.5",
+  "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Nick Shvab",
   "license": "ISC",
   "devDependencies": {
-    "cross-env": "^5.2.0",
     "eslint": "^5.11.1",
+    "eslint-config-prettier": "^3.3.0",
     "eslint-plugin-node": "^8.0.0",
-    "nodemon": "^1.18.9",
-    "eslint-config-prettier": "^3.3.0"
+    "nodemon": "^1.18.9"
   },
   "engines": {
     "node": ">=10.0.0"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
+    "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "jquery": "^3.3.1",
