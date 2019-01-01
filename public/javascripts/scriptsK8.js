@@ -7,12 +7,12 @@ $(function() {
     console.log('AAA');
     if (flag) {
       flag = false;
-      $('.register').show('slow');
-      $('.login').hide();
+      $('#mainRegisterPanel').show('slow');
+      $('#mainLoginPanel').hide();
     } else {
       flag = true;
-      $('.login').show('slow');
-      $('.register').hide();
+      $('#mainLoginPanel').show('slow');
+      $('#mainRegisterPanel').hide();
     }
   });
 });
