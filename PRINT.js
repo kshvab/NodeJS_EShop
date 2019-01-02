@@ -8,8 +8,7 @@
 
     fs.writeFile("new.xml", body, function(err) {
       if (err) throw err;
-      console.log("Saved!");
-    });
+      console.log("Saved!");    });
   });
 }
 

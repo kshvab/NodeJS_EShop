@@ -27,19 +27,6 @@
                 />
               </div>
 
-              <div
-                class="custom-control custom-checkbox custom-checkbox-inpanel"
-              >
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="login-chBstayLogged"
-                />
-                <label class="custom-control-label" for="customCheck2"
-                  >Запомнить меня</label
-                >
-              </div>
-
               <!-- Change this to a button or input when using this as a form -->
               <a href="#" class="login-button btn btn-lg btn-primary btn-block"
                 >Вход</a
@@ -59,6 +46,7 @@
           <h2 class="panel-title">Регистрация</h2>
         </div>
         <div class="panel-body">
+          <div id="register-error-msg"></div>
           <form role="form" method="post" class="register">
             <fieldset>
               <div class="form-group">
@@ -71,6 +59,16 @@
                   autofocus
                 />
               </div>
+
+              <div class="form-group">
+                <input
+                  class="form-control"
+                  placeholder="Имя"
+                  name="name"
+                  type="name"
+                  id="register-name"
+                />
+              </div>
               <div class="form-group">
                 <input
                   class="form-control"
@@ -80,11 +78,12 @@
                   id="register-login"
                 />
               </div>
+
               <div class="form-group">
                 <input
                   class="form-control"
                   placeholder="Пароль"
-                  name="password"
+                  name="register-password"
                   type="password"
                   value=""
                   id="register-password"
@@ -95,9 +94,9 @@
                 <input
                   class="form-control"
                   placeholder="Подтвердите пароль"
-                  name="password2"
-                  type="password2"
-                  id="register-password2"
+                  name="register-password-confirm"
+                  type="password"
+                  id="register-password-confirm"
                   value=""
                 />
               </div>
@@ -106,6 +105,7 @@
               <a
                 href="#"
                 class="register-button btn btn-lg btn-primary btn-block"
+                id="register-button"
                 >Регистрация</a
               >
               <a

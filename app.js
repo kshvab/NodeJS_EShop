@@ -7,6 +7,7 @@ const request = require('request');
 
 const mongoose = require('mongoose');
 const config = require('./config');
+const routes = require('./routes');
 
 // database
 mongoose.connection
@@ -40,11 +41,14 @@ app.listen(config.PORT, () =>
 // sets and uses
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public'))); //Щоб експрес віддавав статичні файли з папки public, скрипти будуть доступні просто через слеш
 app.use(
   '/javascripts',
   express.static(path.join(__dirname, 'node_modules', 'jquery', 'dist'))
 );
+
+app.use('/api/auth', routes.auth);
 
 // routers
 app.get('/', function(req, res) {
