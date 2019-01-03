@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt-nodejs');
 const models = require('../models');
 const user = models.User;
+
 // POST is authorized
 router.post('/register', (req, res) => {
   const name = req.body.name;
@@ -32,6 +33,18 @@ router.post('/register', (req, res) => {
       ok: false,
       error: 'Длина логина от 3 до 16 символов!',
       fields: ['register-login']
+    });
+  } else if (!/^[a-zA-Z0-9]+$/.test(login)) {
+    res.json({
+      ok: false,
+      error: 'Только латинские буквы и цифры!',
+      fields: ['register-login']
+    });
+  } else if (password.length < 5) {
+    res.json({
+      ok: false,
+      error: 'Минимальная длина пароля 5 символов!',
+      fields: ['register-password']
     });
   } else if (password !== passwordConfirm) {
     res.json({
@@ -71,11 +84,64 @@ router.post('/register', (req, res) => {
       } else {
         res.json({
           ok: false,
-          error: 'Имя занято!',
-          fields: ['login']
+          error: 'Такой логин уже занят!',
+          fields: ['register-login']
         });
       }
     });
+  }
+});
+
+// POST is register
+router.post('/login', (req, res) => {
+  const login = req.body.login;
+  const password = req.body.password;
+
+  if (!login || !password) {
+    const fields = [];
+    if (!login) fields.push('login-login');
+    if (!password) fields.push('login-password');
+
+    res.json({
+      ok: false,
+      error: 'Все поля должны быть заполнены!',
+      fields
+    });
+  } else {
+    user
+      .findOne({ login })
+      .then(userFromDB => {
+        if (!userFromDB) {
+          res.json({
+            ok: false,
+            error: 'Логин и пароль неверны!',
+            fields: ['login-login', 'login-password']
+          });
+        } else {
+          bcrypt.compare(password, userFromDB.password, function(err, result) {
+            if (!result) {
+              res.json({
+                ok: false,
+                error: 'Логин и пароль неверны!',
+                fields: ['login-login', 'login-password']
+              });
+            } else {
+              //req.session.userId = userFromDB.id;
+              //req.session.userLogin = userFromDB.login;
+              res.json({
+                ok: true
+              });
+            }
+          });
+        }
+      })
+      .catch(err => {
+        console.log(err);
+        res.json({
+          ok: false,
+          error: 'Ошибка доступа к базе, попробуйте позже!'
+        });
+      });
   }
 });
 

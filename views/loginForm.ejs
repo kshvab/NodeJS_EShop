@@ -5,6 +5,7 @@
       <div class="login-panel panel panel-default" id="mainLoginPanel">
         <div class="panel-heading"><h2 class="panel-title">Вход</h2></div>
         <div class="panel-body">
+          <div id="login-error-msg"></div>
           <form role="form" method="post" class="login">
             <fieldset>
               <div class="form-group">
@@ -28,7 +29,10 @@
               </div>
 
               <!-- Change this to a button or input when using this as a form -->
-              <a href="#" class="login-button btn btn-lg btn-primary btn-block"
+              <a
+                href="#"
+                class="login-button btn btn-lg btn-primary btn-block"
+                id="login-button"
                 >Вход</a
               >
               <a
