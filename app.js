@@ -9,6 +9,9 @@ const mongoose = require('mongoose');
 const config = require('./config');
 const routes = require('./routes');
 
+const session = require('express-session');
+const mongoStore = require('connect-mongo')(session);
+
 // database
 mongoose.connection
   .on('error', error => console.log(error))
@@ -38,6 +41,18 @@ app.listen(config.PORT, () =>
   )
 );
 
+// sessions
+app.use(
+  session({
+    secret: config.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: false,
+    store: new mongoStore({
+      mongooseConnection: mongoose.connection
+    })
+  })
+);
+
 // sets and uses
 app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -52,11 +67,25 @@ app.use('/api/auth', routes.auth);
 
 // routers
 app.get('/', function(req, res) {
-  res.render('index');
+  const id = req.session.userId;
+  const login = req.session.userLogin;
+  console.log(login);
+  res.render('index', {
+    user: { id, login }
+  });
 });
 
 app.get('/vhod', function(req, res) {
   res.render('loginForm');
+});
+
+app.get('/myprofile', function(req, res) {
+  const id = req.session.userId;
+  const login = req.session.userLogin;
+  console.log(login);
+  res.render('myprofile', {
+    user: { id, login }
+  });
 });
 
 const arr = ['Коля', 'Галя', 'Валя'];

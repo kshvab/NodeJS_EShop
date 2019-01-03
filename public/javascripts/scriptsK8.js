@@ -55,7 +55,8 @@ $(function() {
           });
         }
       } else {
-        $('#register-error-msg').html('<p class="text-success">Отлично!</p>');
+        //$('#register-error-msg').html('<p class="text-success">Отлично!</p>');
+        $(location).attr('href', '/');
       }
     });
   });
@@ -88,7 +89,8 @@ $(function() {
           });
         }
       } else {
-        $('#login-error-msg').html('<p class="text-success">Отлично!</p>');
+        //$('#login-error-msg').html('<p class="text-success">Отлично!</p>');
+        $(location).attr('href', '/');
       }
     });
   });

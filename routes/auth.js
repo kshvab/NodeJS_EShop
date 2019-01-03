@@ -12,7 +12,6 @@ router.post('/register', (req, res) => {
   const login = req.body.login;
   const password = req.body.password;
   const passwordConfirm = req.body.passwordConfirm;
-  console.dir('==========>' + req.body.login);
 
   if (!email || !name || !login || !password || !passwordConfirm) {
     console.log(name);
@@ -66,6 +65,8 @@ router.post('/register', (req, res) => {
             })
             .then(userToDB => {
               console.log('Добавлен новый пользователь:\n' + userToDB);
+              req.session.userId = userFromDB._id;
+              req.session.userLogin = userFromDB.login;
               res.json({
                 ok: true
               });
@@ -126,8 +127,8 @@ router.post('/login', (req, res) => {
                 fields: ['login-login', 'login-password']
               });
             } else {
-              //req.session.userId = userFromDB.id;
-              //req.session.userLogin = userFromDB.login;
+              req.session.userId = userFromDB._id;
+              req.session.userLogin = userFromDB.login;
               res.json({
                 ok: true
               });
@@ -142,6 +143,18 @@ router.post('/login', (req, res) => {
           error: 'Ошибка доступа к базе, попробуйте позже!'
         });
       });
+  }
+});
+
+// GET for logout
+router.get('/logout', (req, res) => {
+  if (req.session) {
+    // delete session object
+    req.session.destroy(() => {
+      res.redirect('/');
+    });
+  } else {
+    res.redirect('/');
   }
 });
 
