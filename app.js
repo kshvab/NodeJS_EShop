@@ -75,17 +75,19 @@ app.get('/', function(req, res) {
   });
 });
 
-app.get('/vhod', function(req, res) {
+app.get('/login', function(req, res) {
   res.render('loginForm');
 });
 
-app.get('/myprofile', function(req, res) {
-  const id = req.session.userId;
-  const login = req.session.userLogin;
-  console.log(login);
-  res.render('myprofile', {
-    user: { id, login }
-  });
+app.get('/profile', function(req, res) {
+  if (req.session.userId && req.session.userLogin) {
+    const id = req.session.userId;
+    const login = req.session.userLogin;
+    console.log(login);
+    res.render('profile', {
+      user: { id, login }
+    });
+  } else console.log('юзер незалогинен!');
 });
 
 const arr = ['Коля', 'Галя', 'Валя'];

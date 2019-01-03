@@ -986,3 +986,86 @@
 #mainRegisterPanel {
   display: none;
 }
+
+.bg-primary-topk8 {
+  background-color: #54b4eb !important;
+}
+
+.navbar-topk8-tel {
+  color: #fff;
+  font-size: 0.92308em;
+}
+
+.navbar-topk8-usermenu {
+  color: #fff;
+  font-size: 0.92308em;
+}
+
+.navbarTopk8 {
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  padding: 0.3rem 1rem 0.1rem 1rem;
+}
+
+.navbarTopk8 > .container,
+.navbarTopk8 > .container-fluid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+
+.avesomePaddingRight {
+  padding-right: 0.4rem;
+}
+
+.my-profile-link-k8 {
+  color: #fff;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+a.my-profile-link-k8:hover {
+  color: #fff;
+  text-decoration: underline;
+  background-color: transparent;
+}
+
+.telefon-topk8 {
+  text-decoration: none;
+  background-color: transparent;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+div.telefon-topk8:hover {
+  text-decoration: underline;
+}
+
+.badge-shop-k8 {
+  position: relative;
+  top: -6px !important;
+  left: 7px !important;
+}
+
+.form-group-search-k8 {
+  margin-bottom: 0rem !important;
+  padding-right: 2em;
+}

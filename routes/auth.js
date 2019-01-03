@@ -93,7 +93,7 @@ router.post('/register', (req, res) => {
   }
 });
 
-// POST is register
+// POST is login
 router.post('/login', (req, res) => {
   const login = req.body.login;
   const password = req.body.password;

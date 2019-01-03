@@ -1,0 +1,21 @@
+<% include layout/header.ejs %>
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <br />
+      <% include layout/profil_sidebar_left.ejs %>
+    </div>
+
+    <div class="col-lg-9">
+      <br />
+
+      <h1><%= user.login %></h1>
+      <h3><%= user.id %></h3>
+      <br />
+      <p><a href="/api/auth/logout">Выход</a></p>
+    </div>
+  </div>
+</div>
+
+<% include layout/footer.ejs %>

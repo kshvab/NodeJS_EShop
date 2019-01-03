@@ -1,12 +1,23 @@
 <% include layout/header.ejs %>
+
 <h1>K8</h1>
 <%= user.login %> <% if(!user.id && !user.login) { %>
 <ul>
-  <li class="nav-item"><a class="nav-link" href="/vhod">Вход</a></li>
+  <li class="nav-item"><a class="nav-link" href="/login">Вход</a></li>
   <% } else { %>
   <li class="nav-item">
     <a class="nav-link" href="/myprofile">Мой профиль</a>
   </li>
   <% } %>
 </ul>
+<i class="fas fa-igloo">22</i>
+<!-- this icon's 1) style prefix == fas and 2) icon name == igloo -->
+<i class="fas fa-igloo">33</i>
+<!-- using an <i> element to reference the icon -->
+<span class="fas fa-igloo">111</span>
+
+<!-- HTML to write -->
+<br />
+
+<br />
 <% include layout/footer.ejs %>
