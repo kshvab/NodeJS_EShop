@@ -65,35 +65,44 @@ app.use(
 
 app.use('/api/auth', routes.auth);
 app.use('/profile', routes.profile);
+app.use('/', routes.mainpage);
 
-// routers
-app.get('/', function(req, res) {
-  const id = req.session.userId;
-  const login = req.session.userLogin;
-  console.log(login);
-  res.render('index', {
-    user: { id, login }
+app.get('/login', function(req, res) {
+  let _id;
+  let login;
+  if (req.session.userId && req.session.userLogin) {
+    _id = req.session.userId;
+    login = req.session.userLogin;
+  } else {
+    console.log('юзер незалогинен!');
+    _id = 0;
+    login = 0;
+  }
+  res.render('loginForm', {
+    transData: {
+      user: { _id, login }
+    }
   });
 });
 
-app.get('/login', function(req, res) {
-  res.render('loginForm');
-});
-/*
-app.get('/profile', function(req, res) {
-  if (req.session.userId && req.session.userLogin) {
-    const id = req.session.userId;
-    const login = req.session.userLogin;
-    console.log(login);
-    res.render('profile', {
-      user: { id, login }
-    });
-  } else console.log('юзер незалогинен!');
-});
-*/
 const arr = ['Коля', 'Галя', 'Валя'];
 app.get('/typo', function(req, res) {
-  res.render('typo', { arr: arr });
+  let _id;
+  let login;
+  if (req.session.userId && req.session.userLogin) {
+    _id = req.session.userId;
+    login = req.session.userLogin;
+  } else {
+    console.log('юзер незалогинен!');
+    _id = 0;
+    login = 0;
+  }
+  res.render('typo', {
+    transData: {
+      user: { _id, login }
+    },
+    arr
+  });
 });
 
 //======================================================================
@@ -145,7 +154,22 @@ app.get('/shop', function(req, res) {
   //console.log(string);
   let arr = JSON.parse(string);
   ///console.dir(arr);
-  res.render('shop', { arr: arr });
+  let _id;
+  let login;
+  if (req.session.userId && req.session.userLogin) {
+    _id = req.session.userId;
+    login = req.session.userLogin;
+  } else {
+    console.log('юзер незалогинен!');
+    _id = 0;
+    login = 0;
+  }
+  res.render('shop', {
+    transData: {
+      user: { _id, login }
+    },
+    arr
+  });
 });
 
 let string = fs.readFileSync('./import/myBd76.txt', { encoding: 'UTF-8' });

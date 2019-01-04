@@ -31,10 +31,15 @@
             </div>
             <div class="navbar-topk8-usermenu">
 
-
-
+            <% if (transData.user.login && transData.user._id) { %>
               <span class="fas fa-user avesomePaddingRight"></span>
-              <a class="my-profile-link-k8" href="/login">войдите в личный кабинет</a> <a class="my-profile-link-k8" href="/profile/myprofile">Мой профиль</a>
+              <a class="my-profile-link-k8" href="/profile/myprofile"><%= transData.user.login %></a>
+              <span class="fas fa-sign-out-alt avesomePaddingRight avesomePaddingLeft"></span>
+              <a class="my-profile-link-k8" href="/api/auth/logout">Выход</a>
+            <% } else { %>
+              <span class="fas fa-sign-in-alt avesomePaddingRight"></span>
+              <a class="my-profile-link-k8" href="/login">Войдите в личный кабинет</a>
+            <% } %>
             </div>
       </div>
     </nav>

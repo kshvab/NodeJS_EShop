@@ -1033,7 +1033,11 @@
 }
 
 .avesomePaddingRight {
-  padding-right: 0.4rem;
+  padding-right: 0.3rem;
+}
+
+.avesomePaddingLeft {
+  padding-left: 1rem;
 }
 
 .my-profile-link-k8 {

@@ -14,13 +14,21 @@
       <table class="table table-hover">
         <tbody>
           <tr>
+            <th scope="row">ID пользователя</th>
+            <td><%= transData.user._id %></td>
+          </tr>
+          <tr>
+            <th scope="row">Группа</th>
+            <td><%= transData.user.group %></td>
+          </tr>
+          <tr>
             <th scope="row">Логин</th>
-            <td><%= user.login %></td>
+            <td><%= transData.user.login %></td>
           </tr>
 
           <tr>
             <th scope="row">Имя</th>
-            <td>Вася пупкин</td>
+            <td><%= transData.user.name %></td>
             <td>
               <button type="button" class="btn btn-primary btn-sm">
                 <span class="fas fa-edit avesomePaddingRight"></span>Изменить
@@ -30,7 +38,7 @@
 
           <tr>
             <th scope="row">E-mail</th>
-            <td>kdsdf@fdfg.sdf</td>
+            <td><%= transData.user.email %></td>
             <td>
               <button type="button" class="btn btn-primary btn-sm">
                 <span class="fas fa-edit avesomePaddingRight"></span>Изменить
@@ -39,7 +47,7 @@
           </tr>
           <tr>
             <th scope="row">Номер телефона</th>
-            <td>+380673267467</td>
+            <td>+38<%= transData.user.phonenumber %></td>
             <td>
               <button type="button" class="btn btn-primary btn-sm">
                 <span class="fas fa-edit avesomePaddingRight"></span>Изменить
@@ -49,12 +57,20 @@
 
           <tr>
             <th scope="row">Пароль</th>
-            <td>...</td>
+            <td>Не отображается</td>
             <td>
               <button type="button" class="btn btn-primary btn-sm">
                 <span class="fas fa-edit avesomePaddingRight"></span>Изменить
               </button>
             </td>
+          </tr>
+          <tr>
+            <th scope="row">Дата регистрации</th>
+            <td><%= transData.user.createdAt %></td>
+          </tr>
+          <tr>
+            <th scope="row">Последнее изменение</th>
+            <td><%= transData.user.updatedAt %></td>
           </tr>
         </tbody>
       </table>

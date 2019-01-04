@@ -29,6 +29,7 @@ $(function() {
     var data = {
       name: $('#register-name').val(),
       email: $('#register-email').val(),
+      phonenumber: $('#register-phonenumber').val(),
       login: $('#register-login').val(),
       password: $('#register-password').val(),
       passwordConfirm: $('#register-password-confirm').val()
@@ -61,7 +62,7 @@ $(function() {
     });
   });
 
-  // register
+  // login
   $('#login-button').on('click', function(e) {
     e.preventDefault();
     var data = {

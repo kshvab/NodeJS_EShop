@@ -1,24 +1,31 @@
-var mongoose = require('mongoose');
+const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt-nodejs');
 const models = require('../models');
-const user = models.User;
+const user = models.user;
 
 // POST is authorized
 router.post('/register', (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
+  const phonenumber = req.body.phonenumber;
   const login = req.body.login;
   const password = req.body.password;
   const passwordConfirm = req.body.passwordConfirm;
-
-  if (!email || !name || !login || !password || !passwordConfirm) {
-    console.log(name);
-    //Треба обробити всі поля!!!
+  console.log(phonenumber + ' ' + name);
+  if (
+    !email ||
+    !phonenumber ||
+    !name ||
+    !login ||
+    !password ||
+    !passwordConfirm
+  ) {
     let fieldsForRes = [];
     if (!name) fieldsForRes.push('register-name');
     if (!email) fieldsForRes.push('register-email');
+    if (!phonenumber) fieldsForRes.push('register-phonenumber');
     if (!login) fieldsForRes.push('register-login');
     if (!password) fieldsForRes.push('register-password');
     if (!passwordConfirm) fieldsForRes.push('register-password-confirm');
@@ -26,6 +33,18 @@ router.post('/register', (req, res) => {
       ok: false,
       error: 'Все поля должны быть заполнены!',
       fields: fieldsForRes
+    });
+  } else if (!(phonenumber[0] == '0')) {
+    res.json({
+      ok: false,
+      error: 'Номер телефона должен начинаться с 0!',
+      fields: ['register-phonenumber']
+    });
+  } else if (!(phonenumber.length == 10)) {
+    res.json({
+      ok: false,
+      error: 'Проверьте Ваш номер телефона!',
+      fields: ['register-phonenumber']
     });
   } else if (login.length < 3 || login.length > 16) {
     res.json({
@@ -60,13 +79,14 @@ router.post('/register', (req, res) => {
               _id: new mongoose.Types.ObjectId(),
               name,
               email,
+              phonenumber,
               login,
               password: hash
             })
             .then(userToDB => {
               console.log('Добавлен новый пользователь:\n' + userToDB);
-              req.session.userId = userFromDB._id;
-              req.session.userLogin = userFromDB.login;
+              req.session.userId = userToDB._id;
+              req.session.userLogin = userToDB.login;
               res.json({
                 ok: true
               });
