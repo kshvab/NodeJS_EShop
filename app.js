@@ -64,6 +64,7 @@ app.use(
 );
 
 app.use('/api/auth', routes.auth);
+app.use('/profile', routes.profile);
 
 // routers
 app.get('/', function(req, res) {
@@ -78,7 +79,7 @@ app.get('/', function(req, res) {
 app.get('/login', function(req, res) {
   res.render('loginForm');
 });
-
+/*
 app.get('/profile', function(req, res) {
   if (req.session.userId && req.session.userLogin) {
     const id = req.session.userId;
@@ -89,7 +90,7 @@ app.get('/profile', function(req, res) {
     });
   } else console.log('юзер незалогинен!');
 });
-
+*/
 const arr = ['Коля', 'Галя', 'Валя'];
 app.get('/typo', function(req, res) {
   res.render('typo', { arr: arr });

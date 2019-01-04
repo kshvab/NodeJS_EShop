@@ -1,9 +1,28 @@
 <ul class="nav nav-pills flex-column">
-  <li class="nav-item"><a class="nav-link active" href="#">Корзина</a></li>
   <li class="nav-item">
-    <a class="nav-link disabled" href="#">Список желаний</a>
+    <a
+      class="nav-link <%if (path == '/myprofile') { %> active <% } %>"
+      href="/profile/myprofile"
+      >Мой профиль</a
+    >
   </li>
-  <li class="nav-item"><a class="nav-link " href="#">Мой профиль</a></li>
+  <li class="nav-item">
+    <a
+      class="nav-link <%if (path == '/mycart') { %> active <% } %>"
+      href="/profile/mycart"
+      >Корзина</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link <%if (path == '/mywishlist') { %> active <% } %>"
+      href="/profile/mywishlist"
+      >Список желаний</a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/api/auth/logout">Выход</a>
+  </li>
 </ul>
 <br /><br />
 <div class="card border-success mb-3" style="max-width: 20rem;">
