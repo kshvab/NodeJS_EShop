@@ -4,7 +4,7 @@
   <div class="row">
     <div class="col-lg-4">
       <br />
-      <% include layout/profil_sidebar_left.ejs %>
+      <% include layout/myprofile_sidebar_left.ejs %>
     </div>
 
     <div class="col-lg-8">
@@ -30,7 +30,12 @@
             <th scope="row">Имя</th>
             <td><%= transData.user.name %></td>
             <td>
-              <button type="button" class="btn btn-primary btn-sm">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                data-toggle="modal"
+                data-target="#userChangeNameModal"
+              >
                 <span class="fas fa-edit avesomePaddingRight"></span>Изменить
               </button>
             </td>
@@ -40,7 +45,12 @@
             <th scope="row">E-mail</th>
             <td><%= transData.user.email %></td>
             <td>
-              <button type="button" class="btn btn-primary btn-sm">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                data-toggle="modal"
+                data-target="#userChangeEmailModal"
+              >
                 <span class="fas fa-edit avesomePaddingRight"></span>Изменить
               </button>
             </td>
@@ -49,7 +59,12 @@
             <th scope="row">Номер телефона</th>
             <td>+38<%= transData.user.phonenumber %></td>
             <td>
-              <button type="button" class="btn btn-primary btn-sm">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                data-toggle="modal"
+                data-target="#userChangePhoneNumberModal"
+              >
                 <span class="fas fa-edit avesomePaddingRight"></span>Изменить
               </button>
             </td>
@@ -59,7 +74,12 @@
             <th scope="row">Пароль</th>
             <td>Не отображается</td>
             <td>
-              <button type="button" class="btn btn-primary btn-sm">
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                data-toggle="modal"
+                data-target="#userChangePasswordModal"
+              >
                 <span class="fas fa-edit avesomePaddingRight"></span>Изменить
               </button>
             </td>
@@ -81,5 +101,4 @@
     </div>
   </div>
 </div>
-
-<% include layout/footer.ejs %>
+<% include layout/myprofile_modals.ejs %> <% include layout/footer.ejs %>

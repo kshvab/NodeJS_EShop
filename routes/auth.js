@@ -13,7 +13,7 @@ router.post('/register', (req, res) => {
   const login = req.body.login;
   const password = req.body.password;
   const passwordConfirm = req.body.passwordConfirm;
-  console.log(phonenumber + ' ' + name);
+  let emailReg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,10})$/;
   if (
     !email ||
     !phonenumber ||
@@ -39,6 +39,12 @@ router.post('/register', (req, res) => {
       ok: false,
       error: 'Номер телефона должен начинаться с 0!',
       fields: ['register-phonenumber']
+    });
+  } else if (emailReg.test(email) == false) {
+    res.json({
+      ok: false,
+      error: 'Введите корректный E-mail!',
+      fields: ['register-email']
     });
   } else if (!(phonenumber.length == 10)) {
     res.json({

@@ -8,7 +8,6 @@ router.get('/', function(req, res) {
     _id = req.session.userId;
     login = req.session.userLogin;
   } else {
-    console.log('юзер незалогинен!');
     _id = 0;
     login = 0;
   }
