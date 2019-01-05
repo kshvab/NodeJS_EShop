@@ -3,28 +3,42 @@
     <a
       class="nav-link <%if (transData.path == '/myprofile') { %> active <% } %>"
       href="/profile/myprofile"
-      >Мой профиль</a
+    >
+      <span class="fas fa-user avesomePaddingRight"></span> Мой профиль</a
     >
   </li>
   <li class="nav-item">
     <a
       class="nav-link <%if (transData.path == '/mycart') { %> active <% } %>"
       href="/profile/mycart"
-      >Корзина</a
+    >
+      <span class="fas fa-shopping-cart avesomePaddingRight"></span> Корзина</a
     >
   </li>
   <li class="nav-item">
     <a
       class="nav-link <%if (transData.path == '/mywishlist') { %> active <% } %>"
       href="/profile/mywishlist"
-      >Список желаний</a
+    >
+      <span class="fas fa-heart avesomePaddingRight"></span> Список желаний</a
     >
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="/api/auth/logout">Выход</a>
+    <a class="nav-link" href="/api/auth/logout"
+      ><span class="fas fa-sign-out-alt avesomePaddingRight"></span>Выход</a
+    >
   </li>
 </ul>
-<br /><br />
+<br />
+<% if(transData.user.group == 'Administrator' || transData.user.group ==
+'Manager') { %>
+<form action="/administrator">
+  <button type="submit" class="btn btn-warning btn-block">
+    <span class="fas fa-tools avesomePaddingRight"></span> Вход в панель
+    управления
+  </button>
+</form>
+<% }; %> <br />
 <div class="card border-success mb-3" style="max-width: 20rem;">
   <div class="card-header">Поддержка</div>
   <div class="card-body">

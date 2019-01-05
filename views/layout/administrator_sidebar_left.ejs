@@ -1,0 +1,31 @@
+<ul class="nav nav-pills flex-column">
+  <li class="nav-item">
+    <a
+      class="nav-link <%if (transData.path == '/') { %> active <% } %>"
+      href="/administrator"
+    >
+      <span class="fas fa-tachometer-alt avesomePaddingRight"></span>
+      Dashboard</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link <%if (transData.path == '/users') { %> active <% } %>"
+      href="/administrator/users"
+      ><span class="fas fa-users avesomePaddingRight"></span>Пользователи</a
+    >
+  </li>
+  <li class="nav-item">
+    <a
+      class="nav-link <%if (transData.path == '/publications') { %> active <% } %>"
+      href="/administrator/publications"
+      ><span class="fas fa-newspaper avesomePaddingRight"></span>Публикации</a
+    >
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="/api/auth/logout"
+      ><span class="fas fa-sign-out-alt avesomePaddingRight"></span>Выход</a
+    >
+  </li>
+</ul>
+<br /><br />

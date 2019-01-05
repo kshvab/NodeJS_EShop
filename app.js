@@ -66,6 +66,7 @@ app.use(
 app.use('/api/auth', routes.auth);
 app.use('/profile', routes.profile);
 app.use('/', routes.mainpage);
+app.use('/administrator', routes.administrator);
 
 app.get('/login', function(req, res) {
   let _id;
@@ -82,26 +83,6 @@ app.get('/login', function(req, res) {
     transData: {
       user: { _id, login }
     }
-  });
-});
-
-const arr = ['Коля', 'Галя', 'Валя'];
-app.get('/typo', function(req, res) {
-  let _id;
-  let login;
-  if (req.session.userId && req.session.userLogin) {
-    _id = req.session.userId;
-    login = req.session.userLogin;
-  } else {
-    console.log('юзер незалогинен!');
-    _id = 0;
-    login = 0;
-  }
-  res.render('typo', {
-    transData: {
-      user: { _id, login }
-    },
-    arr
   });
 });
 
@@ -148,6 +129,8 @@ app.get('/typo', function(req, res) {
   */
 }
 
+{
+  /*
 app.get('/shop', function(req, res) {
   let string = fs.readFileSync('./import/myBd76.txt', { encoding: 'UTF-8' });
 
@@ -185,6 +168,10 @@ for (let i = 0; i < arr2.length; i++) {
   });
 }
 
+
+
+*/
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');
@@ -202,4 +189,7 @@ app.use((error, req, res, next) => {
   });
 });
 
+
+
+}
 module.exports = app;

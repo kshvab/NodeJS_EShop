@@ -1,12 +1,20 @@
 <% include layout/header.ejs %>
 
-<h1>K8</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-4">
+      <br />
+      <% include layout/shop_sidebar_right.ejs %>
+    </div>
 
-<i class="fas fa-igloo">22</i>
-<!-- this icon's 1) style prefix == fas and 2) icon name == igloo -->
-<i class="fas fa-igloo">33</i>
-<!-- using an <i> element to reference the icon -->
-<span class="fas fa-igloo">111</span>
+    <div class="col-lg-8">
+      <br />
+      <H1>Главная</H1>
 
-<!-- HTML to write -->
-<br />
+      <br />
+
+      <br />
+    </div>
+  </div>
+</div>
+<% include layout/footer.ejs %>

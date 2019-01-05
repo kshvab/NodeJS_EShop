@@ -1,0 +1,61 @@
+<% include layout/administrator_header.ejs %>
+
+<!-- /---------------------------------- -->
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2">
+      <br />
+      <% include layout/administrator_sidebar_left.ejs %>
+    </div>
+
+    <div class="col-lg-10">
+      <!-- /---------------------------------- -->
+
+      <!-- /---------------------------------- -->
+
+      <br />
+      <H1>Пользователи</H1>
+      <br />
+      <button type="button" class="btn btn-success btn-sm">
+        <span class="fas fa-user-plus avesomePaddingRight"></span>Добавить
+        нового пользователя
+      </button>
+      <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Логин</th>
+            <th scope="col">Имя</th>
+            <th scope="col">E-mail</th>
+            <th scope="col">Телефон</th>
+            <th scope="col">Группа</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% transData.usersObj.forEach(function(user){ %>
+          <tr>
+            <th scope="row"><%= user.login %></th>
+            <td><%= user.name %></td>
+            <td><%= user.email %></td>
+            <td><%= user.phonenumber %></td>
+            <td><%= user.group %></td>
+            <td>
+              <button type="button" class="btn btn-primary btn-sm">
+                <span class="fas fa-user-edit avesomePaddingRight"></span>Edit
+              </button>
+              <button type="button" class="btn btn-danger btn-sm">
+                <span class="fas fa-trash avesomePaddingRight"></span>Del
+              </button>
+            </td>
+          </tr>
+
+          <% }); %>
+        </tbody>
+      </table>
+
+      <br />
+    </div>
+  </div>
+</div>
+<% include layout/footer.ejs %>
