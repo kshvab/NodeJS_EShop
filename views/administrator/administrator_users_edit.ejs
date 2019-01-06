@@ -1,0 +1,181 @@
+<% include lay_admin_header.ejs %>
+
+<!-- /---------------------------------- -->
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <br />
+      <% include lay_admin_sidebar_left.ejs %>
+    </div>
+    <div class="col-lg-9">
+      <br />
+      <H3>Изменение данных пользователя <%= transData.editUser.login %></H3>
+      <form>
+        <button
+          type="button"
+          class="btn btn-success btn-sm"
+          data-toggle="modal"
+          data-target="#adminChangePasswordModal">
+          <span class="fas fa-edit avesomePaddingRight"></span>Изменить пароль для <%= transData.editUser.login %>
+        </button>
+     </form>
+      <br />
+      <div class="panel panel-default" id="administratorUsersEditPanel">
+        <div class="panel-heading">
+          <h2 class="panel-title">Измените данные</h2>
+        </div>
+        <div class="panel-body">
+          <div id="register-error-msg"></div>
+          <form role="form" method="post" class="register">
+            <fieldset>
+              <div class="form-group">
+                <label class="form-control-label">Логин</label>
+                <input
+                  class="form-control"
+                  placeholder="Логин"
+                  name="login"
+                  type="login"
+                  id="register-login"
+                  value="<%= transData.editUser.login %>"
+                  disabled=""
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-control-label">E-mail</label>
+                <input
+                  class="form-control"
+                  placeholder="E-mail"
+                  name="email"
+                  type="email"
+                  id="register-email"
+                  value="<%= transData.editUser.email %>"
+                  autofocus
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-control-label">Имя</label>
+                <input
+                  class="form-control"
+                  placeholder="Имя"
+                  name="name"
+                  type="name"
+                  id="register-name"
+                  value="<%= transData.editUser.name %>"
+                />
+              </div>
+
+              <div class="form-group">
+                <label class="form-control-label">Телефон</label>
+                <div class="input-group mb-3">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">+38</span>
+                  </div>
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="0671234567   Телефон"
+                    name="phonenumber"
+                    id="register-phonenumber"
+                    value="<%= transData.editUser.phonenumber %>"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-control-label">Группа</label>
+                <select
+                  class="form-control"
+                  id="admin-edit-user-group"
+                  value="<%= transData.editUser.group %>"
+                >
+                  <option>Registered</option>
+                  <option>Agent</option>
+                  <option>Manager</option>
+                  <option>Administrator</option>
+                </select>
+              </div>
+
+              <!-- Change this to a button or input when using this as a form -->
+              <a
+                href="#"
+                class="register-button btn btn-lg btn-primary btn-block"
+                id="administratorUsersEdit-button"
+                >Сохранить</a
+              >
+            </fieldset>
+          </form>
+          <br />
+          <form action="/administrator/users">
+            <button type="submit" class="btn btn-outline-warning btn-block">
+              Отмена
+            </button>
+          </form>
+        </div>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>
+
+
+<!-- Modal Change Passsword-->
+<div
+  class="modal fade"
+  id="adminChangePasswordModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="adminChangePasswordModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Изменение пароля пользователя <%= transData.editUser.login %></h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="admin-change-password-form-error-msg"></div>
+
+        <div class="form-group">
+          <label class="col-form-label" for="inputDefault">Введите новый пароль</label>
+          <input type="password" class="admin-change-user-psw form-control" placeholder="Введите новый пароль" id="admininitchangepassword-input">
+        </div>
+
+        <div class="form-group">
+          <label class="col-form-label" for="inputDefault">Подтвердите новый пароль</label>
+          <input type="password" class="admin-change-user-psw form-control" placeholder="Подтвердите новый пароль" id="admininitchangepasswordconfirm-input">
+        </div>
+
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          id="admininitchangepassword-button"
+          value="<%= transData.editUser.login %>"
+        >
+          Сохранить
+        </button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">
+          Отмена
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% include ../layout/footer.ejs %>

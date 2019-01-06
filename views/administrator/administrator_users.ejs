@@ -1,26 +1,31 @@
-<% include layout/administrator_header.ejs %>
+<% include lay_admin_header.ejs %>
 
 <!-- /---------------------------------- -->
 
 <div class="container">
   <div class="row">
-    <div class="col-lg-2">
+    <div class="col-lg-3">
       <br />
-      <% include layout/administrator_sidebar_left.ejs %>
+      <% include lay_admin_sidebar_left.ejs %>
     </div>
 
-    <div class="col-lg-10">
+    <div class="col-lg-9">
       <!-- /---------------------------------- -->
 
       <!-- /---------------------------------- -->
 
       <br />
-      <H1>Пользователи</H1>
+
+      <H3>Пользователи</H3>
+
+      <form action="/administrator/users/add">
+        <button type="submit" class="btn btn-success btn-sm">
+          <span class="fas fa-user-plus avesomePaddingRight"></span>Добавить
+          пользователя
+        </button>
+      </form>
+
       <br />
-      <button type="button" class="btn btn-success btn-sm">
-        <span class="fas fa-user-plus avesomePaddingRight"></span>Добавить
-        нового пользователя
-      </button>
       <table class="table table-hover">
         <thead>
           <tr>
@@ -41,11 +46,20 @@
             <td><%= user.phonenumber %></td>
             <td><%= user.group %></td>
             <td>
-              <button type="button" class="btn btn-primary btn-sm">
-                <span class="fas fa-user-edit avesomePaddingRight"></span>Edit
-              </button>
-              <button type="button" class="btn btn-danger btn-sm">
-                <span class="fas fa-trash avesomePaddingRight"></span>Del
+              <form action="/administrator/users/edit/<%= user.login %>">
+                <button type="submit" class="btn btn-primary btn-sm">
+                  <span class="fas fa-user-edit"></span>
+                </button>
+              </form>
+            </td>
+            <td>
+              <button
+                name="admin-users-del-one"
+                value="<%= user.login %>"
+                type="button"
+                class="btn btn-danger btn-sm"
+              >
+                <span class="fas fa-trash"></span>
               </button>
             </td>
           </tr>
@@ -58,4 +72,4 @@
     </div>
   </div>
 </div>
-<% include layout/footer.ejs %>
+<% include ../layout/footer.ejs %>

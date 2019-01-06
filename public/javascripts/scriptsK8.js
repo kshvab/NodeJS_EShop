@@ -61,7 +61,6 @@ $(function() {
       }
     });
   });
-
   $('#register-password-confirm').keypress(function(e) {
     if (e.which == 13) {
       jQuery(this).blur();
@@ -257,7 +256,6 @@ $(function() {
         }
       });
     });
-
     $('#userinitchangepasswordnew-input').keypress(function(e) {
       if (e.which == 13) {
         jQuery(this).blur();
@@ -268,6 +266,185 @@ $(function() {
       }
     });
   }
+
+  // Admin Add New User
+  $('#administratorUsersAdd-button').on('click', function(e) {
+    e.preventDefault();
+    var data = {
+      name: $('#register-name').val(),
+      email: $('#register-email').val(),
+      phonenumber: $('#register-phonenumber').val(),
+      login: $('#register-login').val(),
+      password: $('#register-password').val(),
+      passwordConfirm: $('#register-password-confirm').val()
+    };
+
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/administrator/users/add'
+    }).done(function(data) {
+      $('input').removeClass('is-invalid');
+      $('input').addClass('is-valid');
+      console.log(data);
+
+      if (!data.ok) {
+        $('#register-error-msg').html(
+          '<p class="text-warning">' + data.error + '</p>'
+        );
+        if (data.fields) {
+          data.fields.forEach(function(id) {
+            $('#' + id).removeClass('is-valid');
+            $('#' + id).addClass('is-invalid');
+          });
+        }
+      } else {
+        //$('#register-error-msg').html('<p class="text-success">Отлично!</p>');
+        $(location).attr('href', '/administrator/users');
+      }
+    });
+  });
+  $('#register-password-confirm').keypress(function(e) {
+    if (e.which == 13) {
+      jQuery(this).blur();
+      jQuery('#administratorUsersAdd-button')
+        .focus()
+        .click();
+      return false;
+    }
+  });
+
+
+  // Admin Dell One User
+  $("[name='admin-users-del-one']").on('click', function(e) {
+    e.preventDefault();
+    let delUserName = this.value;
+    let confirmed = confirm(
+      'Вы точно хотите удалить пользователя ' + delUserName + '?'
+    );
+    if (confirmed) {
+      let data = {
+        delUserName
+      };
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/administrator/users'
+      }).done(function(data) {
+        if (!data.ok) {
+          alert(data.error);
+        } else {
+          $(location).attr('href', '/administrator/users');
+        }
+      });
+    } else return;
+  });
+
+
+  // Admin Edit One User
+  $('#administratorUsersEdit-button').on('click', function(e) {
+    e.preventDefault();
+    var data = {
+      login: $('#register-login').val(),
+      name: $('#register-name').val(),
+      email: $('#register-email').val(),
+      phonenumber: $('#register-phonenumber').val(),
+      group: $('#admin-edit-user-group').val(),
+    };
+    console.log("SENT: " + data);
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/administrator/users/edit'
+    }).done(function(data) {
+      $('input').removeClass('is-invalid');
+      $('input').addClass('is-valid');
+      console.log("ANSWER: " + data);
+
+      if (!data.ok) {
+        $('#register-error-msg').html(
+          '<p class="text-warning">' + data.error + '</p>'
+        );
+        if (data.fields) {
+          data.fields.forEach(function(id) {
+            $('#' + id).removeClass('is-valid');
+            $('#' + id).addClass('is-invalid');
+          });
+        }
+      } else {
+        //$('#register-error-msg').html('<p class="text-success">Отлично!</p>');
+        $(location).attr('href', '/administrator/users');
+      }
+    });
+  });
+  $('#register-password-confirm').keypress(function(e) {
+    if (e.which == 13) {
+      jQuery(this).blur();
+      jQuery('#admin-edit-user-group')
+        .focus()
+        .click();
+      return false;
+    }
+  });
+
+
+// User init changes PassWord
+{
+  $('#admininitchangepassword-button').on('click', function(e) {
+    e.preventDefault();
+    let editUserLogin = this.value;
+    let newPassword = $('#admininitchangepassword-input').val();
+    let newPasswordConfirm = $('#admininitchangepasswordconfirm-input').val();
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify({
+        editUserLogin,
+        newPassword,
+        newPasswordConfirm
+      }),
+      contentType: 'application/json',
+      url: '/administrator/users/editusrpsw'
+    }).done(function(data) {
+      $('.admin-change-user-psw').removeClass('is-invalid');
+      $('.admin-change-user-psw').addClass('is-valid');
+      if (!data.ok) {
+        $('.admin-change-password-form-error-msg').html(
+          '<p class="text-warning">' + data.error + '</p>'
+        );
+        $('.admin-change-user-psw').removeClass('is-valid');
+        $('.admin-change-user-psw').addClass('is-invalid');
+      } else {
+        $(location).attr('href', '/administrator/users');
+      }
+    });
+  });
+  $('#admininitchangepasswordconfirm-input').keypress(function(e) {
+    if (e.which == 13) {
+      jQuery(this).blur();
+      jQuery('#admininitchangepassword-button')
+        .focus()
+        .click();
+      return false;
+    }
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 });
 
 /* eslint-enable no-undef */
