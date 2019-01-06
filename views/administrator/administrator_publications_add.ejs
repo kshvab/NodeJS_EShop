@@ -1,0 +1,125 @@
+<% include lay_admin_header.ejs %>
+
+<!-- /---------------------------------- -->
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3">
+      <br />
+      <% include lay_admin_sidebar_left.ejs %>
+    </div>
+    <div class="col-lg-9">
+      <br />
+      <H3>Создание публикации</H3>
+      <br />
+      <div class="panel panel-default" id="administratorPublicationAddPanel">
+        <div class="panel-heading">
+          <h2 class="panel-title">Новая публикация</h2>
+        </div>
+        <div class="panel-body">
+          <div id="nev-publication-error-msg"></div>
+          <form role="form" method="post" class="register">
+            <fieldset>
+              <div class="form-group">
+                <label for="new-publication-name">Заголовок</label>
+                <input
+                  class="form-control"
+                  name="title"
+                  type="name"
+                  id="new-publication-title"
+                />
+              </div>
+              <div class="form-group">
+                <label for="new-publication-short-text">Алиас</label>
+                <input
+                  class="form-control"
+                  name="alias"
+                  type="text"
+                  id="new-publication-alias"
+                />
+                <small id="aliasHelp" class="form-text text-muted"
+                  >Если оставить поле пустым, алиас будет сгенерирован автоматически.</small
+                >
+              </div>
+              <div class="form-group">
+                <label class="form-control-label">Состояние</label>
+                <select class="form-control" id="new-publication-status">
+                  <option>Опубликовано</option>
+                  <option>Неопубликовано</option>
+                  <option>В корзине</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="new-publication-short-text">Короткий текст</label>
+                <textarea
+                  class="form-control"
+                  id="new-publication-short-text"
+                  rows="3"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="new-publication-full-text">Полный текст</label>
+                <textarea
+                  class="form-control"
+                  id="new-publication-full-text"
+                  rows="5"
+                ></textarea>
+              </div>
+              <div class="form-group">
+                <label for="new-publication-picture"
+                  >Изображение для публикации</label
+                >
+                <input
+                  type="file"
+                  class="form-control-file"
+                  id="new-publication-picture"
+                  aria-describedby="fileHelp"
+                />
+                <small id="fileHelp" class="form-text text-muted"
+                  >Используйте изображения формата .JPG или .GIF не превышающие
+                  по размеру 5мБ. Возможно укажу позже еще требования.</small
+                >
+              </div>
+              <hr />
+              <div class="form-group">
+                <label for="new-publication-description"
+                  >Мета-тег Description</label
+                >
+                <input
+                  class="form-control"
+                  name="description"
+                  type="text"
+                  id="new-publication-description"
+                />
+              </div>
+
+              <div class="form-group">
+                <label for="new-publication-keywords"
+                  >Мета-тег Keywords</label
+                >
+                <input
+                  class="form-control"
+                  name="description"
+                  type="text"
+                  id="new-publication-keywords"
+                />
+              </div>
+              <hr />
+
+              <!-- Change this to a button or input when using this as a form -->
+              <a
+                href="#"
+                class="register-button btn btn-lg btn-primary btn-block"
+                id="administratorPublicationAdd-button"
+                >Опубликовать</a
+              >
+            </fieldset>
+          </form>
+        </div>
+      </div>
+      <br />
+    </div>
+  </div>
+</div>
+
+<% include ../layout/footer.ejs %>

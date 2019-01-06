@@ -391,48 +391,104 @@ $(function() {
   });
 
 
-// User init changes PassWord
-{
-  $('#admininitchangepassword-button').on('click', function(e) {
-    e.preventDefault();
-    let editUserLogin = this.value;
-    let newPassword = $('#admininitchangepassword-input').val();
-    let newPasswordConfirm = $('#admininitchangepasswordconfirm-input').val();
-    $.ajax({
-      type: 'POST',
-      data: JSON.stringify({
-        editUserLogin,
-        newPassword,
-        newPasswordConfirm
-      }),
-      contentType: 'application/json',
-      url: '/administrator/users/editusrpsw'
-    }).done(function(data) {
-      $('.admin-change-user-psw').removeClass('is-invalid');
-      $('.admin-change-user-psw').addClass('is-valid');
-      if (!data.ok) {
-        $('.admin-change-password-form-error-msg').html(
-          '<p class="text-warning">' + data.error + '</p>'
-        );
-        $('.admin-change-user-psw').removeClass('is-valid');
-        $('.admin-change-user-psw').addClass('is-invalid');
-      } else {
-        $(location).attr('href', '/administrator/users');
+  // User init changes PassWord
+  {
+    $('#admininitchangepassword-button').on('click', function(e) {
+      e.preventDefault();
+      let editUserLogin = this.value;
+      let newPassword = $('#admininitchangepassword-input').val();
+      let newPasswordConfirm = $('#admininitchangepasswordconfirm-input').val();
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify({
+          editUserLogin,
+          newPassword,
+          newPasswordConfirm
+        }),
+        contentType: 'application/json',
+        url: '/administrator/users/editusrpsw'
+      }).done(function(data) {
+        $('.admin-change-user-psw').removeClass('is-invalid');
+        $('.admin-change-user-psw').addClass('is-valid');
+        if (!data.ok) {
+          $('.admin-change-password-form-error-msg').html(
+            '<p class="text-warning">' + data.error + '</p>'
+          );
+          $('.admin-change-user-psw').removeClass('is-valid');
+          $('.admin-change-user-psw').addClass('is-invalid');
+        } else {
+          $(location).attr('href', '/administrator/users');
+        }
+      });
+    });
+    $('#admininitchangepasswordconfirm-input').keypress(function(e) {
+      if (e.which == 13) {
+        jQuery(this).blur();
+        jQuery('#admininitchangepassword-button')
+          .focus()
+          .click();
+        return false;
       }
     });
+  }
+
+  // Admin Add New Publication
+  $('#administratorPublicationAdd-button').on('click', function(e) {
+    e.preventDefault();
+    var data = {
+      title: $('#new-publication-title').val(),
+      alias: $('#new-publication-alias').val(),
+      status: $('#new-publication-status').val(),
+      shorttext: $('#new-publication-short-text').val(),
+      fulltext: $('#new-publication-full-text').val(),
+      picture: $('#new-publication-picture').val(),
+      description: $('#new-publication-description').val(),
+      keywords: $('#new-publication-keywords').val()
+    };
+
+    $
+      .ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/administrator/publications/add'
+      })
+      .done(function(data) {
+        
+        //дальше перероблять
+
+
+        $('input').removeClass('is-invalid');
+        $('input').addClass('is-valid');
+        console.log(data);
+
+        if (!data.ok) {
+          $('#register-error-msg').html(
+            '<p class="text-warning">' + data.error + '</p>'
+          );
+          if (data.fields) {
+            data.fields.forEach(function(id) {
+              $('#' + id).removeClass('is-valid');
+              $('#' + id).addClass('is-invalid');
+            });
+          }
+        } else {
+          //$('#register-error-msg').html('<p class="text-success">Отлично!</p>');
+          $(location).attr('href', '/administrator/users');
+        }
+      });
+
   });
-  $('#admininitchangepasswordconfirm-input').keypress(function(e) {
+
+  $('#new-publication-keywords-tag').keypress(function(e) {
     if (e.which == 13) {
       jQuery(this).blur();
-      jQuery('#admininitchangepassword-button')
+      jQuery('#administratorPublicationAdd-button')
         .focus()
         .click();
       return false;
     }
   });
-}
-
-
 
 
 

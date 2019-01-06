@@ -63,11 +63,13 @@ app.use(
   express.static(path.join(__dirname, 'node_modules', 'jquery', 'dist'))
 );
 
-app.use('/api/auth', routes.auth);
-app.use('/profile', routes.profile);
 app.use('/', routes.mainpage);
 app.use('/administrator', routes.administrator);
 app.use('/administrator/users', routes.adminusers);
+app.use('/administrator/publications', routes.adminpublications);
+
+app.use('/api/auth', routes.auth);
+app.use('/profile', routes.profile);
 
 app.get('/login', function(req, res) {
   let _id;
