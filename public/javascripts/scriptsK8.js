@@ -435,12 +435,13 @@ $(function() {
   // Admin Add New Publication
   $('#administratorPublicationAdd-button').on('click', function(e) {
     e.preventDefault();
+    var markupStr = $('#adminaddnewpublfulltext').summernote('code');
     var data = {
       title: $('#new-publication-title').val(),
       alias: $('#new-publication-alias').val(),
       status: $('#new-publication-status').val(),
       shorttext: $('#new-publication-short-text').val(),
-      fulltext: $('#new-publication-full-text').val(),
+      fulltext: markupStr,
       picture: $('#new-publication-picture').val(),
       description: $('#new-publication-description').val(),
       keywords: $('#new-publication-keywords').val()
@@ -492,7 +493,11 @@ $(function() {
 
 
 
-
+  $('#adminaddnewpublfulltext').summernote({
+    placeholder: 'Полный текст для публикации...',
+    tabsize: 2,
+    height: 200
+  });
 
 
 
@@ -502,5 +507,3 @@ $(function() {
 
 
 });
-
-/* eslint-enable no-undef */

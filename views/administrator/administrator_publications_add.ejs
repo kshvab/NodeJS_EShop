@@ -1,6 +1,16 @@
-<% include lay_admin_header.ejs %>
-
-<!-- /---------------------------------- -->
+<% include lay_admin_header_part_1.ejs %>
+<script src="/javascripts/jquery.min.js"></script>
+<link rel="stylesheet" href="/stylesheets/bootstrap.css" />
+<link rel="stylesheet" href="/stylesheets/customK8.css" />
+<link
+  rel="stylesheet"
+  href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+  integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/"
+  crossorigin="anonymous"
+/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote-lite.js"></script>
+<% include lay_admin_header_part_3.ejs %>
 
 <div class="container">
   <div class="row">
@@ -38,7 +48,8 @@
                   id="new-publication-alias"
                 />
                 <small id="aliasHelp" class="form-text text-muted"
-                  >Если оставить поле пустым, алиас будет сгенерирован автоматически.</small
+                  >Если оставить поле пустым, алиас будет сгенерирован
+                  автоматически.</small
                 >
               </div>
               <div class="form-group">
@@ -57,13 +68,12 @@
                   rows="3"
                 ></textarea>
               </div>
-              <div class="form-group">
-                <label for="new-publication-full-text">Полный текст</label>
-                <textarea
-                  class="form-control"
-                  id="new-publication-full-text"
-                  rows="5"
-                ></textarea>
+
+
+                <div class="form-group">
+                    <label for="adminaddnewpublfulltext">Полный текст</label>
+                  <div id="adminaddnewpublfulltext"></div>
+                </div>
               </div>
               <div class="form-group">
                 <label for="new-publication-picture"
@@ -94,9 +104,7 @@
               </div>
 
               <div class="form-group">
-                <label for="new-publication-keywords"
-                  >Мета-тег Keywords</label
-                >
+                <label for="new-publication-keywords">Мета-тег Keywords</label>
                 <input
                   class="form-control"
                   name="description"
@@ -122,4 +130,11 @@
   </div>
 </div>
 
-<% include ../layout/footer.ejs %>
+
+
+<script src="/javascripts/bootstrap4.js"></script>
+<script src="/javascripts/scriptsK8.js"></script>
+
+</body>
+
+</html>
