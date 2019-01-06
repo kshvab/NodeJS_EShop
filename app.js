@@ -67,6 +67,7 @@ app.use('/api/auth', routes.auth);
 app.use('/profile', routes.profile);
 app.use('/', routes.mainpage);
 app.use('/administrator', routes.administrator);
+app.use('/administrator/users', routes.adminusers);
 
 app.get('/login', function(req, res) {
   let _id;
@@ -172,24 +173,21 @@ for (let i = 0; i < arr2.length; i++) {
 
 */
 
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  const err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
-
-// error handler
-// eslint-disable-next-line no-unused-vars
-app.use((error, req, res, next) => {
-  res.status(error.status || 500);
-  res.render('error', {
-    message: error.message,
-    error: !config.IS_PRODUCTION ? error : {}
+  // catch 404 and forward to error handler
+  app.use((req, res, next) => {
+    const err = new Error('Not Found');
+    err.status = 404;
+    next(err);
   });
-});
 
-
-
+  // error handler
+  // eslint-disable-next-line no-unused-vars
+  app.use((error, req, res, next) => {
+    res.status(error.status || 500);
+    res.render('error', {
+      message: error.message,
+      error: !config.IS_PRODUCTION ? error : {}
+    });
+  });
 }
 module.exports = app;

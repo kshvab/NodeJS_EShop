@@ -3,8 +3,11 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-
-    <title>Панель управления</title>
+    <% if ((typeof(transData) != 'undefined') && transData.pageTitle) { %>
+      <title><%= transData.pageTitle %></title>
+    <% } else { %>
+        <title>Панель управления</title>
+    <% }; %>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     
     <% include ../layout/stylesheets.ejs %>

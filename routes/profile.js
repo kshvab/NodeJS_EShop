@@ -8,7 +8,6 @@ const moment = require('moment');
 
 router.get('/myprofile', function(req, res) {
   if (req.session.userId && req.session.userLogin) {
-    const _id = req.session.userId;
     const login = req.session.userLogin;
     const path = '/myprofile';
 
@@ -17,6 +16,7 @@ router.get('/myprofile', function(req, res) {
 
       if (userFromDB) {
         let transData = {
+          pageTitle: 'Мой профиль',
           path,
           user: {
             group: userFromDB.group,
@@ -30,7 +30,7 @@ router.get('/myprofile', function(req, res) {
             updatedAt: moment(userFromDB.updatedAt).format('DD.MM.YYYY, HH:mm')
           }
         };
-        res.render('myprofile', {
+        res.render('profile/myprofile', {
           transData: transData
         });
       } else {
@@ -236,9 +236,12 @@ router.get('/mycart', function(req, res) {
     const login = req.session.userLogin;
     const path = '/mycart';
 
-    res.render('mycart', {
-      user: { id, login },
-      path
+    res.render('profile/mycart', {
+      transData: {
+        pageTitle: 'Моя корзина',
+        user: { id, login },
+        path
+      }
     });
   } else console.log('юзер незалогинен!');
   //console.dir(req);
@@ -250,9 +253,12 @@ router.get('/mywishlist', function(req, res) {
     const login = req.session.userLogin;
     const path = '/mywishlist';
 
-    res.render('mywishlist', {
-      user: { id, login },
-      path
+    res.render('profile/mywishlist', {
+      transData: {
+        pageTitle: 'Мой список желаний',
+        user: { id, login },
+        path
+      }
     });
   } else console.log('юзер незалогинен!');
   //console.dir(req);
