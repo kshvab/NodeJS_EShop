@@ -4,6 +4,7 @@ const mainpage = require('./mainpage');
 const administrator = require('./administrator');
 const adminusers = require('./adminusers');
 const adminpublications = require('./adminpublications');
+const upload = require('./upload');
 
 module.exports = {
   auth,
@@ -11,5 +12,6 @@ module.exports = {
   mainpage,
   administrator,
   adminusers,
-  adminpublications
+  adminpublications,
+  upload
 };

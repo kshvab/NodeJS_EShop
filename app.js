@@ -70,6 +70,7 @@ app.use('/administrator/publications', routes.adminpublications);
 
 app.use('/api/auth', routes.auth);
 app.use('/profile', routes.profile);
+app.use('/upload', routes.upload);
 
 app.get('/login', function(req, res) {
   let _id;

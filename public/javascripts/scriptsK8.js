@@ -501,7 +501,28 @@ $(function() {
 
 
 
+  //Upload image for new publications
 
+  $('#fileinfo').on('submit', function(e) {
+    e.preventDefault();
+
+    var formData = new FormData(this);
+
+    $.ajax({
+      type: 'POST',
+      url: '/upload/image',
+      data: formData,
+      processData: false, //no dirty data to send
+      contentType: false, //no validation
+      success: function(result){
+        console.log(result);
+      },
+      error: function(error){
+        console.log(error);
+      }
+    });
+
+  });
 
 
 
