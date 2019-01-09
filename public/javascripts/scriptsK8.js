@@ -516,9 +516,22 @@ $(function() {
       contentType: false, //no validation
       success: function(result){
         console.log(result);
+        $('#div_new-publication-alias').removeClass('has-error');
+        if (!result.ok) {
+          $('#nev-publication-error-msg').html(
+            '<p class="text-danger">' + result.error + '</p>');
+          if (result.alias) {
+            $("[name='newPublAlias']").val(result.alias);
+            $('#div_new-publication-alias').addClass('has-error');
+          }
+        } else {
+          $(location).attr('href', '/administrator/publications');
+        }
+
       },
       error: function(error){
         console.log(error);
+        $(location).attr('href', '/administrator/error');
       }
     });
 
@@ -528,3 +541,6 @@ $(function() {
 
 
 });
+
+
+//$(location).attr('href', '/administrator/users');

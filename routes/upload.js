@@ -4,6 +4,13 @@ const path = require('path');
 const multer = require('multer');
 const config = require('../config');
 const mkdirp = require('mkdirp');
+const mongoose = require('mongoose');
+
+const models = require('../models');
+const publication = models.publication;
+
+const transliterationModule = require('transliteration');
+const slugify = transliterationModule.slugify;
 
 const randomStr3Symb = () =>
   Math.random()
@@ -40,23 +47,74 @@ const upload = multer({
 // POST image
 router.post('/image', (req, res) => {
   upload(req, res, err => {
-    console.log(req.file);
-    console.log(req.body);
-    console.log(req.body.newPublTitle);
-
-    let error = '';
     if (err) {
+      let error = '';
       if (err.code === 'LIMIT_FILE_SIZE') {
         error = 'Картинка не более 2mb';
       }
       if (err.code === 'EXTENTION') {
         error = 'Только .jpg, .jpeg, .png';
       }
+      res.json({
+        ok: false,
+        error
+      });
+    } else {
+      let title = req.body.newPublTitle;
+      let alias;
+      if (!req.body.newPublAlias) alias = slugify(title);
+      else alias = req.body.newPublAlias;
+      let shorttext = req.body.newPublShortText;
+      let fulltext = req.body.newPublicationFullText;
+      let picture = req.file.destination + '/' + req.file.filename;
+      let description = req.body.newPublDescription;
+      let keywords = req.body.newPublKeywords;
+      let status = req.body.newPublStatus;
+      if (!fulltext || fulltext == '<p><br></p>') {
+        res.json({
+          ok: false,
+          error: 'Напишите полный текст для публикации!'
+        });
+      } else {
+        publication.findOne({ alias }).then(publicationFromDB => {
+          if (!publicationFromDB) {
+            publication
+              .create({
+                _id: new mongoose.Types.ObjectId(),
+                title,
+                alias,
+                shorttext,
+                picture,
+                description,
+                keywords,
+                status,
+                fulltext
+              })
+              .then(publicationToDB => {
+                res.json({
+                  ok: true
+                });
+              })
+              .catch(err => {
+                console.log(
+                  'K8 ERROR: Не получилось добавить публикацию в базу'
+                );
+                console.log(err);
+                res.json({
+                  ok: false,
+                  error: 'Ошибка, попробуйте позже!'
+                });
+              });
+          } else {
+            res.json({
+              ok: false,
+              error: 'Публикация с таким алиасом уже существует!',
+              alias
+            });
+          }
+        });
+      }
     }
-    res.json({
-      ok: !error,
-      error
-    });
   });
 });
 

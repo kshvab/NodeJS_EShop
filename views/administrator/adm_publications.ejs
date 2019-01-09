@@ -30,7 +30,57 @@
             <div class="panel panel-default">
               <div class="panel-heading">Список публикаций</div>
 
-              <div class="panel-body">СПИСОК...</div>
+              <div class="panel-body">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Статус</th>
+                      <th scope="col">Заголовок</th>
+                      <th scope="col">Дата создания</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% transData.publicationsObj.forEach(function(publ){ %>
+                    <tr>
+                      <th scope="row">
+                        <% if (publ.status == "Опубликовано") { %>
+                        <i class="fa fa-eye fa-fw"></i> <% } else if
+                        (publ.status == "Неопубликовано") { %>
+                        <i class="fa fa-eye-slash fa-fw"></i> <% } else { %>
+                        <i class="fa fa-trash-o fa-fw"></i> <% } %>
+                      </th>
+                      <td><%= publ.title %></td>
+                      <td><%= publ.createdAt.toLocaleString() %></td>
+
+                      <td>
+                        <form
+                          action="/administrator/publications/edit/<%= publ.alias %>"
+                        >
+                          <button
+                            action="/administrator/publications/edit/<%= publ.alias %>"
+                            type="submit"
+                            class="btn btn-primary btn-xs"
+                          >
+                            <i class="fa fa-pencil fa-fw"></i> Edit
+                          </button>
+                        </form>
+                      </td>
+                      <td>
+                        <button
+                          name="admin-publications-del-one"
+                          value="<%= publ.alias %>"
+                          type="button"
+                          class="btn btn-danger btn-xs"
+                        >
+                          <i class="fa fa-times fa-fw"></i> Del
+                        </button>
+                      </td>
+                    </tr>
+
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>

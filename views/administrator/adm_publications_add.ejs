@@ -74,18 +74,18 @@
                   <div class="col-lg-6">
                     <div class="form-group">
                       <label for="new-publication-name">Заголовок</label>
-                      <input class="form-control" name="newPublTitle" type="name" id="new-publication-title" />
+                      <input class="form-control" name="newPublTitle" type="name" id="new-publication-title" required />
                     </div>
                     <div class="form-group">
                       <label for="new-publication-short-text">Короткий текст</label>
-                      <textarea class="form-control" name="newPublShortText" id="new-publication-short-text" rows="4"></textarea>
+                      <textarea class="form-control" name="newPublShortText" id="new-publication-short-text" rows="4" required ></textarea>
                     </div>
                   </div>
                   <div class="col-lg-6">
             
             
             
-                    <div class="form-group">
+                    <div class="form-group" id="div_new-publication-alias">
                       <label for="new-publication-short-text">Алиас</label>
                       <input class="form-control" name="newPublAlias" type="text" id="new-publication-alias" />
                       <small id="aliasHelp" class="form-text text-muted">Если оставить поле пустым, алиас будет
@@ -126,7 +126,7 @@
 
                     <div class="form-group">
                       <label class="form-control-label">Состояние</label>
-                      <select class="form-control" id="new-publication-status" name="new-publication-status">
+                      <select class="form-control" id="new-publication-status" name="newPublStatus">
                         <option>Опубликовано</option>
                         <option>Неопубликовано</option>
                         <option>В корзине</option>

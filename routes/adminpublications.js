@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const config = require('../config');
+
 const models = require('../models');
 const user = models.user;
+const publication = models.publication;
 
-const transliterationModule = require('transliteration');
-const slugify = transliterationModule.slugify;
+const moment = require('moment');
 
 router.get('/', function(req, res) {
   let _id;
@@ -21,12 +21,15 @@ router.get('/', function(req, res) {
         userFromDB.group == 'Manager'
       ) {
         //Тут іде основний блок для рендерінга
-        res.render('administrator/adm_publications', {
-          transData: {
-            pageTitle: 'Управление публикациями',
-            path,
-            user: { _id, login }
-          }
+        publication.find().then(publicationsObj => {
+          res.render('administrator/adm_publications', {
+            transData: {
+              pageTitle: 'Управление публикациями',
+              publicationsObj,
+              path,
+              user: { _id, login }
+            }
+          });
         });
       } else {
         //Незнайдений у базі, або не адмін
@@ -94,37 +97,5 @@ router.get('/add', function(req, res) {
     });
   }
 });
-
-
-/*
-// POST Administrator add new user
-router.post('/add', (req, res) => {
-  const title = req.body.title;
-  let alias;
-  if (req.body.alias) alias = slugify(req.body.alias);
-  else alias = slugify(req.body.title);
-  const status = req.body.status;
-  const shorttext = req.body.shorttext;
-  const fulltext = req.body.fulltext;
-  const picture = req.body.picture;
-  const description = req.body.description;
-  const keywords = req.body.keywords;
-
-  let recievedData = {
-    title,
-    alias,
-    status,
-    shorttext,
-    fulltext,
-    picture,
-    description,
-    keywords
-  };
-
-  console.log(recievedData);
-});
-*/
-
-
 
 module.exports = router;
