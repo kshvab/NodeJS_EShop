@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <% include lay_adm_1_head.ejs %>
+  <body>
+    <div id="wrapper">
+      <% include lay_adm_2_navigation.ejs %>
+
+      <!-- #page-wrapper -->
+      <div id="page-wrapper">
+        <div class="row">
+          <div class="col-lg-12"><h1 class="page-header">Пользователи</h1></div>
+          <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <!-- MAIN CONTENT HERE: -->
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">Изменение данных пользователя <%= transData.editUser.login %></div>
+
+              <div class="panel-body">
+                <div id="register-error-msg"></div>
+
+                <form role="form" method="post" class="register">
+                        <fieldset>
+                          <div class="form-group">
+                            <label class="form-control-label">Логин</label>
+                            <input
+                              class="form-control"
+                              placeholder="Логин"
+                              name="login"
+                              type="login"
+                              id="register-login"
+                              value="<%= transData.editUser.login %>"
+                              disabled=""
+                            />
+                          </div>
+            
+                          <div class="form-group" id="div_register-email">
+                            <label class="form-control-label">E-mail</label>
+                            <input
+                              class="form-control"
+                              placeholder="E-mail"
+                              name="email"
+                              type="email"
+                              id="register-email"
+                              value="<%= transData.editUser.email %>"
+                              autofocus
+                            />
+                          </div>
+            
+                          <div class="form-group" id="div_register-name">
+                            <label class="form-control-label">Имя</label>
+                            <input
+                              class="form-control"
+                              placeholder="Имя"
+                              name="name"
+                              type="name"
+                              id="register-name"
+                              value="<%= transData.editUser.name %>"
+                            />
+                          </div>
+                          <label for="register-phonenumber">Телефон</label>
+                          <div class="form-group input-group" id="div_register-phonenumber">
+                            
+                            
+                              <span class="input-group-addon">+38</span>
+                              <input
+                                type="text"
+                                class="form-control"
+                                placeholder="0671234567   Телефон"
+                                name="phonenumber"
+                                id="register-phonenumber"
+                                value="<%= transData.editUser.phonenumber %>"
+                              />
+                           
+                          </div>
+            
+                          <div class="form-group" id="div_admin-edit-user-group">
+                            <label class="form-control-label">Группа</label>
+                            <select
+                              class="form-control"
+                              id="admin-edit-user-group"
+                              value="<%= transData.editUser.group %>"
+                            >
+                              <option>Registered</option>
+                              <option>Agent</option>
+                              <option>Manager</option>
+                              <option>Administrator</option>
+                            </select>
+                          </div>
+            
+                          <!-- Change this to a button or input when using this as a form -->
+                          <a
+                            href="#"
+                            class="register-button btn btn-lg btn-primary btn-block"
+                            id="administratorUsersEdit-button"
+                            >Сохранить</a
+                          >
+                        </fieldset>
+                      </form>
+                      <br />
+                      <form action="/administrator/users">
+                        <button type="submit" class="btn btn-outline-warning btn-block">
+                          Отмена
+                        </button>
+                      </form>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /MAIN CONTENT HERE: -->
+      </div>
+      <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <% include lay_adm_4_bottomscripts.ejs %>
+  </body>
+</html>

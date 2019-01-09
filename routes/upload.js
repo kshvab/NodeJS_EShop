@@ -8,11 +8,11 @@ const mkdirp = require('mkdirp');
 const randomStr3Symb = () =>
   Math.random()
     .toString(36)
-    .slice(-3);
+    .slice(-1);
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    const dir = '/' + randomStr3Symb();
+    const dir = '/picfolder_' + randomStr3Symb();
     //creatinng folder in folder and in cb save there a picture
     mkdirp(config.PUBLICATIONS_PICTURE_SAVE_DESTINATION + dir, err =>
       cb(err, config.PUBLICATIONS_PICTURE_SAVE_DESTINATION + dir)
@@ -40,6 +40,11 @@ const upload = multer({
 // POST image
 router.post('/image', (req, res) => {
   upload(req, res, err => {
+    console.log(req.file);
+
+    console.log(req.body);
+
+    console.log(req.body.descriptiontag);
     let error = '';
     if (err) {
       if (err.code === 'LIMIT_FILE_SIZE') {

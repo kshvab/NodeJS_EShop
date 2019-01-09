@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <% include lay_adm_1_head.ejs %>
+  <body>
+    <div id="wrapper">
+      <% include lay_adm_2_navigation.ejs %>
+
+      <!-- #page-wrapper -->
+      <div id="page-wrapper">
+        <div class="row">
+          <div class="col-lg-12"><h1 class="page-header">Пользователи</h1></div>
+          <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <!-- MAIN CONTENT HERE: -->
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="panel panel-default">
+              <div class="panel-heading">Добавление пользователя</div>
+
+              <div class="panel-body">
+                <div id="register-error-msg"></div>
+                <form role="form" method="post" class="register">
+                  <fieldset>
+                    <div class="form-group" id="div_register-email">
+                      <input
+                        class="form-control"
+                        placeholder="E-mail"
+                        name="email"
+                        type="email"
+                        id="register-email"
+                        autofocus
+                      />
+                    </div>
+
+                    <div class="form-group" id="div_register-name">
+                      <input
+                        class="form-control"
+                        placeholder="Имя"
+                        name="name"
+                        type="name"
+                        id="register-name"
+                      />
+                    </div>
+
+                    <div class="form-group input-group" id="div_register-phonenumber">
+                      <span class="input-group-addon">+38</span>
+                      <input type="text" class="form-control" placeholder="0671234567   Телефон" name="phonenumber" id="register-phonenumber" />
+                    </div>
+
+                    <div class="form-group" id="div_register-login">
+                      <input
+                        class="form-control"
+                        placeholder="Логин"
+                        name="login"
+                        type="login"
+                        id="register-login"
+                      />
+                    </div>
+
+                    <div class="form-group" id="div_register-password">
+                      <input
+                        class="form-control"
+                        placeholder="Пароль"
+                        name="register-password"
+                        type="password"
+                        value=""
+                        id="register-password"
+                      />
+                    </div>
+
+                    <div class="form-group" id="div_register-password-confirm">
+                      <input
+                        class="form-control"
+                        placeholder="Подтвердите пароль"
+                        name="register-password-confirm"
+                        type="password"
+                        id="register-password-confirm"
+                        value=""
+                      />
+                    </div>
+
+                    <!-- Change this to a button or input when using this as a form -->
+                    <a
+                      href="#"
+                      class="register-button btn btn-lg btn-primary btn-block"
+                      id="administratorUsersAdd-button"
+                      >Добавить</a
+                    >
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /MAIN CONTENT HERE: -->
+      </div>
+      <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <% include lay_adm_4_bottomscripts.ejs %>
+  </body>
+</html>

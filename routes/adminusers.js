@@ -20,7 +20,7 @@ router.get('/', function(req, res) {
       ) {
         //Тут іде основний блок для рендерінга
         user.find().then(usersObj => {
-          res.render('administrator/administrator_users', {
+          res.render('administrator/adm_users', {
             transData: {
               pageTitle: 'Управление пользователями',
               usersObj,
@@ -67,7 +67,7 @@ router.get('/add', function(req, res) {
       ) {
         //Тут іде основний блок для рендерінга
         user.find().then(usersObj => {
-          res.render('administrator/administrator_users_add', {
+          res.render('administrator/adm_users_add', {
             transData: {
               pageTitle: 'Добавление пользователя',
               usersObj,
@@ -117,7 +117,7 @@ router.get('/edit/:editUser', function(req, res) {
           
           user.findOne({ login: editUser }).then(userFromDB => {
             if (userFromDB) {
-              res.render('administrator/administrator_users_edit', {
+              res.render('administrator/adm_users_edit', {
                 transData: {
                   pageTitle: 'Редактирование данных пользователя',
                   path,

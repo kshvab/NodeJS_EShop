@@ -47,7 +47,7 @@ $(function() {
 
       if (!data.ok) {
         $('#register-error-msg').html(
-          '<p class="text-warning">' + data.error + '</p>'
+          '<p class="text-danger">' + data.error + '</p>'
         );
         if (data.fields) {
           data.fields.forEach(function(id) {
@@ -90,7 +90,7 @@ $(function() {
       $('input').addClass('is-valid');
       if (!data.ok) {
         $('#login-error-msg').html(
-          '<p class="text-warning">' + data.error + '</p>'
+          '<p class="text-danger">' + data.error + '</p>'
         );
         if (data.fields) {
           data.fields.forEach(function(id) {
@@ -131,7 +131,7 @@ $(function() {
         $('input').addClass('is-valid');
         if (!data.ok) {
           $('.form-error-msg').html(
-            '<p class="text-warning">' + data.error + '</p>'
+            '<p class="text-danger">' + data.error + '</p>'
           );
           $('input').removeClass('is-valid');
           $('input').addClass('is-invalid');
@@ -168,7 +168,7 @@ $(function() {
         $('input').addClass('is-valid');
         if (!data.ok) {
           $('.form-error-msg').html(
-            '<p class="text-warning">' + data.error + '</p>'
+            '<p class="text-danger">' + data.error + '</p>'
           );
           $('input').removeClass('is-valid');
           $('input').addClass('is-invalid');
@@ -207,7 +207,7 @@ $(function() {
         $('input').addClass('is-valid');
         if (!data.ok) {
           $('.form-error-msg').html(
-            '<p class="text-warning">' + data.error + '</p>'
+            '<p class="text-danger">' + data.error + '</p>'
           );
           $('input').removeClass('is-valid');
           $('input').addClass('is-invalid');
@@ -247,7 +247,7 @@ $(function() {
         $('input').addClass('is-valid');
         if (!data.ok) {
           $('.form-error-msg').html(
-            '<p class="text-warning">' + data.error + '</p>'
+            '<p class="text-danger">' + data.error + '</p>'
           );
           $('input').removeClass('is-valid');
           $('input').addClass('is-invalid');
@@ -285,18 +285,18 @@ $(function() {
       contentType: 'application/json',
       url: '/administrator/users/add'
     }).done(function(data) {
-      $('input').removeClass('is-invalid');
-      $('input').addClass('is-valid');
+      $('div.form-group').removeClass('has-error');
+      $('div.form-group').addClass('has-success');
       console.log(data);
 
       if (!data.ok) {
         $('#register-error-msg').html(
-          '<p class="text-warning">' + data.error + '</p>'
+          '<p class="text-danger">' + data.error + '</p>'
         );
         if (data.fields) {
           data.fields.forEach(function(id) {
-            $('#' + id).removeClass('is-valid');
-            $('#' + id).addClass('is-invalid');
+            $('#div_' + id).removeClass('has-success');
+            $('#div_' + id).addClass('has-error');
           });
         }
       } else {
@@ -360,18 +360,18 @@ $(function() {
       contentType: 'application/json',
       url: '/administrator/users/edit'
     }).done(function(data) {
-      $('input').removeClass('is-invalid');
-      $('input').addClass('is-valid');
+      $('div.form-group').removeClass('has-error');
+      $('div.form-group').addClass('has-success');
       console.log("ANSWER: " + data);
 
       if (!data.ok) {
         $('#register-error-msg').html(
-          '<p class="text-warning">' + data.error + '</p>'
+          '<p class="text-danger">' + data.error + '</p>'
         );
         if (data.fields) {
           data.fields.forEach(function(id) {
-            $('#' + id).removeClass('is-valid');
-            $('#' + id).addClass('is-invalid');
+            $('#div_' + id).removeClass('has-success');
+            $('#div_' + id).addClass('has-error');
           });
         }
       } else {
@@ -412,7 +412,7 @@ $(function() {
         $('.admin-change-user-psw').addClass('is-valid');
         if (!data.ok) {
           $('.admin-change-password-form-error-msg').html(
-            '<p class="text-warning">' + data.error + '</p>'
+            '<p class="text-danger">' + data.error + '</p>'
           );
           $('.admin-change-user-psw').removeClass('is-valid');
           $('.admin-change-user-psw').addClass('is-invalid');
@@ -459,18 +459,21 @@ $(function() {
         //дальше перероблять
 
 
-        $('input').removeClass('is-invalid');
-        $('input').addClass('is-valid');
+
+
+
+        $('div.form-group').removeClass('has-error');
+        $('div.form-group').addClass('has-success');
         console.log(data);
 
         if (!data.ok) {
           $('#register-error-msg').html(
-            '<p class="text-warning">' + data.error + '</p>'
+            '<p class="text-danger">' + data.error + '</p>'
           );
           if (data.fields) {
             data.fields.forEach(function(id) {
-              $('#' + id).removeClass('is-valid');
-              $('#' + id).addClass('is-invalid');
+              $('#div_' + id).removeClass('has-success');
+              $('#div_' + id).addClass('has-error');
             });
           }
         } else {
@@ -493,21 +496,18 @@ $(function() {
 
 
 
-  $('#adminaddnewpublfulltext').summernote({
-    placeholder: 'Полный текст для публикации...',
-    tabsize: 2,
-    height: 200
-  });
-
+  
 
 
   //Upload image for new publications
 
   $('#fileinfo').on('submit', function(e) {
     e.preventDefault();
-
+   
+ 
     var formData = new FormData(this);
-
+    var fullTxtStr = $('#adminaddnewpublfulltext').summernote('code');
+    formData.append('fullTxtStr', fullTxtStr);
     $.ajax({
       type: 'POST',
       url: '/upload/image',

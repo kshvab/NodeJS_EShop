@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <% include lay_adm_1_head.ejs %>
+  <body>
+    <div id="wrapper">
+      <% include lay_adm_2_navigation.ejs %>
+
+      <!-- #page-wrapper -->
+      <div id="page-wrapper">
+        <div class="row">
+          <div class="col-lg-12"><h1 class="page-header">Публикации</h1></div>
+          <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+          <div class="col-lg-12">
+            <form action="/administrator/users/add">
+              <button type="submit" class="btn btn-success btn-sm">
+                <span class="fa fa-plus fa-fw"></span>Добавить публикацию
+              </button>
+            </form>
+          </div>
+        </div>
+        <br />
+
+        <!-- MAIN CONTENT HERE: -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">Список публикаций</div>
+
+              <div class="panel-body">СПИСОК...</div>
+            </div>
+          </div>
+        </div>
+        <!-- /MAIN CONTENT HERE: -->
+      </div>
+      <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <% include lay_adm_4_bottomscripts.ejs %>
+  </body>
+</html>

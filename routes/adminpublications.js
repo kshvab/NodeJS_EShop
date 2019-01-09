@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
         userFromDB.group == 'Manager'
       ) {
         //Тут іде основний блок для рендерінга
-        res.render('administrator/administrator_publications', {
+        res.render('administrator/adm_publications', {
           transData: {
             pageTitle: 'Управление публикациями',
             path,
@@ -65,7 +65,7 @@ router.get('/add', function(req, res) {
         userFromDB.group == 'Manager'
       ) {
         //Тут іде основний блок для рендерінга
-        res.render('administrator/administrator_publications_add', {
+        res.render('administrator/adm_publications_add', {
           transData: {
             pageTitle: 'Создание публикации',
             path,

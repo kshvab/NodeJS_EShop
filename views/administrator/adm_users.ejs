@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <% include lay_adm_1_head.ejs %>
+  <body>
+    <div id="wrapper">
+      <% include lay_adm_2_navigation.ejs %>
+
+      <!-- #page-wrapper -->
+      <div id="page-wrapper">
+        <div class="row">
+          <div class="col-lg-12"><h1 class="page-header">Пользователи</h1></div>
+          <!-- /.col-lg-12 -->
+        </div>
+        <!-- /.row -->
+
+        <div class="row">
+          <div class="col-lg-12">
+            <form action="/administrator/users/add">
+              <button type="submit" class="btn btn-success btn-sm">
+                <span class="fa fa-plus fa-fw"></span>Добавить пользователя
+              </button>
+            </form>
+          </div>
+        </div>
+        <br />
+
+        <!-- MAIN CONTENT HERE: -->
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="panel panel-default">
+              <div class="panel-heading">Список пользователей</div>
+
+              <div class="panel-body">
+                <table class="table table-hover">
+                  <thead>
+                    <tr>
+                      <th scope="col">Логин</th>
+                      <th scope="col">Имя</th>
+                      <th scope="col">E-mail</th>
+                      <th scope="col">Телефон</th>
+                      <th scope="col">Группа</th>
+                      <th scope="col"></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% transData.usersObj.forEach(function(user){ %>
+                    <tr>
+                      <th scope="row"><%= user.login %></th>
+                      <td><%= user.name %></td>
+                      <td><%= user.email %></td>
+                      <td><%= user.phonenumber %></td>
+                      <td><%= user.group %></td>
+
+                      <td>
+                        <form
+                          action="/administrator/users/edit/<%= user.login %>"
+                        >
+                          <button
+                            action="/administrator/users/edit/<%= user.login %>"
+                            type="submit"
+                            class="btn btn-primary btn-xs"
+                          >
+                            <i class="fa fa-pencil fa-fw"></i> Edit
+                          </button>
+                        </form>
+                      </td>
+                      <td>
+                        <button
+                          name="admin-users-del-one"
+                          value="<%= user.login %>"
+                          type="button"
+                          class="btn btn-danger btn-xs"
+                        >
+                          <i class="fa fa-times fa-fw"></i> Del
+                        </button>
+                      </td>
+                    </tr>
+
+                    <% }); %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- /MAIN CONTENT HERE: -->
+      </div>
+      <!-- /#page-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    <% include lay_adm_4_bottomscripts.ejs %>
+  </body>
+</html>
