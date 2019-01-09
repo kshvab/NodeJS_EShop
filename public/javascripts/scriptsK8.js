@@ -501,13 +501,13 @@ $(function() {
 
   //Upload image for new publications
 
-  $('#fileinfo').on('submit', function(e) {
+  $('#adminaddnewpubl').on('submit', function(e) {
     e.preventDefault();
    
  
     var formData = new FormData(this);
-    var fullTxtStr = $('#adminaddnewpublfulltext').summernote('code');
-    formData.append('fullTxtStr', fullTxtStr);
+    var newPublFullText = $('#adminaddnewpublfulltext').summernote('code');
+    formData.append('newPublicationFullText', newPublFullText);
     $.ajax({
       type: 'POST',
       url: '/upload/image',

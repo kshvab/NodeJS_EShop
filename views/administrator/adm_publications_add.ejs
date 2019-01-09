@@ -61,76 +61,98 @@
         <div class="col-lg-12">
           <div class="panel panel-default">
             <div class="panel-heading">Добавление публикации</div>
+            <div class="panel-body">
+              <div id="nev-publication-error-msg"></div>
+            
+              <!-- FORM FOR FILE SENDING -->
+            
 
-            <div id="nev-publication-error-msg"></div>
-            <form role="form" method="post" class="register">
-              <fieldset>
-                <div class="form-group">
-                  <label for="new-publication-name">Заголовок</label>
-                  <input class="form-control" name="title" type="name" id="new-publication-title" />
+              <form method="POST" enctype="multipart/form-data" id="adminaddnewpubl">
+                
+                <div class="row">
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="new-publication-name">Заголовок</label>
+                      <input class="form-control" name="newPublTitle" type="name" id="new-publication-title" />
+                    </div>
+                    <div class="form-group">
+                      <label for="new-publication-short-text">Короткий текст</label>
+                      <textarea class="form-control" name="newPublShortText" id="new-publication-short-text" rows="4"></textarea>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+            
+            
+            
+                    <div class="form-group">
+                      <label for="new-publication-short-text">Алиас</label>
+                      <input class="form-control" name="newPublAlias" type="text" id="new-publication-alias" />
+                      <small id="aliasHelp" class="form-text text-muted">Если оставить поле пустым, алиас будет
+                        сгенерирован
+                        автоматически.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="new-publication-description">Мета-тег Description</label>
+                      <input class="form-control" name="newPublDescription" type="text" id="new-publication-description" />
+                    </div>
+                    <div class="form-group">
+                      <label for="new-publication-keywords">Мета-тег Keywords</label>
+                      <input class="form-control" name="newPublKeywords" type="text" id="new-publication-keywords" />
+                    </div>
+            
+            
+            
+                  </div>
                 </div>
-                <div class="form-group">
-                  <label for="new-publication-short-text">Алиас</label>
-                  <input class="form-control" name="alias" type="text" id="new-publication-alias" />
-                  <small id="aliasHelp" class="form-text text-muted">Если оставить поле пустым, алиас будет
-                    сгенерирован
-                    автоматически.</small>
-                </div>
-                <div class="form-group">
-                  <label class="form-control-label">Состояние</label>
-                  <select class="form-control" id="new-publication-status">
-                    <option>Опубликовано</option>
-                    <option>Неопубликовано</option>
-                    <option>В корзине</option>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <label for="new-publication-short-text">Короткий текст</label>
-                  <textarea class="form-control" id="new-publication-short-text" rows="3"></textarea>
-                </div>
+            
                 <!-- adminaddnewpublfulltext -->
                 <div class="form-group">
                   <label for="adminaddnewpublfulltext">Полный текст</label>
                   <div id="adminaddnewpublfulltext"></div>
                 </div>
                 <!-- adminaddnewpublfulltext -->
+            
+                <div class="row">
+                  <div class="col-lg-6">
+                    <label for="file">Изображение для публикации</label>
+                    <input type="file" name="file" aria-describedby="fileHelp" id="file" required />
+                    <small id="fileHelp" class="form-text text-muted">Используйте изображения формата .JPG или .GIF не
+                        превышающие
+                        по размеру 5мБ. Возможно укажу позже еще требования.</small>
+                        
+                  </div>
+                  <div class="col-lg-6">
 
-                <div class="form-group">
-                  <label for="new-publication-picture">Изображение для публикации</label>
-                  <input type="file" class="form-control-file" id="new-publication-picture" aria-describedby="fileHelp" />
-                  <small id="fileHelp" class="form-text text-muted">Используйте изображения формата .JPG или .GIF не
-                    превышающие
-                    по размеру 5мБ. Возможно укажу позже еще требования.</small>
+                    <div class="form-group">
+                      <label class="form-control-label">Состояние</label>
+                      <select class="form-control" id="new-publication-status" name="new-publication-status">
+                        <option>Опубликовано</option>
+                        <option>Неопубликовано</option>
+                        <option>В корзине</option>
+                      </select>
+                    </div>
+                    <br><br>
+                        <button class="upload-button btn btn-primary btn-block">Сохранить</button>
+                  </div>
                 </div>
-                <hr />
-                <div class="form-group">
-                  <label for="new-publication-description">Мета-тег Description</label>
-                  <input class="form-control" name="description" type="text" id="new-publication-description" />
-                </div>
-                <div class="form-group">
-                  <label for="new-publication-keywords">Мета-тег Keywords</label>
-                  <input class="form-control" name="description" type="text" id="new-publication-keywords" />
-                </div>
-                <hr />
+            
+            
+               
+              </form>
+              
 
-                <!-- Change this to a button or input when using this as a form -->
-                <a href="#" class="register-button btn btn-lg btn-primary btn-block" id="administratorPublicationAdd-button">Опубликовать</a>
-              </fieldset>
-            </form>
-            <br /><br />
-
-            <!-- FORM FOR FILE SENDING -->
-            <form method="POST" enctype="multipart/form-data" id="fileinfo">
-
-              <input class="form-control" name="descriptiontag" type="text" id="new-publication-keywords2" />
-
-              <input type="file" name="file" id="file" required />
-              <button class="upload-button">Загрузить</button>
-            </form>
-            <!-- /FORM FOR FILE SENDING -->
-
-
-          </div>
+              <!-- /FORM FOR FILE SENDING -->
+            
+            
+            
+            
+              
+            
+            
+            
+            </div>
+            </div>
         </div>
       </div>
       <!-- /MAIN CONTENT HERE: -->

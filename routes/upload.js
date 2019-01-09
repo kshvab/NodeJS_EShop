@@ -41,10 +41,9 @@ const upload = multer({
 router.post('/image', (req, res) => {
   upload(req, res, err => {
     console.log(req.file);
-
     console.log(req.body);
+    console.log(req.body.newPublTitle);
 
-    console.log(req.body.descriptiontag);
     let error = '';
     if (err) {
       if (err.code === 'LIMIT_FILE_SIZE') {

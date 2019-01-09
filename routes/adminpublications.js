@@ -95,6 +95,8 @@ router.get('/add', function(req, res) {
   }
 });
 
+
+/*
 // POST Administrator add new user
 router.post('/add', (req, res) => {
   const title = req.body.title;
@@ -121,5 +123,8 @@ router.post('/add', (req, res) => {
 
   console.log(recievedData);
 });
+*/
+
+
 
 module.exports = router;
