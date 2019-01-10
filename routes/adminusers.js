@@ -99,7 +99,7 @@ router.get('/add', function(req, res) {
   }
 });
 
-// GET Administrator edit user`s password
+// GET Administrator edit user
 router.get('/edit/:editUser', function(req, res) {
   let _id;
   let login;

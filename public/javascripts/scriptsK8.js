@@ -316,8 +316,15 @@ $(function() {
   });
 
 
-  // Admin Dell One User
-  $("[name='admin-users-del-one']").on('click', function(e) {
+  // Admin Edit One User from list redirect
+  $("[name='admin-users-list-edit-one']").on('click', function(e) {
+    e.preventDefault();
+    $(location).attr('href', '/administrator/users/edit/' + this.value);
+  });
+
+
+  // Admin Dell One User from list
+  $("[name='admin-users-list-del-one']").on('click', function(e) {
     e.preventDefault();
     let delUserName = this.value;
     let confirmed = confirm(
@@ -499,8 +506,7 @@ $(function() {
   
 
 
-  //Upload image for new publications
-
+  //Upload image and fields for new publications
   $('#adminaddnewpubl').on('submit', function(e) {
     e.preventDefault();
    
@@ -540,7 +546,106 @@ $(function() {
 
 
 
+  // Admin Edit One Publication from list redirect
+  $("[name='admin-publications-list-edit-one']").on('click', function(e) {
+    e.preventDefault();
+    $(location).attr('href', '/administrator/publications/edit/' + this.value);
+  });
+
+
+  // Admin Dell One Publication from list
+  $("[name='admin-publications-list-del-one']").on('click', function(e) {
+    e.preventDefault();
+    let delPublicationAlias = this.value;
+    let confirmed = confirm(
+      'Вы точно хотите удалить публикацию?'
+    );
+    if (confirmed) {
+      let data = {
+        delPublicationAlias
+      };
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/administrator/publications/deleteone'
+      }).done(function(data) {
+        if (!data.ok) {
+          alert(data.error);
+        } else {
+          $(location).attr('href', '/administrator/publications');
+        }
+      });
+    } else return;
+  });
+
+
+  // Admin Edit One Publication
+  $('#administratorPublicationEdit-button').on('click', function(e) {
+    var markupStr = $('#admineditPublfulltext').summernote('code');
+    e.preventDefault();
+    var data = {
+      title: $('#edit-publication-title').val(),
+      alias: $('#edit-publication-alias').val(),
+      status: $('#edit-publication-status').val(),
+      shorttext: $('#edit-publication-short-text').val(),
+      fulltext: markupStr,
+      description: $('#edit-publication-description').val(),
+      keywords: $('#edit-publication-keywords').val()
+    };
+    console.log("SENT: " + data);
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/administrator/publications/editone'
+    }).done(function(data) {
+
+      console.log("ANSWER: " + data);
+
+      if (!data.ok) {
+        $('#edit-publication-error-msg').html(
+          '<p class="text-danger">' + data.error + '</p>'
+        );
+      } else {
+        //$('#register-error-msg').html('<p class="text-success">Отлично!</p>');
+        $(location).attr('href', '/administrator/publications');
+      }
+    });
+
+    
+
+  });
+  
+
+//Upload new image for old publication (EDIT IMAGE in PUBL)
+$('#admineditpublpicture').on('submit', function(e) {
+  e.preventDefault();
+  var formData = new FormData(this);
+    $.ajax({
+    type: 'POST',
+    url: '/upload/editimage',
+    data: formData,
+    processData: false, //no dirty data to send
+    contentType: false, //no validation
+    success: function(result){
+      console.log(result);
+      if (!result.ok) {
+        $('#div_alert_edit-publication-image').html(
+          '<p class="text-danger">' + result.error + '</p>');
+      } else {
+        $(location).attr('href', '/administrator/publications/edit/' + result.publAlias);
+      }
+    },
+    error: function(error){
+      console.log(error);
+      $(location).attr('href', '/administrator/error');
+    }
+  });
+
 });
 
 
-//$(location).attr('href', '/administrator/users');
+});
+
+

@@ -11,5 +11,6 @@ module.exports = {
   IS_PRODUCTION: process.env.NODE_ENV === 'production',
   LIST_ITEMS_PER_PAGE: process.env.LIST_ITEMS_PER_PAGE || 20,
   PUBLICATIONS_PICTURE_SAVE_DESTINATION:
-    process.env.PUBLICATIONS_PICTURE_SAVE_DESTINATION || 'publication_images'
+    process.env.PUBLICATIONS_PICTURE_SAVE_DESTINATION ||
+    'public/images/publication_images'
 };

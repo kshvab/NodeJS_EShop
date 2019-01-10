@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+  <meta name="author" content="" />
+ 
+  <% if ((typeof(transData) != 'undefined') && transData.pageTitle) { %>
+  <title>
+    <%= transData.pageTitle %>
+  </title>
+  <% } else { %>
+  <title>Панель управления</title>
+  <% }; %>
+
+
+  <!-- jQuery -->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <!-- Bootstrap Core CSS -->
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+  <!-- MetisMenu CSS -->
+  <link href="/vendor/metisMenu/metisMenu.min.css" rel="stylesheet" />
+
+  <!-- Custom CSS -->
+  <link href="/vendor/sb-admin/sb-admin-2.css" rel="stylesheet" />
+
+  <!-- Custom Fonts -->
+  <link href="/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+  
+<!-- Custom Summernote Editor -->
+  <script src="/vendor/summernote/summernote-lite.js"></script>
+  <link href="/vendor/summernote/summernote-lite.css" rel="stylesheet" />
+
+
+
+
+</head>
+
+
+
+<body>
+  <div id="wrapper">
+    <% include lay_adm_2_navigation.ejs %>
+
+    <!-- #page-wrapper -->
+    <div id="page-wrapper">
+      <div class="row">
+        <div class="col-lg-9">
+          <h1 class="page-header">Публикации</h1>
+        </div>
+        <!-- /.col-lg-12 -->
+      </div>
+      <!-- /.row -->
+
+      <!-- MAIN CONTENT HERE: -->
+
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="panel panel-default">
+            <div class="panel-heading">Текущее изображение</div>
+            <div class="panel-body">
+                <img src="<%= transData.publFromDB.picture %>" width="100%">
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          <div class="panel panel-default">
+            <div class="panel-heading">Изменить изображение</div>
+            <div class="panel-body">
+              <div id="div_alert_edit-publication-image"></div>
+                <form method="POST" enctype="multipart/form-data" id="admineditpublpicture">
+                  <input type="hidden" name="publAlias" id="PublAlias" value="<%= transData.publFromDB.alias %>" />
+                  <input type="hidden" name="oldFilePath" id="oldFilePath" value="<%= transData.publFromDB.picture %>"/>
+                  <label for="file">Изменить текущее изображение</label>
+                  <input type="file" name="file" aria-describedby="fileHelp" id="file" required />
+                  <small id="fileHelp" class="form-text text-muted">Используйте изображения формата .JPG или .GIF не
+                      превышающие
+                      по размеру 5мБ. Возможно укажу позже еще требования.</small>
+                      <br><br>
+                  <button class="upload-button btn btn-primary" value="<%= transData.publFromDB.alias %>">Загрузить</button>
+                </form>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">Редактирование контента</div>
+            <div class="panel-body">
+              <div id="edit-publication-error-msg"></div>
+            
+              
+            
+
+              <form role="form" method="post" class="register">
+                
+                <div class="row">
+
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="edit-publication-name">Заголовок</label>
+                      <input value="<%= transData.publFromDB.title %>" class="form-control" name="editPublTitle" type="name" id="edit-publication-title" required />
+                    </div>
+                    <div class="form-group">
+                      <label for="edit-publication-short-text">Короткий текст</label>
+                      <textarea class="form-control" name="editPublShortText" id="edit-publication-short-text" rows="4" required ><%= (transData.publFromDB.shorttext) %></textarea>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+            
+            
+            
+                    <div class="form-group" id="div_edit-publication-alias">
+                      <label for="edit-publication-short-text">Алиас</label>
+                      <input value="<%= transData.publFromDB.alias %>" class="form-control" name="editPublAlias" type="text" id="edit-publication-alias" />
+                      <small id="aliasHelp" class="form-text text-muted">Если оставить поле пустым, алиас будет
+                        сгенерирован
+                        автоматически.</small>
+                    </div>
+                    <div class="form-group">
+                      <label for="edit-publication-description">Мета-тег Description</label>
+                      <input value="<%= transData.publFromDB.description %>" class="form-control" name="editPublDescription" type="text" id="edit-publication-description" />
+                    </div>
+                    <div class="form-group">
+                      <label for="edit-publication-keywords">Мета-тег Keywords</label>
+                      <input value="<%= transData.publFromDB.keywords %>" class="form-control" name="editPublKeywords" type="text" id="edit-publication-keywords" />
+                    </div>
+            
+            
+            
+                  </div>
+                </div>
+            
+                <!-- adminaddeditPublfulltext -->
+                <div class="form-group">
+                  <label for="admineditPublfulltext">Полный текст</label>
+                  <div id="admineditPublfulltext" class="admineditPublfulltext"></div>
+                </div>
+                <!-- adminaddeditPublfulltext -->
+            
+                <div class="row">
+                  <div class="col-lg-6">
+                    
+                  <br><br>
+                  <button id="administratorPublicationEdit-button" class="btn btn-primary btn-block">Сохранить</button>
+                  </div>
+                  <div class="col-lg-6">
+
+                    <div class="form-group">
+                      <label class="form-control-label">Состояние</label>
+                      <select class="form-control" id="edit-publication-status" name="editPublStatus">
+                        <option <%if (transData.publFromDB.status == "Опубликовано") { %> selected <% }; %> >Опубликовано</option>
+                        <option <%if (transData.publFromDB.status == "Неопубликовано") { %> selected <% }; %> >Неопубликовано</option>
+                        <option <%if (transData.publFromDB.status == "В корзине") { %> selected <% }; %> >В корзине</option>
+                      </select>
+                    </div>
+                    
+                  </div>
+                </div>
+            
+            
+               
+              </form>
+              
+              
+
+            </div>
+            </div>
+        </div>
+      </div>
+      <!-- /MAIN CONTENT HERE: -->
+    </div>
+    <!-- /#page-wrapper -->
+  </div>
+  <!-- /#wrapper -->
+  <div style="display:none;" id="hidden_div"><%= publBodyHtmlCode %></div>>
+  
+  <script>
+    $('.admineditPublfulltext').summernote('code', $('#hidden_div').text());
+  </script>
+
+  <!-- Bootstrap Core JavaScript -->
+  <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+  <!-- Metis Menu Plugin JavaScript -->
+  <script src="/vendor/metisMenu/metisMenu.min.js"></script>
+
+  <!-- Custom Theme JavaScript -->
+  <script src="/vendor/sb-admin/sb-admin-2.js"></script>
+
+  <!-- Custom K8 JavaScript -->
+  <script src="/javascripts/scriptsK8.js"></script>
+</body>
+
+</html>

@@ -39,7 +39,7 @@
                       <th scope="col">E-mail</th>
                       <th scope="col">Телефон</th>
                       <th scope="col">Группа</th>
-                      <th scope="col"></th>
+                      <th scope="col">Действия</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -52,21 +52,17 @@
                       <td><%= user.group %></td>
 
                       <td>
-                        <form
-                          action="/administrator/users/edit/<%= user.login %>"
-                        >
-                          <button
-                            action="/administrator/users/edit/<%= user.login %>"
-                            type="submit"
-                            class="btn btn-primary btn-xs"
-                          >
-                            <i class="fa fa-pencil fa-fw"></i> Edit
-                          </button>
-                        </form>
-                      </td>
-                      <td>
                         <button
-                          name="admin-users-del-one"
+                          name="admin-users-list-edit-one"
+                          value="<%= user.login %>"
+                          type="button"
+                          class="btn btn-primary btn-xs"
+                        >
+                          <i class="fa fa-pencil fa-fw"></i> Edit
+                        </button>
+
+                        <button
+                          name="admin-users-list-del-one"
                           value="<%= user.login %>"
                           type="button"
                           class="btn btn-danger btn-xs"

@@ -5,7 +5,7 @@ const multer = require('multer');
 const config = require('../config');
 const mkdirp = require('mkdirp');
 const mongoose = require('mongoose');
-
+var fs = require('fs');
 const models = require('../models');
 const publication = models.publication;
 
@@ -66,7 +66,7 @@ router.post('/image', (req, res) => {
       else alias = req.body.newPublAlias;
       let shorttext = req.body.newPublShortText;
       let fulltext = req.body.newPublicationFullText;
-      let picture = req.file.destination + '/' + req.file.filename;
+      let picture = req.file.destination.slice(6) + '/' + req.file.filename;
       let description = req.body.newPublDescription;
       let keywords = req.body.newPublKeywords;
       let status = req.body.newPublStatus;
@@ -114,6 +114,47 @@ router.post('/image', (req, res) => {
           }
         });
       }
+    }
+  });
+});
+
+router.post('/editimage', (req, res) => {
+  upload(req, res, err => {
+    if (err) {
+      let error = '';
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        error = 'Картинка не более 2mb';
+      }
+      if (err.code === 'EXTENTION') {
+        error = 'Только .jpg, .jpeg, .png';
+      }
+      res.json({
+        ok: false,
+        error
+      });
+    } else {
+      let publAlias = req.body.publAlias;
+      let oldFilePath = 'public/' + req.body.oldFilePath;
+      let newFilePath = req.file.destination + '/' + req.file.filename;
+
+      fs.copyFile(newFilePath, oldFilePath, err => {
+        if (err) {
+          res.json({
+            ok: false,
+            error: 'Не могу заменить старый файл новым.'
+          });
+        } else {
+          fs.unlink(newFilePath, err => {
+            if (err) console.log('Не получиловь удалить новый файл ' + err);
+            else console.log(newFilePath + ' was deleted');
+            res.json({
+              ok: true,
+              error: 'Не могу заменить старый файл новым.',
+              publAlias
+            });
+          });
+        }
+      });
     }
   });
 });
