@@ -5,13 +5,15 @@ const administrator = require('./administrator');
 const adminusers = require('./adminusers');
 const adminpublications = require('./adminpublications');
 const upload = require('./upload');
+const shop = require('./shop');
 
 module.exports = {
-  auth,
-  profile,
-  mainpage,
   administrator,
-  adminusers,
   adminpublications,
+  adminusers,
+  auth,
+  mainpage,
+  profile,
+  shop,
   upload
 };

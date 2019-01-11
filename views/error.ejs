@@ -1,11 +1,35 @@
-<% include layout/header.ejs %>
+<!DOCTYPE html>
 
-<div class="container">
-  <h1>
-    <span class="fas fa-exclamation-triangle avesomePaddingRight"></span>Ошибка
-  </h1>
-  <h2><%= message %></h2>
-  <h3><%= error.status %></h3>
-  <pre><%= error.stack %></pre>
-</div>
-<% include layout/footer.ejs %>
+<html lang="en">
+  <% include layout/lay_site_1_head.ejs %>
+  <body>
+    <% include layout/lay_site_2_navigation.ejs %>
+
+    <!-- CONTAINER: -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <br />
+          <% include layout/lay_site_3_sidebar.ejs %>
+        </div>
+
+        <div class="col-lg-8">
+          <!-- MAIN CONTENT HERE: -->
+
+          <h1>
+            <span class="fas fa-exclamation-triangle avesomePaddingRight"></span
+            >Ошибка
+          </h1>
+          <h2><%= message %></h2>
+          <h3><%= error.status %></h3>
+          <pre><%= error.stack %></pre>
+
+          <!-- /MAIN CONTENT HERE: -->
+        </div>
+      </div>
+    </div>
+    <!-- /CONTAINER: -->
+
+    <% include layout/lay_site_4_bottomscripts.ejs %>
+  </body>
+</html>

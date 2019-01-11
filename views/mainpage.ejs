@@ -1,20 +1,34 @@
-<% include layout/header.ejs %>
+<!DOCTYPE html>
 
-<div class="container">
-  <div class="row">
-    <div class="col-lg-4">
-      <br />
-      <% include layout/shop_sidebar_right.ejs %>
+<html lang="en">
+  <% include layout/lay_site_1_head.ejs %>
+  <body>
+    <% include layout/lay_site_2_navigation.ejs %>
+
+    <!-- CONTAINER: -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <br />
+          <% include layout/lay_site_3_sidebar.ejs %>
+        </div>
+
+        <div class="col-lg-8">
+          <!-- MAIN CONTENT HERE: -->
+
+          <br />
+          <H1>Главная</H1>
+
+          <br />
+
+          <br />
+
+          <!-- /MAIN CONTENT HERE: -->
+        </div>
+      </div>
     </div>
+    <!-- /CONTAINER: -->
 
-    <div class="col-lg-8">
-      <br />
-      <H1>Главная</H1>
-
-      <br />
-
-      <br />
-    </div>
-  </div>
-</div>
-<% include layout/footer.ejs %>
+    <% include layout/lay_site_4_bottomscripts.ejs %>
+  </body>
+</html>

@@ -1,144 +1,157 @@
-<% include layout/header.ejs %>
-<div class="container">
-  <div class="row">
-    <div class="col-md-4 col-md-offset-4">
-      <div class="login-panel panel panel-default" id="mainLoginPanel">
-        <div class="panel-heading"><h2 class="panel-title">Вход</h2></div>
-        <div class="panel-body">
-          <div id="login-error-msg"></div>
-          <form role="form" method="post" class="login">
-            <fieldset>
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  placeholder="Логин"
-                  name="login"
-                  type="login"
-                  id="login-login"
-                />
-              </div>
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  placeholder="Пароль"
-                  name="password"
-                  type="password"
-                  value=""
-                  id="login-password"
-                />
-              </div>
 
-              <!-- Change this to a button or input when using this as a form -->
-              <a
-                href="#"
-                class="login-button btn btn-lg btn-primary btn-block"
-                id="login-button"
-                >Вход</a
-              >
-              <a
-                href="#"
-                class="switch-button btn btn-block btn-outline-primary btn-sm"
-                >Еще нет учетной записи?</a
-              >
-            </fieldset>
-          </form>
+<!DOCTYPE html>
+
+<html lang="en">
+  <% include layout/lay_site_1_head.ejs %>
+  <body>
+    <% include layout/lay_site_2_navigation.ejs %>
+
+    <!-- CONTAINER: -->
+    <div class="container">
+        <div class="row">
+          <div class="col-md-4 col-md-offset-4">
+            <div class="login-panel panel panel-default" id="mainLoginPanel">
+              <div class="panel-heading"><h2 class="panel-title">Вход</h2></div>
+              <div class="panel-body">
+                <div id="login-error-msg"></div>
+                <form role="form" method="post" class="login">
+                  <fieldset>
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        placeholder="Логин"
+                        name="login"
+                        type="login"
+                        id="login-login"
+                      />
+                    </div>
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        placeholder="Пароль"
+                        name="password"
+                        type="password"
+                        value=""
+                        id="login-password"
+                      />
+                    </div>
+      
+                    <!-- Change this to a button or input when using this as a form -->
+                    <a
+                      href="#"
+                      class="login-button btn btn-lg btn-primary btn-block"
+                      id="login-button"
+                      >Вход</a
+                    >
+                    <a
+                      href="#"
+                      class="switch-button btn btn-block btn-outline-primary btn-sm"
+                      >Еще нет учетной записи?</a
+                    >
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+      
+            <div class="login-panel panel panel-default" id="mainRegisterPanel">
+              <div class="panel-heading">
+                <h2 class="panel-title">Регистрация</h2>
+              </div>
+              <div class="panel-body">
+                <div id="register-error-msg"></div>
+                <form role="form" method="post" class="register">
+                  <fieldset>
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        placeholder="E-mail"
+                        name="email"
+                        type="email"
+                        id="register-email"
+                        autofocus
+                      />
+                    </div>
+      
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        placeholder="Имя"
+                        name="name"
+                        type="name"
+                        id="register-name"
+                      />
+                    </div>
+      
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">+38</span>
+                        </div>
+                        <input 
+                        type="text" 
+                        class="form-control" 
+                        placeholder="0671234567   Телефон" 
+                        name="phonenumber" 
+                        id="register-phonenumber">
+                      </div>
+                    </div>
+      
+      
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        placeholder="Логин"
+                        name="login"
+                        type="login"
+                        id="register-login"
+                      />
+                    </div>
+      
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        placeholder="Пароль"
+                        name="register-password"
+                        type="password"
+                        value=""
+                        id="register-password"
+                      />
+                    </div>
+      
+                    <div class="form-group">
+                      <input
+                        class="form-control"
+                        placeholder="Подтвердите пароль"
+                        name="register-password-confirm"
+                        type="password"
+                        id="register-password-confirm"
+                        value=""
+                      />
+                    </div>
+      
+                    <!-- Change this to a button or input when using this as a form -->
+                    <a
+                      href="#"
+                      class="register-button btn btn-lg btn-primary btn-block"
+                      id="register-button"
+                      >Регистрация</a
+                    >
+                    <a
+                      href="#"
+                      class="switch-button btn btn-block btn-outline-primary btn-sm"
+                      >Уже есть учетная запись?</a
+                    >
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    <!-- /CONTAINER: -->
 
-      <div class="login-panel panel panel-default" id="mainRegisterPanel">
-        <div class="panel-heading">
-          <h2 class="panel-title">Регистрация</h2>
-        </div>
-        <div class="panel-body">
-          <div id="register-error-msg"></div>
-          <form role="form" method="post" class="register">
-            <fieldset>
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  placeholder="E-mail"
-                  name="email"
-                  type="email"
-                  id="register-email"
-                  autofocus
-                />
-              </div>
-
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  placeholder="Имя"
-                  name="name"
-                  type="name"
-                  id="register-name"
-                />
-              </div>
-
-              <div class="form-group">
-                <div class="input-group mb-3">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">+38</span>
-                  </div>
-                  <input 
-                  type="text" 
-                  class="form-control" 
-                  placeholder="0671234567   Телефон" 
-                  name="phonenumber" 
-                  id="register-phonenumber">
-                </div>
-              </div>
+    <% include layout/lay_site_4_bottomscripts.ejs %>
+  </body>
+</html>
 
 
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  placeholder="Логин"
-                  name="login"
-                  type="login"
-                  id="register-login"
-                />
-              </div>
-
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  placeholder="Пароль"
-                  name="register-password"
-                  type="password"
-                  value=""
-                  id="register-password"
-                />
-              </div>
-
-              <div class="form-group">
-                <input
-                  class="form-control"
-                  placeholder="Подтвердите пароль"
-                  name="register-password-confirm"
-                  type="password"
-                  id="register-password-confirm"
-                  value=""
-                />
-              </div>
-
-              <!-- Change this to a button or input when using this as a form -->
-              <a
-                href="#"
-                class="register-button btn btn-lg btn-primary btn-block"
-                id="register-button"
-                >Регистрация</a
-              >
-              <a
-                href="#"
-                class="switch-button btn btn-block btn-outline-primary btn-sm"
-                >Уже есть учетная запись?</a
-              >
-            </fieldset>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<% include layout/footer.ejs %>

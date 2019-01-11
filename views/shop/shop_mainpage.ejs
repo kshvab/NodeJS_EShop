@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <% include ../layout/lay_site_1_head.ejs %>
+
+  <body>
+    <% include ../layout/lay_site_2_navigation.ejs %>
+
+    <!-- CONTAINER: -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-3">
+          <br />
+          <% include lay_shop_sidebar.ejs %>
+        </div>
+
+        <div class="col-lg-9">
+          <!-- MAIN CONTENT HERE: -->
+
+          <br />
+          <H1>Каталог товаров</H1>
+
+          <% transData.shopItemsArr.forEach(function(item){ %>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-5">
+                <div class="border-primary">
+                  <img
+                    style="width: 100%; display: block;"
+                    src="<%= 'import_foto/' + (item.picture).slice(13) %>"
+                    alt="Card image"
+                  />
+                </div>
+              </div>
+              <div class="col-lg-7">
+                <a href="/shop/<%= item.id %>"
+                  ><h5 class="card-title"><%= item.name %></h5></a
+                >
+
+                <h6 class="text-muted">ID: <%= item.id %></h6>
+                <h6 class="text-muted">Цена: <%= item.price %>грн.</h6>
+                <h6 class="text-muted">Остаток: <%= item.stock %></h6>
+
+                <button type="button" class="btn btn-success btn-sm">
+                  В Корзину
+                </button>
+              </div>
+            </div>
+          </div>
+          <% }); %>
+
+          <!-- ------------------- -->
+
+          <%= transData.shopItemsArr[2].name %> <br />
+
+          <br />
+          <img
+            src="<%= 'import_foto/' + (transData.shopItemsArr[2].picture).slice(13) %>"
+            width="250px"
+          />
+
+          <!-- /MAIN CONTENT HERE: -->
+        </div>
+      </div>
+    </div>
+    <!-- /CONTAINER: -->
+
+    <% include ../layout/lay_site_4_bottomscripts.ejs %>
+  </body>
+</html>

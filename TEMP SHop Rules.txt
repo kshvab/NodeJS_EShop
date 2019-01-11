@@ -1,0 +1,11 @@
+id
+vendorCode
+name
+notSingleItem
+manufacturer
+notAvailableForSale
+price
+stock
+baseUnit
+groups
+picture

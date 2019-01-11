@@ -1,9 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const fs = require('fs');
-const xml2js = require('xml2js');
-const request = require('request');
 
 const mongoose = require('mongoose');
 const config = require('./config');
@@ -72,6 +69,8 @@ app.use('/api/auth', routes.auth);
 app.use('/profile', routes.profile);
 app.use('/upload', routes.upload);
 
+app.use('/shop', routes.shop);
+
 app.get('/login', function(req, res) {
   let _id;
   let login;
@@ -90,107 +89,21 @@ app.get('/login', function(req, res) {
   });
 });
 
-//======================================================================
-//створюю JSON з категорії 76
-{
-  /*
-  //Отримумо текст
-  var data = fs.readFileSync('./import/import.xml', { encoding: 'UTF-8' });
-  //console.dir(data);
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
+});
 
-  var parseString = xml2js.parseString;
-  parseString(data, function(err, result) {
-    //console.dir(result);
-    let categoriesArr = result.yml_catalog.shop[0].categories[0].category;
-    let offersArr = result.yml_catalog.shop[0].offers[0].offer;
-    //console.dir(categoriesArr[0]);
-    //console.dir(offersArr[0]);
-    console.log(offersArr.length);
-    let myBd76 = [];
-    console.dir(offersArr[0].categoryId[0]);
-    for (let i = 0; i < offersArr.length; i++) {
-      if (offersArr[i].categoryId[0] == '76') {
-        myBd76.push({
-          categoryId: offersArr[i].categoryId[0],
-          url: offersArr[i].picture[0],
-          price: offersArr[i].price[0],
-          picture: offersArr[i].picture[0],
-          //vendor: offersArr[i].vendor[0],
-          model: offersArr[i].model[0],
-          name: offersArr[i].name[0],
-          id: offersArr[i]['$'].id
-        });
-
-        //console.log(offersArr[i].name[0]);
-      }
-    }
-    let textObj = JSON.stringify(myBd76);
-    fs.writeFile('./import/myBd76.txt', textObj, function(err) {
-      if (err) throw err;
-      console.log('Saved!');
-    });
-  });
-  */
-}
-
-{
-  /*
-app.get('/shop', function(req, res) {
-  let string = fs.readFileSync('./import/myBd76.txt', { encoding: 'UTF-8' });
-
-  //console.log(string);
-  let arr = JSON.parse(string);
-  ///console.dir(arr);
-  let _id;
-  let login;
-  if (req.session.userId && req.session.userLogin) {
-    _id = req.session.userId;
-    login = req.session.userLogin;
-  } else {
-    console.log('юзер незалогинен!');
-    _id = 0;
-    login = 0;
-  }
-  res.render('shop', {
-    transData: {
-      user: { _id, login }
-    },
-    arr
+// error handler
+// eslint-disable-next-line no-unused-vars
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.render('error', {
+    message: error.message,
+    error: !config.IS_PRODUCTION ? error : {}
   });
 });
 
-let string = fs.readFileSync('./import/myBd76.txt', { encoding: 'UTF-8' });
-
-//console.log(string);
-let arr2 = JSON.parse(string);
-//console.dir(arr2);
-
-for (let i = 0; i < arr2.length; i++) {
-  let adr = '/shop/' + arr2[i].id;
-  app.get(adr, function(req, res) {
-    res.render('item', { item: arr2[i] });
-  });
-}
-
-
-
-*/
-
-  // catch 404 and forward to error handler
-  app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-  });
-
-  // error handler
-  // eslint-disable-next-line no-unused-vars
-  app.use((error, req, res, next) => {
-    res.status(error.status || 500);
-    res.render('error', {
-      message: error.message,
-      error: !config.IS_PRODUCTION ? error : {}
-    });
-  });
-}
 module.exports = app;
