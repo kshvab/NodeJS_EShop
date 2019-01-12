@@ -18,16 +18,17 @@
           <!-- MAIN CONTENT HERE: -->
 
           <br />
-          <H1>Каталог товаров</H1>
 
-          <% transData.shopItemsArr.forEach(function(item){ %>
+          <H2><%= transData.shownCat.catName %></H2>
+
+          <% transData.shownCatItems.forEach(function(item){ %>
           <div class="card-body">
             <div class="row">
               <div class="col-lg-5">
                 <div class="border-primary">
                   <img
                     style="width: 100%; display: block;"
-                    src="<%= 'import_foto/' + (item.picture).slice(13) %>"
+                    src="<%= '/import_foto/' + (item.picture).slice(13) %>"
                     alt="Card image"
                   />
                 </div>
@@ -48,16 +49,6 @@
             </div>
           </div>
           <% }); %>
-
-          <!-- ------------------- -->
-
-          <%= transData.shopItemsArr[2].name %> <br />
-
-          <br />
-          <img
-            src="<%= 'import_foto/' + (transData.shopItemsArr[2].picture).slice(13) %>"
-            width="250px"
-          />
 
           <!-- /MAIN CONTENT HERE: -->
         </div>

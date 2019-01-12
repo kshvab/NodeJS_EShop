@@ -3,11 +3,106 @@ const router = express.Router();
 var fs = require('fs');
 const xml2js = require('xml2js');
 var parseString = xml2js.parseString;
+const transliterationModule = require('transliteration');
+const slugify = transliterationModule.slugify;
 
-const request = require('request');
+//runShop();
 
-//console.log('888888888888888888888888888888');
-runShop();
+router.get(
+  '(?:/:pathPart0)(?:/:pathPart1)?(?:/:pathPart2)?(?:/:pathPart3)?(?:/:pathPart4)?(?:/:pathPart5)?(?:/:pathPart6)?',
+  function(req, res) {
+    let _id;
+    let login;
+    if (req.session.userId && req.session.userLogin) {
+      _id = req.session.userId;
+      login = req.session.userLogin;
+    } else {
+      _id = 0;
+      login = 0;
+    }
+
+    var shopItemsArrStr = fs.readFileSync(
+      './public/import_foto/shopItemsArrFile.txt',
+      {
+        encoding: 'UTF-8'
+      }
+    );
+    var shopItemsArr = JSON.parse(shopItemsArrStr);
+
+    var shopCategoriesArrStr = fs.readFileSync(
+      './public/import_foto/shopCategoriesArrFile.txt',
+      {
+        encoding: 'UTF-8'
+      }
+    );
+    var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
+
+    //console.log('req.params ' + JSON.stringify(req.params));
+    //console.log(req.params);
+    //console.dir(req.url);
+
+    let urlArr = Object.values(req.params); //to array
+    urlArr = urlArr.filter(function(x) {
+      //delete undefined elements
+      return x !== undefined && x !== null;
+    });
+
+    let viewsView;
+
+    var isItInCatArr = shopCategoriesArr.filter(function(cat) {
+      return cat.catAlias == urlArr[urlArr.length - 1];
+    });
+
+    var isItInItemArr = shopItemsArr.filter(function(item) {
+      return item.vendorCode == urlArr[urlArr.length - 1];
+    });
+
+    if (isItInCatArr[0]) {
+      viewsView = 'shop/shop_categorie';
+      showCategorie(isItInCatArr[0]);
+    } else if (isItInItemArr[0]) {
+      viewsView = 'shop/shop_item';
+      showItem(isItInItemArr[0]);
+    } else {
+      res.render('error', {
+        transData: {
+          user: { _id, login }
+        },
+        message: 'Такой страницы не существует!',
+        error: { code: 404 }
+      });
+    }
+
+    function showCategorie(shownCat) {
+      let shownCatItems = shopItemsArr.filter(function(item) {
+        return item.groups == shownCat.catId;
+      });
+
+      res.render(viewsView, {
+        transData: {
+          shopItemsArr,
+          shopCategoriesArr,
+          user: { _id, login },
+          shownCat,
+          shownCatItems
+        }
+      });
+      //console.log(shownCat);
+    }
+
+    function showItem(shownItem) {
+      res.render(viewsView, {
+        transData: {
+          shopItemsArr,
+          shopCategoriesArr,
+          user: { _id, login },
+          shownItem
+        }
+      });
+      //console.log(shownItem);
+    }
+  }
+);
 
 router.get('/', function(req, res) {
   let _id;
@@ -123,12 +218,15 @@ function runShop() {
 
     function recursPush(a, catFatherName = 0, catFatherId = 0) {
       for (let i = 0; i < a.length; i++) {
+        let catHasChildren = a[i].hasOwnProperty('Группы');
         mass.push({
           catId: a[i]['Ид'][0],
           catName: a[i]['Наименование'][0],
           catSort: a[i]['Сортировка'][0],
           catFatherName,
-          catFatherId
+          catFatherId,
+          catHasChildren,
+          catAlias: slugify(a[i]['Наименование'][0])
         });
 
         if (a[i].hasOwnProperty('Группы')) {

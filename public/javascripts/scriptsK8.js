@@ -618,32 +618,34 @@ $(function() {
   });
   
 
-//Upload new image for old publication (EDIT IMAGE in PUBL)
-$('#admineditpublpicture').on('submit', function(e) {
-  e.preventDefault();
-  var formData = new FormData(this);
-    $.ajax({
-    type: 'POST',
-    url: '/upload/editimage',
-    data: formData,
-    processData: false, //no dirty data to send
-    contentType: false, //no validation
-    success: function(result){
-      console.log(result);
-      if (!result.ok) {
-        $('#div_alert_edit-publication-image').html(
-          '<p class="text-danger">' + result.error + '</p>');
-      } else {
-        $(location).attr('href', '/administrator/publications/edit/' + result.publAlias);
+  //Upload new image for old publication (EDIT IMAGE in PUBL)
+  $('#admineditpublpicture').on('submit', function(e) {
+    e.preventDefault();
+    var formData = new FormData(this);
+      $.ajax({
+      type: 'POST',
+      url: '/upload/editimage',
+      data: formData,
+      processData: false, //no dirty data to send
+      contentType: false, //no validation
+      success: function(result){
+        console.log(result);
+        if (!result.ok) {
+          $('#div_alert_edit-publication-image').html(
+            '<p class="text-danger">' + result.error + '</p>');
+        } else {
+          $(location).attr('href', '/administrator/publications/edit/' + result.publAlias);
+        }
+      },
+      error: function(error){
+        console.log(error);
+        $(location).attr('href', '/administrator/error');
       }
-    },
-    error: function(error){
-      console.log(error);
-      $(location).attr('href', '/administrator/error');
-    }
+    });
+
   });
 
-});
+  $('.carousel').carousel();
 
 
 });
