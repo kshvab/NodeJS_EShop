@@ -58,9 +58,15 @@
                     <h5>Цена:
                       <%= transData.shownItem.price %> грн</h5>
                     <br>
-                    <button type="button" class="btn btn-success">
-                      В Корзину
-                    </button>
+                    <button 
+                  name="add-item-to-shopcart-button" 
+                  type="button" 
+                  class="btn btn-success btn-sm"
+                  id = "<%= transData.shownItem.vendorCode %>"
+                  value = '2'
+                  >
+                  В Корзину
+                </button>
                   </div>
                 </div>
               </div>

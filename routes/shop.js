@@ -13,6 +13,15 @@ router.get(
   function(req, res) {
     let _id;
     let login;
+    let shopCart = req.session.shopCart;
+
+    /*
+    req.session.destroy(() => {
+      res.redirect('/');
+    });
+    */
+
+    console.dir(req.session);
     if (req.session.userId && req.session.userLogin) {
       _id = req.session.userId;
       login = req.session.userLogin;
@@ -20,7 +29,7 @@ router.get(
       _id = 0;
       login = 0;
     }
-      //READ FILES
+    //READ FILES
     var shopItemsArrStr = fs.readFileSync(
       './public/import_foto/shopItemsArrFile.txt',
       {
@@ -37,13 +46,12 @@ router.get(
     );
     var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
 
-      //URL PARSING
+    //URL PARSING
     let urlArr = Object.values(req.params); //to array
     urlArr = urlArr.filter(function(x) {
       //delete undefined elements
       return x !== undefined && x !== null;
     });
-
 
     let viewsView;
     //The last element in URL is cat or item?
@@ -71,10 +79,8 @@ router.get(
       });
     }
 
-
     //  if it is Cat :
     function showCategorie(shownCat) {
-
       let shownCatItems = shopItemsArr.filter(function(item) {
         return item.groups == shownCat.catId;
       });
@@ -123,7 +129,6 @@ router.get(
           fullUrl = breadcrumbArr[i].url;
         }
       }
-      
 
       res.render(viewsView, {
         transData: {
@@ -132,17 +137,15 @@ router.get(
           user: { _id, login },
           shownCat,
           shownCatItems,
-          breadcrumbArr
+          breadcrumbArr,
+          shopCart
         }
       });
       //console.log(shownCat);
     }
 
-
-
-        //  if it is Item :
+    //  if it is Item :
     function showItem(shownItem) {
-
       var breadcrumbArr = [];
 
       fullBreadcrumbArr();
@@ -200,7 +203,8 @@ router.get(
           shopCategoriesArr,
           user: { _id, login },
           shownItem,
-          breadcrumbArr
+          breadcrumbArr,
+          shopCart
         }
       });
       //console.log(shownItem);

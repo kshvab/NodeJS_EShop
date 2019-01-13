@@ -51,10 +51,14 @@
       </ul>
 
       <button type="button" class="btn btn-success">
-        <span class="fas fa-shopping-cart avesomePaddingRight"></span
-        >Корзина<span class="badge badge-pill badge-shop-k8 badge-warning"
-          >1</span
-        >
+        <span class="fas fa-shopping-cart avesomePaddingRight"></span>Корзина
+
+        <span class="badge badge-pill badge-shop-k8 badge-warning">
+          <div id="topshopbuttonitemsquantity">
+            <% if ((typeof(transData) != 'undefined') && transData.shopCart) {
+            %> <%= transData.shopCart.length %> <% } else { %> 0 <% } %>
+          </div>
+        </span>
       </button>
     </div>
   </div>

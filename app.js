@@ -70,6 +70,7 @@ app.use('/profile', routes.profile);
 app.use('/upload', routes.upload);
 
 app.use('/shop', routes.shop);
+app.use('/shopcart', routes.shopcart);
 
 app.get('/login', function(req, res) {
   let _id;

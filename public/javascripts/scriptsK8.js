@@ -648,6 +648,45 @@ $(function() {
   $('.carousel').carousel();
 
 
+
+  
+  $("[name='add-item-to-shopcart-button']").on('click', function(e) {
+    e.preventDefault();
+    console.log(this);
+    var itemVendorCode = this.id;
+    var quantity = this.value;
+    var data={
+      itemVendorCode,
+      quantity
+    };
+    console.log(data);
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/shopcart/additem'
+    }).done(function(data) {
+      console.log('serer answer:' + data.shopCart[0].name);
+
+      $('#topshopbuttonitemsquantity').text(data.shopCart.length);
+
+      //console.log(data.shopCart[0].length);
+      /*
+      modal.find('.modal-title').text('Вы добавили товар в корзину: ' + itemVendorCode);
+      modal.find('#newItemName').text(data.shopCart[0].name);
+      modal.find('#newItemPrice').text(data.shopCart[0].price);
+      modal.find('#newItemQuantity').text(data.shopCart[0].quantity);
+      modal.find('#newItemSumm').text(data.shopCart[0].price*data.shopCart[0].quantity);
+      */
+
+
+
+
+    });
+  })
+
+
+
 });
 
 

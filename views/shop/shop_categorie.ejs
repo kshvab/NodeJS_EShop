@@ -50,7 +50,13 @@
                 <h6 class="text-muted">Цена: <%= item.price %>грн.</h6>
                 <h6 class="text-muted">Остаток: <%= item.stock %></h6>
 
-                <button type="button" class="btn btn-success btn-sm">
+                <button 
+                  name="add-item-to-shopcart-button" 
+                  type="button" 
+                  class="btn btn-success btn-sm"
+                  id = "<%= item.vendorCode %>"
+                  value = '2'
+                  >
                   В Корзину
                 </button>
               </div>

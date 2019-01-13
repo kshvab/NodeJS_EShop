@@ -1,11 +1,12 @@
-const auth = require('./auth');
-const profile = require('./profile');
-const mainpage = require('./mainpage');
 const administrator = require('./administrator');
-const adminusers = require('./adminusers');
 const adminpublications = require('./adminpublications');
-const upload = require('./upload');
+const adminusers = require('./adminusers');
+const auth = require('./auth');
+const mainpage = require('./mainpage');
+const profile = require('./profile');
 const shop = require('./shop');
+const shopcart = require('./shopcart');
+const upload = require('./upload');
 
 module.exports = {
   administrator,
@@ -15,5 +16,6 @@ module.exports = {
   mainpage,
   profile,
   shop,
+  shopcart,
   upload
 };
