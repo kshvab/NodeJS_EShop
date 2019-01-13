@@ -1077,3 +1077,15 @@ div.telefon-topk8:hover {
 .btn-shop-categories-nav {
   text-align: left !important;
 }
+
+.breadcrumb-K8-adapted {
+  background-color: #FFF !important;
+  padding: 0.3rem 0rem !important;
+  font-size: small !important;
+  margin-top: 8px !important;
+}
+
+
+.modal-dialog-K8-adapted {
+  max-width: 960px !important;
+}

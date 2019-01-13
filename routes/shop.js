@@ -20,7 +20,7 @@ router.get(
       _id = 0;
       login = 0;
     }
-
+      //READ FILES
     var shopItemsArrStr = fs.readFileSync(
       './public/import_foto/shopItemsArrFile.txt',
       {
@@ -37,18 +37,16 @@ router.get(
     );
     var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
 
-    //console.log('req.params ' + JSON.stringify(req.params));
-    //console.log(req.params);
-    //console.dir(req.url);
-
+      //URL PARSING
     let urlArr = Object.values(req.params); //to array
     urlArr = urlArr.filter(function(x) {
       //delete undefined elements
       return x !== undefined && x !== null;
     });
 
-    let viewsView;
 
+    let viewsView;
+    //The last element in URL is cat or item?
     var isItInCatArr = shopCategoriesArr.filter(function(cat) {
       return cat.catAlias == urlArr[urlArr.length - 1];
     });
@@ -73,10 +71,59 @@ router.get(
       });
     }
 
+
+    //  if it is Cat :
     function showCategorie(shownCat) {
+
       let shownCatItems = shopItemsArr.filter(function(item) {
         return item.groups == shownCat.catId;
       });
+
+      var breadcrumbArr = [];
+
+      fullBreadcrumbArr();
+      // let us make a Breadcrumb arr
+      function fullBreadcrumbArr() {
+        let active = true;
+        recursBreadcrumbArrPush(shownCat.catId);
+
+        function recursBreadcrumbArrPush(currentCatId) {
+          let currentCat = shopCategoriesArr.filter(function(cat) {
+            return cat.catId == currentCatId;
+          });
+          let breadcrumbPart = {
+            name: currentCat[0].catName,
+            url: '/' + currentCat[0].catAlias,
+            active
+          };
+          active = false;
+          breadcrumbArr.push(breadcrumbPart);
+          if (currentCat[0].catFatherId)
+            recursBreadcrumbArrPush(currentCat[0].catFatherId);
+        }
+
+        var breadcrumbShop = {
+          name: 'Каталог',
+          url: 'shop',
+          active: false
+        };
+        breadcrumbArr.push(breadcrumbShop);
+        var breadcrumbMainPage = {
+          name: 'Главная',
+          url: '/',
+          active: false
+        };
+        breadcrumbArr.push(breadcrumbMainPage);
+        breadcrumbArr.reverse();
+
+        //urls in arr are not full yet, so:
+        let fullUrl = '';
+        for (let i = 0; i < breadcrumbArr.length; i++) {
+          breadcrumbArr[i].url = fullUrl + breadcrumbArr[i].url;
+          fullUrl = breadcrumbArr[i].url;
+        }
+      }
+      
 
       res.render(viewsView, {
         transData: {
@@ -84,19 +131,76 @@ router.get(
           shopCategoriesArr,
           user: { _id, login },
           shownCat,
-          shownCatItems
+          shownCatItems,
+          breadcrumbArr
         }
       });
       //console.log(shownCat);
     }
 
+
+
+        //  if it is Item :
     function showItem(shownItem) {
+
+      var breadcrumbArr = [];
+
+      fullBreadcrumbArr();
+      // let us make a Breadcrumb arr
+      function fullBreadcrumbArr() {
+        var breadcrumbEnd = {
+          name: shownItem.name,
+          url: '/' + shownItem.vendorCode,
+          active: true
+        };
+        breadcrumbArr.push(breadcrumbEnd);
+
+        recursBreadcrumbArrPush(shownItem.groups);
+
+        function recursBreadcrumbArrPush(currentCatId) {
+          let currentCat = shopCategoriesArr.filter(function(cat) {
+            return cat.catId == currentCatId;
+          });
+          let breadcrumbPart = {
+            name: currentCat[0].catName,
+            url: '/' + currentCat[0].catAlias,
+            active: false
+          };
+          breadcrumbArr.push(breadcrumbPart);
+          if (currentCat[0].catFatherId)
+            recursBreadcrumbArrPush(currentCat[0].catFatherId);
+        }
+
+        var breadcrumbShop = {
+          name: 'Каталог',
+          url: 'shop',
+          active: false
+        };
+        breadcrumbArr.push(breadcrumbShop);
+        var breadcrumbMainPage = {
+          name: 'Главная',
+          url: '/',
+          active: false
+        };
+        breadcrumbArr.push(breadcrumbMainPage);
+        breadcrumbArr.reverse();
+
+        //urls in arr are not full yet, so:
+        let fullUrl = '';
+        for (let i = 0; i < breadcrumbArr.length; i++) {
+          breadcrumbArr[i].url = fullUrl + breadcrumbArr[i].url;
+          fullUrl = breadcrumbArr[i].url;
+        }
+      }
+      //console.log(breadcrumbArr);
+
       res.render(viewsView, {
         transData: {
           shopItemsArr,
           shopCategoriesArr,
           user: { _id, login },
-          shownItem
+          shownItem,
+          breadcrumbArr
         }
       });
       //console.log(shownItem);

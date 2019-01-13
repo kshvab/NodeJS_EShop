@@ -16,9 +16,17 @@
 
         <div class="col-lg-9">
           <!-- MAIN CONTENT HERE: -->
-
-          <br />
-
+          <!-- breadcrumb: -->
+          <ol class="breadcrumb breadcrumb-K8-adapted">             
+              <% for (var i = 0; i<transData.breadcrumbArr.length; i++) { %>
+                  <% if(transData.breadcrumbArr[i].active) { %> 
+                    <li class="breadcrumb-item active"><%= transData.breadcrumbArr[i].name %></li>
+                  <%} else {%>  
+                    <li class="breadcrumb-item"><a href="<%= transData.breadcrumbArr[i].url %>"><%= transData.breadcrumbArr[i].name %></a></li>           
+                  <% } %>
+              <% } %>             
+          </ol>
+          <!-- /breadcrumb: -->
           <H2><%= transData.shownCat.catName %></H2>
 
           <% transData.shownCatItems.forEach(function(item){ %>

@@ -8,17 +8,28 @@
 
     <!-- CONTAINER: -->
     <div class="container">
+        
       <div class="row">
         <div class="col-lg-3">
-          <br />
+            <br />
           <% include lay_shop_sidebar.ejs %>
         </div>
 
         <div class="col-lg-9">
           <!-- MAIN CONTENT HERE: -->
 
-          <br />
-
+          <!-- breadcrumb: -->
+          <ol class="breadcrumb breadcrumb-K8-adapted">             
+              <% for (var i = 0; i<transData.breadcrumbArr.length; i++) { %>
+                  <% if(transData.breadcrumbArr[i].active) { %> 
+                    <li class="breadcrumb-item active"><%= transData.breadcrumbArr[i].name %></li>
+                  <%} else {%>  
+                    <li class="breadcrumb-item"><a href="<%= transData.breadcrumbArr[i].url %>"><%= transData.breadcrumbArr[i].name %></a></li>           
+                  <% } %>
+              <% } %>             
+          </ol>
+          <!-- /breadcrumb: -->
+          
           <H2><%= transData.shownItem.name %></H2>
 
           <div class="card-body">
@@ -33,14 +44,21 @@
                     </div>
                   </div>
                   <div class="col-lg-7">
-                    
-        
+                  
+                  
                     <h6 class="text-muted">
-                      Модель: <%= transData.shownItem.model %>, ID: <%= transData.shownItem.id %>
+                      Артикул:
+                      <%= transData.shownItem.vendorCode %>
                     </h6>
-                    <h6 class="text-muted">Цена: <%= transData.shownItem.price %>грн.</h6>
-        
-                    <button type="button" class="btn btn-success btn-sm">
+                    <h6 class="text-muted">
+                      Остаток:
+                      <%= transData.shownItem.stock %>
+                      <%= transData.shownItem.baseUnit %>
+                    </h6><br>
+                    <h5>Цена:
+                      <%= transData.shownItem.price %> грн</h5>
+                    <br>
+                    <button type="button" class="btn btn-success">
                       В Корзину
                     </button>
                   </div>
