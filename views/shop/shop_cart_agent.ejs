@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<% include ../layout/lay_site_1_head.ejs %>
+
+<body>
+  <% include ../layout/lay_site_2_navigation.ejs %>
+
+  <!-- CONTAINER: -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+        <br />
+        <% include lay_shop_sidebar.ejs %>
+      </div>
+
+      <div class="col-lg-9">
+        <!-- MAIN CONTENT HERE: -->
+
+        <br />
+        <H1>Оформление заказа</H1>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-6">
+              <H5>Агент:
+               
+              </H5>
+              <b><%= transData.user.login %></b>
+            </div>
+            <div class="col-lg-6">
+              <div class="form-group">
+                <H5>Клиент:<H5>
+                    <input type="text" class="form-control" placeholder="Клиент" id="inputDefault" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <H4>Корзина:</H4>
+
+        <table class="shopcart-items-table">
+          <% transData.shopCart.forEach(function(itemLine){ %>
+          <tr>
+            <td rowspan="2" class="cart-info-col-td">
+              <div class="cart-i-img">
+                <div id="newItemPicture">
+                  <img class="cart-list-itempicture" src="<%= 'import_foto/' + (itemLine.picture).slice(13) %>" alt="Card image" />
+                </div>
+              </div>
+            </td>
+            <td colspan="3">
+              <div class="cart-i-title">
+                <div id="newItemName">
+                  <%= itemLine.name %>
+                </div>
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td class="cart-i-price">
+              <div class="cart-uah" id="newItemPrice">
+                <%= itemLine.price %> грн
+              </div>
+            </td>
+            <td>
+              <div class="cart-amount">
+                <%= itemLine.quantity %>
+              </div>
+            </td>
+            <td class="cart-sum">
+              <div class="cart-list-newItemSumm" id="newItemSumm">
+                <%= itemLine.quantity*itemLine.price %> грн
+              </div>
+            </td>
+          </tr>
+          <% }); %>
+        </table>
+
+        <!-- /MAIN CONTENT HERE: -->
+      </div>
+    </div>
+  </div>
+  <!-- /CONTAINER: -->
+
+  <% include ../layout/lay_site_4_bottomscripts.ejs %>
+</body>
+
+</html>

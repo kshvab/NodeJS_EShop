@@ -315,13 +315,11 @@ $(function() {
     }
   });
 
-
   // Admin Edit One User from list redirect
   $("[name='admin-users-list-edit-one']").on('click', function(e) {
     e.preventDefault();
     $(location).attr('href', '/administrator/users/edit/' + this.value);
   });
-
 
   // Admin Dell One User from list
   $("[name='admin-users-list-del-one']").on('click', function(e) {
@@ -349,7 +347,6 @@ $(function() {
     } else return;
   });
 
-
   // Admin Edit One User
   $('#administratorUsersEdit-button').on('click', function(e) {
     e.preventDefault();
@@ -358,9 +355,9 @@ $(function() {
       name: $('#register-name').val(),
       email: $('#register-email').val(),
       phonenumber: $('#register-phonenumber').val(),
-      group: $('#admin-edit-user-group').val(),
+      group: $('#admin-edit-user-group').val()
     };
-    console.log("SENT: " + data);
+    console.log('SENT: ' + data);
     $.ajax({
       type: 'POST',
       data: JSON.stringify(data),
@@ -369,7 +366,7 @@ $(function() {
     }).done(function(data) {
       $('div.form-group').removeClass('has-error');
       $('div.form-group').addClass('has-success');
-      console.log("ANSWER: " + data);
+      console.log('ANSWER: ' + data);
 
       if (!data.ok) {
         $('#register-error-msg').html(
@@ -396,7 +393,6 @@ $(function() {
       return false;
     }
   });
-
 
   // User init changes PassWord
   {
@@ -454,41 +450,33 @@ $(function() {
       keywords: $('#new-publication-keywords').val()
     };
 
-    $
-      .ajax({
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        url: '/administrator/publications/add'
-      })
-      .done(function(data) {
-        
-        //дальше перероблять
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/administrator/publications/add'
+    }).done(function(data) {
+      //дальше перероблять
 
+      $('div.form-group').removeClass('has-error');
+      $('div.form-group').addClass('has-success');
+      console.log(data);
 
-
-
-
-        $('div.form-group').removeClass('has-error');
-        $('div.form-group').addClass('has-success');
-        console.log(data);
-
-        if (!data.ok) {
-          $('#register-error-msg').html(
-            '<p class="text-danger">' + data.error + '</p>'
-          );
-          if (data.fields) {
-            data.fields.forEach(function(id) {
-              $('#div_' + id).removeClass('has-success');
-              $('#div_' + id).addClass('has-error');
-            });
-          }
-        } else {
-          //$('#register-error-msg').html('<p class="text-success">Отлично!</p>');
-          $(location).attr('href', '/administrator/users');
+      if (!data.ok) {
+        $('#register-error-msg').html(
+          '<p class="text-danger">' + data.error + '</p>'
+        );
+        if (data.fields) {
+          data.fields.forEach(function(id) {
+            $('#div_' + id).removeClass('has-success');
+            $('#div_' + id).addClass('has-error');
+          });
         }
-      });
-
+      } else {
+        //$('#register-error-msg').html('<p class="text-success">Отлично!</p>');
+        $(location).attr('href', '/administrator/users');
+      }
+    });
   });
 
   $('#new-publication-keywords-tag').keypress(function(e) {
@@ -501,16 +489,10 @@ $(function() {
     }
   });
 
-
-
-  
-
-
   //Upload image and fields for new publications
   $('#adminaddnewpubl').on('submit', function(e) {
     e.preventDefault();
-   
- 
+
     var formData = new FormData(this);
     var newPublFullText = $('#adminaddnewpublfulltext').summernote('code');
     formData.append('newPublicationFullText', newPublFullText);
@@ -520,12 +502,13 @@ $(function() {
       data: formData,
       processData: false, //no dirty data to send
       contentType: false, //no validation
-      success: function(result){
+      success: function(result) {
         console.log(result);
         $('#div_new-publication-alias').removeClass('has-error');
         if (!result.ok) {
           $('#nev-publication-error-msg').html(
-            '<p class="text-danger">' + result.error + '</p>');
+            '<p class="text-danger">' + result.error + '</p>'
+          );
           if (result.alias) {
             $("[name='newPublAlias']").val(result.alias);
             $('#div_new-publication-alias').addClass('has-error');
@@ -533,18 +516,13 @@ $(function() {
         } else {
           $(location).attr('href', '/administrator/publications');
         }
-
       },
-      error: function(error){
+      error: function(error) {
         console.log(error);
         $(location).attr('href', '/administrator/error');
       }
     });
-
   });
-
-
-
 
   // Admin Edit One Publication from list redirect
   $("[name='admin-publications-list-edit-one']").on('click', function(e) {
@@ -552,14 +530,11 @@ $(function() {
     $(location).attr('href', '/administrator/publications/edit/' + this.value);
   });
 
-
   // Admin Dell One Publication from list
   $("[name='admin-publications-list-del-one']").on('click', function(e) {
     e.preventDefault();
     let delPublicationAlias = this.value;
-    let confirmed = confirm(
-      'Вы точно хотите удалить публикацию?'
-    );
+    let confirmed = confirm('Вы точно хотите удалить публикацию?');
     if (confirmed) {
       let data = {
         delPublicationAlias
@@ -579,7 +554,6 @@ $(function() {
     } else return;
   });
 
-
   // Admin Edit One Publication
   $('#administratorPublicationEdit-button').on('click', function(e) {
     var markupStr = $('#admineditPublfulltext').summernote('code');
@@ -593,15 +567,14 @@ $(function() {
       description: $('#edit-publication-description').val(),
       keywords: $('#edit-publication-keywords').val()
     };
-    console.log("SENT: " + data);
+    console.log('SENT: ' + data);
     $.ajax({
       type: 'POST',
       data: JSON.stringify(data),
       contentType: 'application/json',
       url: '/administrator/publications/editone'
     }).done(function(data) {
-
-      console.log("ANSWER: " + data);
+      console.log('ANSWER: ' + data);
 
       if (!data.ok) {
         $('#edit-publication-error-msg').html(
@@ -612,44 +585,41 @@ $(function() {
         $(location).attr('href', '/administrator/publications');
       }
     });
-
-    
-
   });
-  
 
   //Upload new image for old publication (EDIT IMAGE in PUBL)
   $('#admineditpublpicture').on('submit', function(e) {
     e.preventDefault();
     var formData = new FormData(this);
-      $.ajax({
+    $.ajax({
       type: 'POST',
       url: '/upload/editimage',
       data: formData,
       processData: false, //no dirty data to send
       contentType: false, //no validation
-      success: function(result){
+      success: function(result) {
         console.log(result);
         if (!result.ok) {
           $('#div_alert_edit-publication-image').html(
-            '<p class="text-danger">' + result.error + '</p>');
+            '<p class="text-danger">' + result.error + '</p>'
+          );
         } else {
-          $(location).attr('href', '/administrator/publications/edit/' + result.publAlias);
+          $(location).attr(
+            'href',
+            '/administrator/publications/edit/' + result.publAlias
+          );
         }
       },
-      error: function(error){
+      error: function(error) {
         console.log(error);
         $(location).attr('href', '/administrator/error');
       }
     });
-
   });
 
   $('.carousel').carousel();
 
-
-
-  
+  /*
   $("[name='add-item-to-shopcart-button']").on('click', function(e) {
     e.preventDefault();
     console.log(this);
@@ -671,22 +641,232 @@ $(function() {
       $('#topshopbuttonitemsquantity').text(data.shopCart.length);
 
       //console.log(data.shopCart[0].length);
-      /*
-      modal.find('.modal-title').text('Вы добавили товар в корзину: ' + itemVendorCode);
-      modal.find('#newItemName').text(data.shopCart[0].name);
-      modal.find('#newItemPrice').text(data.shopCart[0].price);
-      modal.find('#newItemQuantity').text(data.shopCart[0].quantity);
-      modal.find('#newItemSumm').text(data.shopCart[0].price*data.shopCart[0].quantity);
-      */
-
-
-
-
+      
+      //modal.find('.modal-title').text('Вы добавили товар в корзину: ' + itemVendorCode);
+      //modal.find('#newItemName').text(data.shopCart[0].name);
+      //modal.find('#newItemPrice').text(data.shopCart[0].price);
+      //modal.find('#newItemQuantity').text(data.shopCart[0].quantity);
+      //modal.find('#newItemSumm').text(data.shopCart[0].price*data.shopCart[0].quantity);
+      
     });
+
   })
+  */
 
+  $('[name="add-item-to-shopcart-button"]').click(function() {
+    var itemVendorCode = this.id;
+    var quantity = this.value;
 
+    var data = {
+      itemVendorCode,
+      quantity
+    };
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/shopcart/additem'
+    }).done(function(data) {
+      shopCartListUpdate(data.shopCart);
+      $('#addItemToCartModal').modal();
+    });
+  });
 
+  $('[name="shop-cart-new-item-del"]').click(function() {
+    let itemDelId = this.id;
+    shopCartDelOne(itemDelId);
+  });
+
+  $('[name="cart-amount-minus"]').click(function() {
+    let itemId = this.id;
+    shopCartMinus(itemId);
+  });
+
+  $('[name="cart-amount-plus"]').click(function() {
+    let itemId = this.id;
+    shopCartPlus(itemId);
+  });
 });
 
+function shopCartListUpdate(shopCart) {
+  if (!shopCart.length) {
+    $('#addItemToCartModal').modal('hide');
+    return;
+  }
 
+  $('.modal-title').text('Вы добавили товар в корзину:');
+  $("[name='shop-cart-new-item-del']").attr('id', shopCart[0].vendorCode);
+  $("[name='cart-amount-minus']").attr('id', shopCart[0].vendorCode);
+  $("[name='cart-amount-plus']").attr('id', shopCart[0].vendorCode);
+  $('#newItemPicture').html(
+    '<img src="/import_foto/' +
+      shopCart[0].picture.slice(13) +
+      '"class="cart-list-itempicture"/>'
+  );
+  $('#newItemName').text(shopCart[0].name);
+  $('#newItemPrice').text(shopCart[0].price + ' грн');
+  $("[name='newItemQuantity']").val(shopCart[0].quantity);
+
+  $('#newItemSumm').text(
+    (shopCart[0].price * shopCart[0].quantity).toFixed(2) + ' грн'
+  );
+  $('#topshopbuttonitemsquantity').text(shopCart.length);
+
+  var cartTotalSumm = 0;
+
+  for (let i = 0; i < shopCart.length; i++)
+    cartTotalSumm += shopCart[i].price * shopCart[i].quantity;
+  cartTotalSumm = cartTotalSumm.toFixed(2);
+  $('#cart-total').text(cartTotalSumm);
+
+  var htmlInjection = '';
+
+  if (shopCart.length > 1) {
+    htmlInjection +=
+      '<H5>Другие товары в корзине</H5>\
+  <BR /><table class="shopcart-items-table">';
+    for (let i = 1; i < shopCart.length; i++)
+      htmlInjection +=
+        '\
+      <tr>\
+        <td rowspan="2" class="cart-del-button-td">\
+          <a href="#" type="button" onclick="shopCartDelOne(' +
+        shopCart[i].vendorCode +
+        ')" name= "" class="" id="">\
+            <img\
+              src="/images/k8design/shopcartdelbuttons/deleteactive.png"\
+              class="cartdelitem" id="8888"\
+            />\
+          </a>\
+        </td>\
+        <td rowspan="2" class="cart-info-col-td">\
+          <div class="cart-i-img">\
+            <img\
+              src="/import_foto/' +
+        shopCart[i].picture.slice(13) +
+        '"\
+              class="cart-list-itempicture"\
+            />\
+          </div>\
+        </td>\
+        <td colspan="3">\
+          <div class="cart-i-title">' +
+        shopCart[i].name +
+        '</div>\
+        </td>\
+      </tr>\
+      <tr>\
+        <td class="cart-i-price">\
+          <div class="cart-uah" id="newItemPrice">' +
+        shopCart[i].price +
+        ' грн' +
+        '</div>\
+        </td>\
+        <td>\
+          <div class="cart-amount">\
+            <a href="#" class="cart-amount-minus" onclick="shopCartMinus(' +
+        shopCart[i].vendorCode +
+        ')" name="cart-amount-minus">\
+              <img\
+                src="/images/k8design/shopcartvalueinput/minusactive.png"\
+                alt="&amp;up;"\
+                class="cart-amount-minus-icon sprite"\
+              />\
+            </a>\
+            <input\
+              name="quantity"\
+              type="text"\
+              class="input-text cart-amount-input-text"\
+              readonly=""\
+              value="' +
+        shopCart[i].quantity +
+        '"\
+            />\
+            <a href="#" class="cart-amount-plus" onclick="shopCartPlus(' +
+        shopCart[i].vendorCode +
+        ')" name="cart-amount-plus">\
+              <img\
+                src="/images/k8design/shopcartvalueinput/plusactive.png"\
+                alt="&amp;up;"\
+                class="cart-amount-plus-icon sprite"\
+              />\
+            </a>\
+          </div>\
+        </td>\
+        <td class="cart-sum">\
+          <div class="cart-list-newItemSumm" id="newItemSumm">' +
+        (shopCart[i].price * shopCart[i].quantity).toFixed(2) +
+        ' грн' +
+        '</div>\
+        </td>\
+      </tr>\
+    ';
+  }
+  htmlInjection += '</table>';
+  $('.cart-other').html(htmlInjection);
+}
+
+function shopCartDelOne(itemDelId) {
+  var data = {
+    itemDelId
+  };
+  $.ajax({
+    type: 'DELETE',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    url: '/shopcart/deleteitem'
+  }).done(function(data) {
+    shopCartListUpdate(data.shopCart);
+  });
+}
+
+function shopCartMinus(itemId) {
+  console.log('FIRED shopCartMinus ' + itemId);
+  var data = {
+    itemId
+  };
+  $.ajax({
+    type: 'PUT',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    url: '/shopcart/minusone'
+  }).done(function(data) {
+    shopCartListUpdate(data.shopCart);
+  });
+}
+
+function shopCartPlus(itemId) {
+  console.log('FIRED shopCartPlus ' + itemId);
+  var data = {
+    itemId
+  };
+  $.ajax({
+    type: 'PUT',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    url: '/shopcart/plusone'
+  }).done(function(data) {
+    shopCartListUpdate(data.shopCart);
+  });
+}
+
+/*
+function shopCartChangeQuantity(itemId, newQuantity) {
+  console.log('FIRED shopCartChangeQuantity ' + itemId);
+  console.log('newQuantity ' + newQuantity);
+  
+  var data = {
+    itemId,
+    newQuantity
+  };
+  $.ajax({
+    type: 'PUT',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    url: '/shopcart/changequantity'
+  }).done(function(data) {
+    shopCartListUpdate(data.shopCart);
+  });
+  
+}
+*/
