@@ -739,7 +739,7 @@ function shopCartListUpdate(shopCart) {
             />\
           </a>\
         </td>\
-        <td rowspan="2" class="cart-info-col-td">\
+        <td rowspan="2" class="cart-info-col-td" style="width: 150px; height: 100px;">\
           <div class="cart-i-img">\
             <img\
               src="/import_foto/' +
@@ -769,7 +769,6 @@ function shopCartListUpdate(shopCart) {
         ')" name="cart-amount-minus">\
               <img\
                 src="/images/k8design/shopcartvalueinput/minusactive.png"\
-                alt="&amp;up;"\
                 class="cart-amount-minus-icon sprite"\
               />\
             </a>\
@@ -787,7 +786,6 @@ function shopCartListUpdate(shopCart) {
         ')" name="cart-amount-plus">\
               <img\
                 src="/images/k8design/shopcartvalueinput/plusactive.png"\
-                alt="&amp;up;"\
                 class="cart-amount-plus-icon sprite"\
               />\
             </a>\
