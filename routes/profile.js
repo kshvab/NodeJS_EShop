@@ -230,13 +230,13 @@ router.post('/myprofile', (req, res) => {
   }
 });
 
-router.get('/mycart', function(req, res) {
+router.get('/myorders', function(req, res) {
   if (req.session.userId && req.session.userLogin) {
     const id = req.session.userId;
     const login = req.session.userLogin;
-    const path = '/mycart';
+    const path = '/myorders';
 
-    res.render('profile/mycart', {
+    res.render('profile/myorders', {
       transData: {
         pageTitle: 'Моя корзина',
         user: { id, login },

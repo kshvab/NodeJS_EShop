@@ -619,43 +619,23 @@ $(function() {
 
   $('.carousel').carousel();
 
-  /*
-  $("[name='add-item-to-shopcart-button']").on('click', function(e) {
-    e.preventDefault();
-    console.log(this);
-    var itemVendorCode = this.id;
-    var quantity = this.value;
-    var data={
-      itemVendorCode,
-      quantity
-    };
-    console.log(data);
-    $.ajax({
-      type: 'POST',
-      data: JSON.stringify(data),
-      contentType: 'application/json',
-      url: '/shopcart/additem'
-    }).done(function(data) {
-      console.log('serer answer:' + data.shopCart[0].name);
+  //  SHOP - Items list
 
-      $('#topshopbuttonitemsquantity').text(data.shopCart.length);
+  $('[name="cart-amount-minus"]').click(function() {
+    let itemId = this.id;
+    let oldVal = $('input[name=' + itemId + ']').val();
+    if (oldVal > 1) $('input[name=' + itemId + ']').val(oldVal - 1);
+  });
 
-      //console.log(data.shopCart[0].length);
-      
-      //modal.find('.modal-title').text('Вы добавили товар в корзину: ' + itemVendorCode);
-      //modal.find('#newItemName').text(data.shopCart[0].name);
-      //modal.find('#newItemPrice').text(data.shopCart[0].price);
-      //modal.find('#newItemQuantity').text(data.shopCart[0].quantity);
-      //modal.find('#newItemSumm').text(data.shopCart[0].price*data.shopCart[0].quantity);
-      
-    });
-
-  })
-  */
+  $('[name="cart-amount-plus"]').click(function() {
+    let itemId = this.id;
+    let oldVal = $('input[name=' + itemId + ']').val();
+    $('input[name=' + itemId + ']').val(Number(oldVal) + 1);
+  });
 
   $('[name="add-item-to-shopcart-button"]').click(function() {
     var itemVendorCode = this.id;
-    var quantity = this.value;
+    var quantity = $('input[name=' + itemVendorCode + ']').val();
 
     var data = {
       itemVendorCode,
@@ -667,156 +647,63 @@ $(function() {
       contentType: 'application/json',
       url: '/shopcart/additem'
     }).done(function(data) {
-      shopCartListUpdate(data.shopCart);
+      $("[name='shop-cart-new-item-del']").attr(
+        'id',
+        data.shopCart[0].vendorCode
+      );
+
+      $('#newItemPicture').html(
+        '<img src="/import_foto/' +
+          data.shopCart[0].picture.slice(13) +
+          '"class="cart-list-itempicture"/>'
+      );
+      $('#newItemName').text(data.shopCart[0].name);
+      $('#newItemPrice').text(data.shopCart[0].price + ' грн');
+      $('#topshopbuttonitemsquantity').text(data.shopCart.length);
+
+      var cartTotalSumm = 0;
+
+      for (let i = 0; i < data.shopCart.length; i++)
+        cartTotalSumm += data.shopCart[i].price * data.shopCart[i].quantity;
+      cartTotalSumm = cartTotalSumm.toFixed(2);
+      $('#cart-total').text(cartTotalSumm);
+
+      function fStrQuantityEnd(n) {
+        if (((n = Math.abs(n) % 100) > 4 && n < 21) || (n %= 10) > 4 || n === 0)
+          return n + ' товаров';
+        if (n > 1) return n + ' товара';
+        return n + ' товар';
+      }
+      if (data.shopCart.length > 1) {
+        $('.cart-all-items-quantity-insert').html(
+          '<span class="fas fa-shopping-cart avesomePaddingRight"></span> В\
+        корзине еще ' +
+            fStrQuantityEnd(data.shopCart.length - 1)
+        );
+      }
       $('#addItemToCartModal').modal();
     });
   });
 
   $('[name="shop-cart-new-item-del"]').click(function() {
     let itemDelId = this.id;
-    shopCartDelOne(itemDelId);
-  });
-
-  $('[name="cart-amount-minus"]').click(function() {
-    let itemId = this.id;
-    shopCartMinus(itemId);
-  });
-
-  $('[name="cart-amount-plus"]').click(function() {
-    let itemId = this.id;
-    shopCartPlus(itemId);
+    var data = {
+      itemDelId
+    };
+    $.ajax({
+      type: 'DELETE',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/shopcart/deleteitem'
+    }).done(function(data) {
+      $('#topshopbuttonitemsquantity').text(data.shopCart.length);
+      $('#addItemToCartModal').modal('hide');
+    });
   });
 });
 
-function shopCartListUpdate(shopCart) {
-  if (!shopCart.length) {
-    $('#addItemToCartModal').modal('hide');
-    return;
-  }
+/*
 
-  $('.modal-title').text('Вы добавили товар в корзину:');
-  $("[name='shop-cart-new-item-del']").attr('id', shopCart[0].vendorCode);
-  $("[name='cart-amount-minus']").attr('id', shopCart[0].vendorCode);
-  $("[name='cart-amount-plus']").attr('id', shopCart[0].vendorCode);
-  $('#newItemPicture').html(
-    '<img src="/import_foto/' +
-      shopCart[0].picture.slice(13) +
-      '"class="cart-list-itempicture"/>'
-  );
-  $('#newItemName').text(shopCart[0].name);
-  $('#newItemPrice').text(shopCart[0].price + ' грн');
-  $("[name='newItemQuantity']").val(shopCart[0].quantity);
-
-  $('#newItemSumm').text(
-    (shopCart[0].price * shopCart[0].quantity).toFixed(2) + ' грн'
-  );
-  $('#topshopbuttonitemsquantity').text(shopCart.length);
-
-  var cartTotalSumm = 0;
-
-  for (let i = 0; i < shopCart.length; i++)
-    cartTotalSumm += shopCart[i].price * shopCart[i].quantity;
-  cartTotalSumm = cartTotalSumm.toFixed(2);
-  $('#cart-total').text(cartTotalSumm);
-
-  var htmlInjection = '';
-
-  if (shopCart.length > 1) {
-    htmlInjection +=
-      '<H5>Другие товары в корзине</H5>\
-  <BR /><table class="shopcart-items-table">';
-    for (let i = 1; i < shopCart.length; i++)
-      htmlInjection +=
-        '\
-      <tr>\
-        <td rowspan="2" class="cart-del-button-td">\
-          <a href="#" type="button" onclick="shopCartDelOne(' +
-        shopCart[i].vendorCode +
-        ')" name= "" class="" id="">\
-            <img\
-              src="/images/k8design/shopcartdelbuttons/deleteactive.png"\
-              class="cartdelitem" id="8888"\
-            />\
-          </a>\
-        </td>\
-        <td rowspan="2" class="cart-info-col-td" style="width: 150px; height: 100px;">\
-          <div class="cart-i-img">\
-            <img\
-              src="/import_foto/' +
-        shopCart[i].picture.slice(13) +
-        '"\
-              class="cart-list-itempicture"\
-            />\
-          </div>\
-        </td>\
-        <td colspan="3">\
-          <div class="cart-i-title">' +
-        shopCart[i].name +
-        '</div>\
-        </td>\
-      </tr>\
-      <tr>\
-        <td class="cart-i-price">\
-          <div class="cart-uah" id="newItemPrice">' +
-        shopCart[i].price +
-        ' грн' +
-        '</div>\
-        </td>\
-        <td>\
-          <div class="cart-amount">\
-            <a href="#" class="cart-amount-minus" onclick="shopCartMinus(' +
-        shopCart[i].vendorCode +
-        ')" name="cart-amount-minus">\
-              <img\
-                src="/images/k8design/shopcartvalueinput/minusactive.png"\
-                class="cart-amount-minus-icon sprite"\
-              />\
-            </a>\
-            <input\
-              name="quantity"\
-              type="text"\
-              class="input-text cart-amount-input-text"\
-              readonly=""\
-              value="' +
-        shopCart[i].quantity +
-        '"\
-            />\
-            <a href="#" class="cart-amount-plus" onclick="shopCartPlus(' +
-        shopCart[i].vendorCode +
-        ')" name="cart-amount-plus">\
-              <img\
-                src="/images/k8design/shopcartvalueinput/plusactive.png"\
-                class="cart-amount-plus-icon sprite"\
-              />\
-            </a>\
-          </div>\
-        </td>\
-        <td class="cart-sum">\
-          <div class="cart-list-newItemSumm" id="newItemSumm">' +
-        (shopCart[i].price * shopCart[i].quantity).toFixed(2) +
-        ' грн' +
-        '</div>\
-        </td>\
-      </tr>\
-    ';
-  }
-  htmlInjection += '</table>';
-  $('.cart-other').html(htmlInjection);
-}
-
-function shopCartDelOne(itemDelId) {
-  var data = {
-    itemDelId
-  };
-  $.ajax({
-    type: 'DELETE',
-    data: JSON.stringify(data),
-    contentType: 'application/json',
-    url: '/shopcart/deleteitem'
-  }).done(function(data) {
-    shopCartListUpdate(data.shopCart);
-  });
-}
 
 function shopCartMinus(itemId) {
   console.log('FIRED shopCartMinus ' + itemId);
@@ -848,23 +735,4 @@ function shopCartPlus(itemId) {
   });
 }
 
-/*
-function shopCartChangeQuantity(itemId, newQuantity) {
-  console.log('FIRED shopCartChangeQuantity ' + itemId);
-  console.log('newQuantity ' + newQuantity);
-  
-  var data = {
-    itemId,
-    newQuantity
-  };
-  $.ajax({
-    type: 'PUT',
-    data: JSON.stringify(data),
-    contentType: 'application/json',
-    url: '/shopcart/changequantity'
-  }).done(function(data) {
-    shopCartListUpdate(data.shopCart);
-  });
-  
-}
 */

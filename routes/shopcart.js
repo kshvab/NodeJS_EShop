@@ -117,6 +117,7 @@ router.put('/changequantity', (req, res) => {
 router.get('/', function(req, res) {
   let _id;
   let login;
+  /*
   var shopItemsArrStr = fs.readFileSync(
     './public/import_foto/shopItemsArrFile.txt',
     {
@@ -132,7 +133,7 @@ router.get('/', function(req, res) {
     }
   );
   var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
-
+    */
   if (req.session.userId && req.session.userLogin) {
     _id = req.session.userId;
     login = req.session.userLogin;
@@ -145,10 +146,10 @@ router.get('/', function(req, res) {
         userFromDB.group == 'Agent'
       ) {
         //Тут іде основний блок для рендерінга
-        res.render('shop/shop_cart_agent', {
+        res.render('shop/shop_cart', {
           transData: {
-            shopItemsArr,
-            shopCategoriesArr,
+            //shopItemsArr,
+            //shopCategoriesArr,
             pageTitle: 'Оформление заказа',
             user: { _id, login },
             shopCart

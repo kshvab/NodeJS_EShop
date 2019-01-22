@@ -1,156 +1,189 @@
 <!DOCTYPE html>
 
 <html lang="en">
-  <% include ../layout/lay_site_1_head.ejs %>
+<% include ../layout/lay_site_1_head.ejs %>
 
-  <body>
-    <% include ../layout/lay_site_2_navigation.ejs %>
+<body>
+  <% include ../layout/lay_site_2_navigation.ejs %>
 
-    <!-- CONTAINER: -->
-    <div class="container">
-        
-      <div class="row">
-        <div class="col-lg-3">
-            <br />
-          <% include lay_shop_sidebar.ejs %>
-        </div>
+  <!-- CONTAINER: -->
+  <div class="container">
 
-        <div class="col-lg-9">
-          <!-- MAIN CONTENT HERE: -->
+    <div class="row">
+      <div class="col-lg-3">
+        <br />
+        <% include lay_shop_sidebar.ejs %>
+      </div>
 
-          <!-- breadcrumb: -->
-          <ol class="breadcrumb breadcrumb-K8-adapted">             
-              <% for (var i = 0; i<transData.breadcrumbArr.length; i++) { %>
-                  <% if(transData.breadcrumbArr[i].active) { %> 
-                    <li class="breadcrumb-item active"><%= transData.breadcrumbArr[i].name %></li>
-                  <%} else {%>  
-                    <li class="breadcrumb-item"><a href="<%= transData.breadcrumbArr[i].url %>"><%= transData.breadcrumbArr[i].name %></a></li>           
-                  <% } %>
-              <% } %>             
-          </ol>
-          <!-- /breadcrumb: -->
-          
-          <H2><%= transData.shownItem.name %></H2>
+      <div class="col-lg-9">
+        <!-- MAIN CONTENT HERE: -->
 
-          <div class="card-body">
-                <div class="row">
-                  <div class="col-lg-5">
-                    <div class="border-primary">
-                      <img
-                        style="width: 100%; display: block;"
-                        src="<%= '/import_foto/' + (transData.shownItem.picture).slice(13) %>"
-                        alt="Card image"
-                      />
-                    </div>
-                  </div>
-                  <div class="col-lg-7">
-                  
-                  
-                    <h6 class="text-muted">
-                      Артикул:
-                      <%= transData.shownItem.vendorCode %>
-                    </h6>
-                    <h6 class="text-muted">
-                      Остаток:
-                      <%= transData.shownItem.stock %>
-                      <%= transData.shownItem.baseUnit %>
-                    </h6><br>
-                    <h5>Цена:
-                      <%= transData.shownItem.price %> грн</h5>
-                    <br>
-                    <button 
-                  name="add-item-to-shopcart-button" 
-                  type="button" 
-                  class="btn btn-success btn-sm"
-                  id = "<%= transData.shownItem.vendorCode %>"
-                  value = '1'
-                  >
+        <!-- breadcrumb: -->
+        <ol class="breadcrumb breadcrumb-K8-adapted">
+          <% for (var i = 0; i<transData.breadcrumbArr.length; i++) { %>
+          <% if(transData.breadcrumbArr[i].active) { %>
+          <li class="breadcrumb-item active">
+            <%= transData.breadcrumbArr[i].name %>
+          </li>
+          <%} else {%>
+          <li class="breadcrumb-item"><a href="<%= transData.breadcrumbArr[i].url %>">
+              <%= transData.breadcrumbArr[i].name %></a></li>
+          <% } %>
+          <% } %>
+        </ol>
+        <!-- /breadcrumb: -->
+
+        <H2>
+          <%= transData.shownItem.name %>
+        </H2>
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-6">
+              <div class="border-primary">
+                <img style="width: 100%; display: block;" src="<%= '/import_foto/' + (transData.shownItem.picture).slice(13) %>"
+                  alt="Card image" />
+              </div>
+            </div>
+
+            <div class="col-lg-6">
+
+              <div class="row">
+                <div class="col-lg-6">
+                  <h6 class="text-muted">Артикул:
+                    <%= transData.shownItem.vendorCode %>
+                  </h6>
+                </div>
+                <div class="col-lg-6">
+                  <h6 class="text-muted jq-stock-<%= transData.shownItem.vendorCode %>" value="<%= transData.shownItem.stock %>">
+                    Остаток:
+                    <%= transData.shownItem.stock %>
+                  </h6>
+                </div>
+              </div>
+              <br><br>
+              <div class="cart-uah">
+                <%= transData.shownItem.price %> грн</div>
+             
+              <div class="shopcart-and-wishlist-buttons">
+                <div class="cart-amount btn-group">
+                  <button name="cart-amount-minus" type="button" class="btn btn-secondary btn-sm jq-btn-minus-<%= transData.shownItem.vendorCode %>"
+                    id="<%= transData.shownItem.vendorCode %>">
+                    <span class="fas fa-minus"></span>
+                  </button>
+
+                  <input type="number" min="1" max="<%= transData.shownItem.stock %>" step="1" name="<%= transData.shownItem.vendorCode %>"
+                    id="555" class="cart-amount-input" value="1" />
+
+                  <button name="cart-amount-plus" type="button" class="btn btn-secondary btn-sm jq-btn-plus-<%= transData.shownItem.vendorCode %>"
+                    id="<%= transData.shownItem.vendorCode %>">
+                    <span class="fas fa-plus"></span>
+                  </button>
+                </div>
+
+                <button name="add-item-to-shopcart-button" type="button" class="btn btn-success btn-sm item-add-to-shopcart-button"
+                  id="<%= transData.shownItem.vendorCode %>">
                   В Корзину
                 </button>
-                  </div>
-                </div>
-              </div>
-              <ul class="nav nav-tabs">
-                <li class="nav-item">
-                  <a class="nav-link active" data-toggle="tab" href="#home">Описание</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" data-toggle="tab" href="#profile">Отзывы</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link disabled" href="#">Видео</a>
-                </li>
-                <li class="nav-item dropdown">
-                  <a
-                    class="nav-link dropdown-toggle"
-                    data-toggle="dropdown"
-                    href="#"
-                    role="button"
-                    aria-haspopup="true"
-                    aria-expanded="false"
-                    >Dropdown</a
-                  >
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Separated link</a>
-                  </div>
-                </li>
-              </ul>
-              <div id="myTabContent" class="tab-content">
-                <div class="tab-pane fade show active" id="home">
-                  <p>
-                    Raw denim you probably haven't heard of them jean shorts Austin.
-                    Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache
-                    cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
-                    butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi,
-                    qui irure terry richardson ex squid. Aliquip placeat salvia cillum
-                    iphone. Seitan aliquip quis cardigan american apparel, butcher
-                    voluptate nisi qui.
-                  </p>
-                </div>
-                <div class="tab-pane fade" id="profile">
-                  <p>
-                    Food truck fixie locavore, accusamus mcsweeney's marfa nulla
-                    single-origin coffee squid. Exercitation +1 labore velit, blog
-                    sartorial PBR leggings next level wes anderson artisan four loko
-                    farm-to-table craft beer twee. Qui photo booth letterpress, commodo
-                    enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum
-                    PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus
-                    mollit.
-                  </p>
-                </div>
-                <div class="tab-pane fade" id="dropdown1">
-                  <p>
-                    Etsy mixtape wayfarers, ethical wes anderson tofu before they sold
-                    out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table
-                    readymade. Messenger bag gentrify pitchfork tattooed craft beer,
-                    iphone skateboard locavore carles etsy salvia banksy hoodie
-                    helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit
-                    cred pitchfork.
-                  </p>
-                </div>
-                <div class="tab-pane fade" id="dropdown2">
-                  <p>
-                    Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art
-                    party before they sold out master cleanse gluten-free squid
-                    scenester freegan cosby sweater. Fanny pack portland seitan DIY, art
-                    party locavore wolf cliche high life echo park Austin. Cred vinyl
-                    keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table
-                    VHS viral locavore cosby sweater.
-                  </p>
-                </div>
-              </div>
 
-
-          <!-- /MAIN CONTENT HERE: -->
+                <button name="add-item-to-wishlist-button" type="button" class="btn btn-warning btn-sm item-add-to-wishlist-button"
+                  id="<%= transData.shownItem.vendorCode %>">
+                  <span class="fas fa-heart"></span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
+
+
+
+
+
+        <!-- TABS: -->
+
+        <ul class="nav nav-tabs">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#home">Описание</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#profile">Отзывы</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link disabled" href="#">Видео</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle"
+              data-toggle="dropdown"
+              href="#"
+              role="button"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >Dropdown</a
+            >
+            <div class="dropdown-menu">
+              <a class="dropdown-item" href="#">Action</a>
+              <a class="dropdown-item" href="#">Another action</a>
+              <a class="dropdown-item" href="#">Something else here</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="#">Separated link</a>
+            </div>
+          </li>
+        </ul>
+        <div id="myTabContent" class="tab-content">
+          <div class="tab-pane fade show active" id="home">
+            <p>
+              Raw denim you probably haven't heard of them jean shorts Austin.
+              Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache
+              cliche tempor, williamsburg carles vegan helvetica. Reprehenderit
+              butcher retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi,
+              qui irure terry richardson ex squid. Aliquip placeat salvia cillum
+              iphone. Seitan aliquip quis cardigan american apparel, butcher
+              voluptate nisi qui.
+            </p>
+          </div>
+          <div class="tab-pane fade" id="profile">
+            <p>
+              Food truck fixie locavore, accusamus mcsweeney's marfa nulla
+              single-origin coffee squid. Exercitation +1 labore velit, blog
+              sartorial PBR leggings next level wes anderson artisan four loko
+              farm-to-table craft beer twee. Qui photo booth letterpress, commodo
+              enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum
+              PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus
+              mollit.
+            </p>
+          </div>
+          <div class="tab-pane fade" id="dropdown1">
+            <p>
+              Etsy mixtape wayfarers, ethical wes anderson tofu before they sold
+              out mcsweeney's organic lomo retro fanny pack lo-fi farm-to-table
+              readymade. Messenger bag gentrify pitchfork tattooed craft beer,
+              iphone skateboard locavore carles etsy salvia banksy hoodie
+              helvetica. DIY synth PBR banksy irony. Leggings gentrify squid 8-bit
+              cred pitchfork.
+            </p>
+          </div>
+          <div class="tab-pane fade" id="dropdown2">
+            <p>
+              Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art
+              party before they sold out master cleanse gluten-free squid
+              scenester freegan cosby sweater. Fanny pack portland seitan DIY, art
+              party locavore wolf cliche high life echo park Austin. Cred vinyl
+              keffiyeh DIY salvia PBR, banh mi before they sold out farm-to-table
+              VHS viral locavore cosby sweater.
+            </p>
+          </div>
+        </div>
+
+
+
+        <!-- /MAIN CONTENT HERE: -->
       </div>
     </div>
-    <!-- /CONTAINER: -->
+  </div>
+  <!-- /CONTAINER: -->
 
-    <% include ../layout/lay_site_4_bottomscripts.ejs %>
-  </body>
+  <% include ../layout/lay_site_4_bottomscripts.ejs %>
+</body>
+
 </html>

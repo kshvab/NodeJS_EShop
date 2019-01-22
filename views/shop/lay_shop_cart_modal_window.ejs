@@ -9,9 +9,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title" id="exampleModalLabel">
-          Вы добавили товар в корзину
-        </h4>
+        <h4 class="modal-title">Вы добавили товар в корзину:</h4>
         <button
           type="button"
           class="close"
@@ -24,76 +22,44 @@
       <div class="modal-body">
         <table class="shopcart-items-table">
           <tr>
-            <td rowspan="2" class="cart-del-button-td">
-              <a
-                href="#"
-                type="button"
-                class="cart-del-item-button"
-                name="shop-cart-new-item-del"
-                id=""
-              >
-                <img
-                  src="/images/k8design/shopcartdelbuttons/deleteactive.png"
-                  class=""
-                />
-              </a>
-            </td>
-            <td rowspan="2" class="cart-info-col-td">
+            <td class="cart-info-col-td">
               <div class="cart-i-img"><div id="newItemPicture"></div></div>
             </td>
-            <td colspan="3">
+            <td>
               <div class="cart-i-title"><div id="newItemName"></div></div>
-            </td>
-          </tr>
-          <tr>
-            <td class="cart-i-price">
               <div class="cart-uah" id="newItemPrice"></div>
             </td>
-            <td>
-              <div class="cart-amount">
-                <a href="#" class="cart-amount-minus" name="cart-amount-minus">
-                  <img
-                    src="/images/k8design/shopcartvalueinput/minusactive.png"
-                    alt="&amp;up;"
-                    class="cart-amount-minus-icon sprite"
-                  />
-                </a>
-                <input
-                  id="newItemQuantity"
-                  name="newItemQuantity"
-                  type="text"
-                  class="input-text cart-amount-input-text"
-                  readonly=""
-                  value="1"
-                />
-                <a href="#" class="cart-amount-plus" name="cart-amount-plus">
-                  <img
-                    src="/images/k8design/shopcartvalueinput/plusactive.png"
-                    alt="&amp;up;"
-                    class="cart-amount-plus-icon sprite"
-                  />
-                </a>
-              </div>
-            </td>
-            <td class="cart-sum">
-              <div class="cart-list-newItemSumm" id="newItemSumm"></div>
+            <td class="cart-del-button-td">
+              <button
+                name="shop-cart-new-item-del"
+                type="button"
+                class="btn btn-outline-warning btn-sm"
+                id=""
+              >
+                <span class="fas fa-times"></span>
+              </button>
             </td>
           </tr>
         </table>
 
         <br />
-
-        <div class="cart-other"></div>
         <br />
-        <div class="cart-total-label">
-          <div class="cart-total-sum" name="total">
-            <span class="cart-total-title">Вместе:</span>
-            <span class="cart-total-uah"
-              ><span name="cost" id="cart-total"></span>&nbsp;<span
-                class="cart-total-uah-sign"
-                >грн</span
-              ></span
-            >
+        <div class="row">
+          <div class="col-lg-8">
+            <H5 class="cart-all-items-quantity-insert"></H5>
+          </div>
+          <div class="col-lg-4">
+            <div class="cart-total-label">
+              <div class="cart-total-sum" name="total">
+                <span class="cart-total-title">Итого:</span>
+                <span class="cart-total-uah"
+                  ><span name="cost" id="cart-total"></span>&nbsp;<span
+                    class="cart-total-uah-sign"
+                    >грн</span
+                  ></span
+                >
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -105,9 +71,11 @@
         >
           Продолжить покупки
         </button>
-        <button type="button" class="btn btn-success btn-lg">
-          Оформить заказ
-        </button>
+        <form action="/shopcart">
+          <button type="submit" class="btn btn-success btn-lg">
+            Оформить заказ
+          </button>
+        </form>
       </div>
     </div>
   </div>
