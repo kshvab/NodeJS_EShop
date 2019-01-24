@@ -93,6 +93,7 @@ router.post('/register', (req, res) => {
               console.log('Добавлен новый пользователь:\n' + userToDB);
               req.session.userId = userToDB._id;
               req.session.userLogin = userToDB.login;
+              req.session.userGroup = 'Registered';
               res.json({
                 ok: true
               });
@@ -155,6 +156,7 @@ router.post('/login', (req, res) => {
             } else {
               req.session.userId = userFromDB._id;
               req.session.userLogin = userFromDB.login;
+              req.session.userGroup = userFromDB.group;
               res.json({
                 ok: true
               });

@@ -1147,6 +1147,20 @@ div.telefon-topk8:hover {
   margin: 0;
 }
 
+.cart-line-amount-input {
+  width: 30px;
+  text-align: center;
+  -moz-appearance: textfield;
+
+  border: 1px solid #cbd3da;
+}
+
+.cart-line-amount-input::-webkit-outer-spin-button,
+.cart-line-amount-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
 .cart-amount-minus {
   display: inline-block;
   margin-right: 5px;
@@ -1205,4 +1219,5 @@ div.telefon-topk8:hover {
 
 .cart-del-button {
   vertical-align: baseline;
+  border: none;
 }

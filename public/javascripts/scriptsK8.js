@@ -619,8 +619,7 @@ $(function() {
 
   $('.carousel').carousel();
 
-  //  SHOP - Items list
-
+  //  SHOP - Items list - ACTIONS
   $('[name="cart-amount-minus"]').click(function() {
     let itemId = this.id;
     let oldVal = $('input[name=' + itemId + ']').val();
@@ -647,6 +646,8 @@ $(function() {
       contentType: 'application/json',
       url: '/shopcart/additem'
     }).done(function(data) {
+      console.log('Прилетіло в скрипт від роута: ');
+      console.log(data.shopCart);
       $("[name='shop-cart-new-item-del']").attr(
         'id',
         data.shopCart[0].vendorCode
@@ -685,6 +686,7 @@ $(function() {
     });
   });
 
+  //  SHOP - MODAL new Item - ACTIONS
   $('[name="shop-cart-new-item-del"]').click(function() {
     let itemDelId = this.id;
     var data = {
@@ -700,39 +702,88 @@ $(function() {
       $('#addItemToCartModal').modal('hide');
     });
   });
+
+  //  SHOP -ShopCart - ACTIONS
+  $('[name="shop-cart-line-one-item-del"]').click(function() {
+    let itemDelId = this.id;
+    var data = {
+      itemDelId
+    };
+    $.ajax({
+      type: 'DELETE',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/shopcart/deleteitem'
+    }).done(function(data) {
+      if (data.ok) {
+        if (!data.shopCart.length) {
+          $(location).attr('href', '/shopcart');
+          return;
+        }
+        let newCartTotal = 0;
+        for (let i = 0; i < data.shopCart.length; i++) {
+          newCartTotal += data.shopCart[i].price * data.shopCart[i].quantity;
+        }
+        $('#topshopbuttonitemsquantity').text(data.shopCart.length);
+        $('#div_line_' + itemDelId).remove();
+        $('#cart-total').text(newCartTotal.toFixed(2));
+      }
+    });
+  });
+
+  $('[name="cart-line-amount-minus"]').click(function() {
+    let itemId = this.id;
+    let oldVal = $('input[name=' + itemId + ']').val();
+    if (oldVal > 1) {
+      $('input[name=' + itemId + ']').val(oldVal - 1);
+      $('input[name=' + itemId + ']').putNewQquantityToItemLine();
+    }
+  });
+
+  $('[name="cart-line-amount-plus"]').click(function() {
+    let itemId = this.id;
+    let oldVal = $('input[name=' + itemId + ']').val();
+    $('input[name=' + itemId + ']').val(Number(oldVal) + 1);
+    $('input[name=' + itemId + ']').putNewQquantityToItemLine();
+  });
+
+  $('.cart-line-amount-input').on('change', function() {
+    //alert(this.value + ' ' + this.name);
+    $(this).putNewQquantityToItemLine();
+  });
+
+  jQuery.fn.extend({
+    putNewQquantityToItemLine: function() {
+      console.dir(this[0].name + ' -> ' + this[0].value);
+      var itemId = this[0].name;
+      var newQuantity = this[0].value;
+      var data = {
+        itemId,
+        newQuantity
+      };
+      $.ajax({
+        type: 'PUT',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/shopcart/changeitemquantity'
+      }).done(function(data) {
+        if (data.ok) {
+          console.log('changed!');
+          $('input[name=' + itemId + ']').val(newQuantity);
+          let newCartTotal = 0;
+          let newItemLineTotal = 0;
+          for (let i = 0; i < data.shopCart.length; i++) {
+            newCartTotal += data.shopCart[i].price * data.shopCart[i].quantity;
+            if (data.shopCart[i].vendorCode == itemId)
+              newItemLineTotal =
+                data.shopCart[i].price * data.shopCart[i].quantity;
+          }
+          $('.jq-div-itemsumm' + itemId).text(
+            newItemLineTotal.toFixed(2) + ' грн'
+          );
+          $('#cart-total').text(newCartTotal.toFixed(2));
+        }
+      });
+    }
+  });
 });
-
-/*
-
-
-function shopCartMinus(itemId) {
-  console.log('FIRED shopCartMinus ' + itemId);
-  var data = {
-    itemId
-  };
-  $.ajax({
-    type: 'PUT',
-    data: JSON.stringify(data),
-    contentType: 'application/json',
-    url: '/shopcart/minusone'
-  }).done(function(data) {
-    shopCartListUpdate(data.shopCart);
-  });
-}
-
-function shopCartPlus(itemId) {
-  console.log('FIRED shopCartPlus ' + itemId);
-  var data = {
-    itemId
-  };
-  $.ajax({
-    type: 'PUT',
-    data: JSON.stringify(data),
-    contentType: 'application/json',
-    url: '/shopcart/plusone'
-  }).done(function(data) {
-    shopCartListUpdate(data.shopCart);
-  });
-}
-
-*/

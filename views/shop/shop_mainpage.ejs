@@ -42,9 +42,13 @@
                   <div class="col-lg-4">
                     <div class="cart-uah"><%= item.price %> грн</div>
                   </div>
+
                   <div class="col-lg-4">
                     <h6 class="text-muted">Артикул: <%= item.vendorCode %></h6>
                   </div>
+                  <% if (transData.user.group == "Administrator" ||
+                  transData.user.group == "Manager" || transData.user.group ==
+                  "Agent") { %>
                   <div class="col-lg-4">
                     <h6
                       class="text-muted jq-stock-<%= item.vendorCode %>"
@@ -53,6 +57,7 @@
                       Остаток: <%= item.stock %>
                     </h6>
                   </div>
+                  <% } %>
                 </div>
 
                 <div class="shopcart-and-wishlist-buttons">

@@ -8,6 +8,15 @@
 
     <!-- CONTAINER: -->
     <div class="container">
+      <% if (!transData.shopCart || !transData.shopCart.length) { %> <br />
+      <H3>Ваша корзина пуста</H3>
+      <br />
+      <form action="/shop">
+        <button type="submit" class="btn btn-success">
+          <span class="fas fa-gift avesomePaddingRight"></span>За покупками!
+        </button>
+      </form>
+      <% } else { %>
       <div class="row">
         <div class="col-lg-8">
           <br />
@@ -18,15 +27,19 @@
               <h5 class="card-title">Товары в корзине:</h5>
 
               <div class="shopcart-items-table">
-                <% transData.shopCart.forEach(function(item){ %>
-
-                <div class="row shopcart-one-item-row">
+                <% let totalSumm = 0; %> <%
+                transData.shopCart.forEach(function(item){ %> <% totalSumm +=
+                item.price*item.quantity; %>
+                <div
+                  class="row shopcart-one-item-row"
+                  id="div_line_<%= item.vendorCode %>"
+                >
                   <div class="col-lg-1">
                     <button
-                      name="shop-cart-new-item-del"
+                      name="shop-cart-line-one-item-del"
                       type="button"
                       class="btn btn-outline-warning btn-sm cart-del-button"
-                      id="12846"
+                      id="<%= item.vendorCode %>"
                     >
                       <span class="fas fa-times"></span>
                     </button>
@@ -35,7 +48,7 @@
                   <div class="col-lg-3">
                     <div class="border-primary">
                       <img
-                        style="width: 100%; display: block;"
+                        style="width: 100%; max-width: 200px; display: block;"
                         src="<%= '/import_foto/' + (item.picture).slice(13) %>"
                         alt="Card image"
                       />
@@ -53,6 +66,9 @@
                           Артикул: <%= item.vendorCode %>
                         </h6>
                       </div>
+                      <% if (transData.user.group == "Administrator" ||
+                      transData.user.group == "Manager" || transData.user.group
+                      == "Agent") { %>
                       <div class="col-lg-6">
                         <h6
                           class="text-muted jq-stock-<%= item.vendorCode %>"
@@ -61,6 +77,7 @@
                           Остаток: <%= item.stock %>
                         </h6>
                       </div>
+                      <% } %>
                     </div>
                     <div class="shopcart-row-price-and-quantity">
                       <div class="row">
@@ -71,7 +88,7 @@
                         <div class="col-lg-4">
                           <div class="cart-amount btn-group">
                             <button
-                              name="cart-amount-minus"
+                              name="cart-line-amount-minus"
                               type="button"
                               class="btn btn-secondary btn-sm jq-btn-minus-<%= item.vendorCode %>"
                               id="<%= item.vendorCode %>"
@@ -85,13 +102,12 @@
                               max="<%= item.stock %>"
                               step="1"
                               name="<%= item.vendorCode %>"
-                              id="555"
-                              class="cart-amount-input"
-                              value="1"
+                              class="cart-line-amount-input"
+                              value="<%= item.quantity %>"
                             />
 
                             <button
-                              name="cart-amount-plus"
+                              name="cart-line-amount-plus"
                               type="button"
                               class="btn btn-secondary btn-sm jq-btn-plus-<%= item.vendorCode %>"
                               id="<%= item.vendorCode %>"
@@ -102,7 +118,9 @@
                         </div>
 
                         <div class="col-lg-4">
-                          <div class="cart-list-newItemSumm" id="newItemSumm">
+                          <div
+                            class="cart-list-newItemSumm jq-div-itemsumm<%= item.vendorCode %>"
+                          >
                             <%= (item.quantity*item.price).toFixed(2) %> грн
                           </div>
                         </div>
@@ -117,19 +135,20 @@
             <div class="card-footer">
               <!-- Summ: -->
               <div class="row">
-                <div class="col-lg-8">
-                  <H5 class="cart-all-items-quantity-insert">2222</H5>
+                <div class="col-lg-7">
+                  <H5 class="cart-all-items-quantity-insert"></H5>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-5">
                   <div class="cart-total-label">
                     <div class="cart-total-sum" name="total">
                       <span class="cart-total-title">Итого:</span>
-                      <span class="cart-total-uah"
-                        ><span name="cost" id="cart-total">111</span>&nbsp;<span
-                          class="cart-total-uah-sign"
-                          >грн</span
-                        ></span
-                      >
+
+                      <span class="cart-total-uah">
+                        <span name="cost" id="cart-total"
+                          ><%= totalSumm.toFixed(2) %></span
+                        >
+                        &nbsp; <span class="cart-total-uah-sign">грн</span>
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -145,8 +164,12 @@
             <h3 class="card-header">Оформление заказа</h3>
             <div class="card-body">
               <h5 class="card-title">Подзаголовок</h5>
+              <% if (transData.user.group == "Administrator" ||
+              transData.user.group == "Manager" || transData.user.group ==
+              "Agent") { %>
+              <!-- Insider: -->
               <p>Агент:</p>
-              <b><%= transData.user.login %></b>
+              <b> <%= transData.user.login %></b>
               <div class="form-group">
                 <p>Клиент:</p>
                 <input
@@ -156,10 +179,13 @@
                   id="inputDefault"
                 />
               </div>
+              <!-- /Insider: -->
+              <% } %>
             </div>
           </div>
         </div>
       </div>
+      <% } %>
     </div>
     <!-- /CONTAINER: -->
 

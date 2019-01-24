@@ -13,6 +13,7 @@ router.get(
   function(req, res) {
     let _id;
     let login;
+    let group;
     let shopCart = req.session.shopCart;
 
     /*
@@ -25,9 +26,11 @@ router.get(
     if (req.session.userId && req.session.userLogin) {
       _id = req.session.userId;
       login = req.session.userLogin;
+      group = req.session.userGroup;
     } else {
       _id = 0;
       login = 0;
+      group = 0;
     }
     //READ FILES
     var shopItemsArrStr = fs.readFileSync(
@@ -72,7 +75,7 @@ router.get(
     } else {
       res.render('error', {
         transData: {
-          user: { _id, login }
+          user: { _id, login, group }
         },
         message: 'Такой страницы не существует!',
         error: { code: 404 }
@@ -134,7 +137,7 @@ router.get(
         transData: {
           shopItemsArr,
           shopCategoriesArr,
-          user: { _id, login },
+          user: { _id, login, group },
           shownCat,
           shownCatItems,
           breadcrumbArr,
@@ -201,7 +204,7 @@ router.get(
         transData: {
           shopItemsArr,
           shopCategoriesArr,
-          user: { _id, login },
+          user: { _id, login, group },
           shownItem,
           breadcrumbArr,
           shopCart
@@ -215,12 +218,15 @@ router.get(
 router.get('/', function(req, res) {
   let _id;
   let login;
+  let group;
   if (req.session.userId && req.session.userLogin) {
     _id = req.session.userId;
     login = req.session.userLogin;
+    group = req.session.userGroup;
   } else {
     _id = 0;
     login = 0;
+    group = 0;
   }
 
   var shopItemsArrStr = fs.readFileSync(
@@ -243,7 +249,7 @@ router.get('/', function(req, res) {
     transData: {
       shopItemsArr,
       shopCategoriesArr,
-      user: { _id, login }
+      user: { _id, login, group }
     }
   });
 });

@@ -8,7 +8,7 @@ const user = models.user;
 router.post('/additem', (req, res) => {
   const itemVendorCode = req.body.itemVendorCode;
   const quantity = req.body.quantity;
-
+  if (!req.session.shopCart) req.session.shopCart = [];
   var shopItemsArrStr = fs.readFileSync(
     './public/import_foto/shopItemsArrFile.txt',
     {
@@ -23,21 +23,22 @@ router.post('/additem', (req, res) => {
   itemForAdding = itemForAdding[0];
   itemForAdding.quantity = quantity;
 
-  if (!req.session.shopCart) req.session.shopCart = [];
-
   let existInshopCart = false;
-
+  let index = 0;
   for (var i = 0; i < req.session.shopCart.length; i++) {
     if (req.session.shopCart[i].vendorCode == itemVendorCode) {
       req.session.shopCart[i].quantity =
         parseInt(req.session.shopCart[i].quantity) + parseInt(quantity);
       existInshopCart = true;
+      index = i;
     }
   }
 
   if (!existInshopCart) req.session.shopCart.unshift(itemForAdding);
+  else
+    req.session.shopCart.splice(0, 0, req.session.shopCart.splice(index, 1)[0]);
+  console.log('сесія у роуті перед респондом');
   console.log(req.session);
-
   res.json({
     ok: true,
     shopCart: req.session.shopCart
@@ -63,6 +64,7 @@ router.delete('/deleteitem', (req, res) => {
   });
 });
 
+/*
 // PUT minus item quantity in shopCart
 router.put('/minusone', (req, res) => {
   const itemId = req.body.itemId;
@@ -94,10 +96,10 @@ router.put('/plusone', (req, res) => {
     shopCart: req.session.shopCart
   });
 });
+*/
 
-/*
-// PUT Change Quantity in shopCart
-router.put('/changequantity', (req, res) => {
+// PUT Change Item Quantity in shopCart
+router.put('/changeitemquantity', (req, res) => {
   const itemId = req.body.itemId;
   const newQuantity = req.body.newQuantity;
   if (req.session.shopCart) {
@@ -112,11 +114,10 @@ router.put('/changequantity', (req, res) => {
     shopCart: req.session.shopCart
   });
 });
-*/
 
 router.get('/', function(req, res) {
-  let _id;
-  let login;
+  let _id, login, group, shopCart;
+  shopCart = req.session.shopCart;
   /*
   var shopItemsArrStr = fs.readFileSync(
     './public/import_foto/shopItemsArrFile.txt',
@@ -137,31 +138,27 @@ router.get('/', function(req, res) {
   if (req.session.userId && req.session.userLogin) {
     _id = req.session.userId;
     login = req.session.userLogin;
-    let shopCart = req.session.shopCart;
 
     user.findOne({ login }).then(userFromDB => {
-      if (
-        userFromDB.group == 'Administrator' ||
-        userFromDB.group == 'Manager' ||
-        userFromDB.group == 'Agent'
-      ) {
+      if (userFromDB) {
+        group = userFromDB.group;
         //Тут іде основний блок для рендерінга
         res.render('shop/shop_cart', {
           transData: {
             //shopItemsArr,
             //shopCategoriesArr,
             pageTitle: 'Оформление заказа',
-            user: { _id, login },
+            user: { _id, login, group },
             shopCart
           }
         });
       } else {
-        //Незнайдений у базі, або не адмін
+        //Незнайдений у базі
         res.render('error', {
           transData: {
             user: { _id, login }
           },
-          message: 'У Вас нет прав для доступа к этому разделу',
+          message: 'Ошибка, попробуйте позже!',
           error: {}
         });
       }
@@ -170,9 +167,15 @@ router.get('/', function(req, res) {
     //нема сесії
     _id = 0;
     login = 0;
-    res.render('loginForm', {
+    group = 0;
+    //Тут іде основний блок для рендерінга
+    res.render('shop/shop_cart', {
       transData: {
-        user: { _id, login }
+        //shopItemsArr,
+        //shopCategoriesArr,
+        pageTitle: 'Оформление заказа',
+        user: { _id, login, group },
+        shopCart
       }
     });
   }
