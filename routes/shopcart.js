@@ -36,7 +36,7 @@ router.post('/additem', (req, res) => {
 
   if (!existInshopCart) req.session.shopCart.unshift(itemForAdding);
   else
-    req.session.shopCart.splice(0, 0, req.session.shopCart.splice(index, 1)[0]);
+    req.session.shopCart.splice(0, 0, req.session.shopCart.splice(index, 1)[0]); //move element to start of Arr
   console.log('сесія у роуті перед респондом');
   console.log(req.session);
   res.json({
@@ -64,40 +64,6 @@ router.delete('/deleteitem', (req, res) => {
   });
 });
 
-/*
-// PUT minus item quantity in shopCart
-router.put('/minusone', (req, res) => {
-  const itemId = req.body.itemId;
-  if (req.session.shopCart) {
-    for (var i = 0; i < req.session.shopCart.length; i++) {
-      if (req.session.shopCart[i].vendorCode == itemId) {
-        req.session.shopCart[i].quantity--;
-      }
-    }
-  }
-  res.json({
-    ok: true,
-    shopCart: req.session.shopCart
-  });
-});
-
-// PUT plus item quantity in shopCart
-router.put('/plusone', (req, res) => {
-  const itemId = req.body.itemId;
-  if (req.session.shopCart) {
-    for (var i = 0; i < req.session.shopCart.length; i++) {
-      if (req.session.shopCart[i].vendorCode == itemId) {
-        req.session.shopCart[i].quantity++;
-      }
-    }
-  }
-  res.json({
-    ok: true,
-    shopCart: req.session.shopCart
-  });
-});
-*/
-
 // PUT Change Item Quantity in shopCart
 router.put('/changeitemquantity', (req, res) => {
   const itemId = req.body.itemId;
@@ -118,23 +84,17 @@ router.put('/changeitemquantity', (req, res) => {
 router.get('/', function(req, res) {
   let _id, login, group, shopCart;
   shopCart = req.session.shopCart;
-  /*
-  var shopItemsArrStr = fs.readFileSync(
-    './public/import_foto/shopItemsArrFile.txt',
-    {
-      encoding: 'UTF-8'
-    }
-  );
-  var shopItemsArr = JSON.parse(shopItemsArrStr);
 
-  var shopCategoriesArrStr = fs.readFileSync(
-    './public/import_foto/shopCategoriesArrFile.txt',
+  //Delivery Service data
+
+  var citiesArrJson = fs.readFileSync(
+    './public/datafiles/deliveryservice/citiesArr.json',
     {
       encoding: 'UTF-8'
     }
   );
-  var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
-    */
+  var cities = JSON.parse(citiesArrJson);
+
   if (req.session.userId && req.session.userLogin) {
     _id = req.session.userId;
     login = req.session.userLogin;
@@ -149,7 +109,8 @@ router.get('/', function(req, res) {
             //shopCategoriesArr,
             pageTitle: 'Оформление заказа',
             user: { _id, login, group },
-            shopCart
+            shopCart,
+            citiesArrObj
           }
         });
       } else {
@@ -175,7 +136,8 @@ router.get('/', function(req, res) {
         //shopCategoriesArr,
         pageTitle: 'Оформление заказа',
         user: { _id, login, group },
-        shopCart
+        shopCart,
+        cities
       }
     });
   }

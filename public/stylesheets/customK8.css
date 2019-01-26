@@ -1221,3 +1221,15 @@ div.telefon-topk8:hover {
   vertical-align: baseline;
   border: none;
 }
+
+.k8-form-field-label {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  padding: 0;
+  margin-bottom: 0.2rem;
+  font-size: 1.27rem;
+  line-height: inherit;
+  color: inherit;
+  white-space: normal;
+}

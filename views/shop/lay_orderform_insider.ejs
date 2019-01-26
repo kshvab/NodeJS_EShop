@@ -1,0 +1,24 @@
+<div id="toorder-error-msg"></div>
+<form role="form" method="post" class="toorder">
+  <fieldset>
+    <p>Агент:</p>
+    <b> <%= transData.user.login %></b>
+    <div class="form-group">
+      <p>Клиент:</p>
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Клиент"
+        id="inputDefault"
+      />
+    </div>
+
+    <!-- BUTTON -->
+    <a
+      href="#"
+      class="toorder-button btn btn-lg btn-primary btn-block"
+      id="toorder-button"
+      >Заказать</a
+    >
+  </fieldset>
+</form>

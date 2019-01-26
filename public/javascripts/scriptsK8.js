@@ -786,4 +786,74 @@ $(function() {
       });
     }
   });
+
+  //  SHOP - ShopCart Customer Forms ACTIONS
+
+  $('#delivery-type-select').on('change', function() {
+    if (this.value == 1) {
+      $('#city-select-div').show();
+      $('#department-select-div').show();
+      $('#ordercomment').attr('placeholder', 'Комментарий к заказу...');
+    }
+    if (this.value == 2) {
+      $('#city-select-div').hide();
+      $('#department-select-div').hide();
+      $('#ordercomment').attr('placeholder', 'Адрес и комментарий к заказу...');
+    }
+    if (this.value == 3) {
+      $('#city-select-div').hide();
+      $('#department-select-div').hide();
+      $('#ordercomment').attr('placeholder', 'Комментарий к заказу...');
+    }
+  });
+
+  $('.city-select').chosen({
+    no_results_text: 'Вариантов не найдено!',
+    width: '100%'
+  });
+
+  $('.department-select').chosen({
+    no_results_text: 'Вариантов не найдено!',
+    width: '100%'
+  });
+
+  $('#cities-select').on('change', function() {
+    var CityName = this.value;
+
+    $.ajax({
+      type: 'POST',
+      dataType: 'json',
+      url: 'https://api.novaposhta.ua/v2.0/json/',
+      data: JSON.stringify({
+        modelName: 'AddressGeneral',
+        calledMethod: 'getWarehouses',
+        methodProperties: {
+          Language: 'ru',
+          CityName
+        },
+        apiKey: '3f4d62ae70b694179cb58a679cf736c2'
+      }),
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      xhrFields: {
+        // Свойство 'xhrFields' устанавливает дополнительные поля в XMLHttpRequest. // Это можно использовать для установки свойства 'withCredentials'. // Установите значение «true», если вы хотите передать файлы cookie на сервер. // Если это включено, ваш сервер должен ответить заголовком // 'Access-Control-Allow-Credentials: true'.
+        withCredentials: false
+      },
+      success: function(texts) {
+        $('#departments-select').empty();
+        for (let i = 0; i < texts.data.length; i++) {
+          console.log(texts.data[i].DescriptionRu);
+          $('#departments-select').append(
+            "<option value='" +
+              texts.data[i].DescriptionRu +
+              "'>" +
+              texts.data[i].DescriptionRu +
+              '</option>'
+          );
+        }
+        $('.department-select').trigger('chosen:updated');
+      }
+    });
+  });
 });

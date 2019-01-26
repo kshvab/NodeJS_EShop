@@ -16,13 +16,7 @@ router.get(
     let group;
     let shopCart = req.session.shopCart;
 
-    /*
-    req.session.destroy(() => {
-      res.redirect('/');
-    });
-    */
-
-    console.dir(req.session);
+    //console.dir(req.session);
     if (req.session.userId && req.session.userLogin) {
       _id = req.session.userId;
       login = req.session.userLogin;
@@ -219,6 +213,7 @@ router.get('/', function(req, res) {
   let _id;
   let login;
   let group;
+  let shopCart = req.session.shopCart;
   if (req.session.userId && req.session.userLogin) {
     _id = req.session.userId;
     login = req.session.userLogin;
@@ -249,7 +244,8 @@ router.get('/', function(req, res) {
     transData: {
       shopItemsArr,
       shopCategoriesArr,
-      user: { _id, login, group }
+      user: { _id, login, group },
+      shopCart
     }
   });
 });
@@ -309,7 +305,7 @@ function runShop() {
       shopItemsArrStr,
       function(err) {
         if (err) console.log('ERROR Saving!');
-        console.log('Saved Items!');
+        else console.log('Saved Items!');
       }
     );
 

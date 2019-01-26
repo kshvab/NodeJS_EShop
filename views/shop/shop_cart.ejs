@@ -21,11 +21,9 @@
         <div class="col-lg-8">
           <br />
 
-          <div class="card mb-3">
+          <div class="card border-success mb-3">
             <h3 class="card-header">Корзина</h3>
             <div class="card-body">
-              <h5 class="card-title">Товары в корзине:</h5>
-
               <div class="shopcart-items-table">
                 <% let totalSumm = 0; %> <%
                 transData.shopCart.forEach(function(item){ %> <% totalSumm +=
@@ -160,29 +158,17 @@
 
         <div class="col-lg-4">
           <br />
-          <div class="card mb-3">
-            <h3 class="card-header">Оформление заказа</h3>
-            <div class="card-body">
-              <h5 class="card-title">Подзаголовок</h5>
-              <% if (transData.user.group == "Administrator" ||
-              transData.user.group == "Manager" || transData.user.group ==
-              "Agent") { %>
-              <!-- Insider: -->
-              <p>Агент:</p>
-              <b> <%= transData.user.login %></b>
-              <div class="form-group">
-                <p>Клиент:</p>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Клиент"
-                  id="inputDefault"
-                />
-              </div>
-              <!-- /Insider: -->
-              <% } %>
-            </div>
-          </div>
+
+          <% if (transData.user.group == "Administrator" || transData.user.group
+          == "Manager" || transData.user.group == "Agent") { %>
+          <!-- Insider: -->
+          <% include lay_orderform_insider.ejs %>
+          <!-- /Insider: -->
+          <% } else if (transData.user.group == 0) { %>
+          <!-- Guest: -->
+          <% include lay_orderform_guest.ejs %>
+          <!-- /Guest: -->
+          <% } %>
         </div>
       </div>
       <% } %>
@@ -190,5 +176,7 @@
     <!-- /CONTAINER: -->
 
     <% include ../layout/lay_site_4_bottomscripts.ejs %>
+    <script src="/vendor/chosen/chosen.jquery.js"></script>
+    <link href="/vendor/chosen/chosen.css" rel="stylesheet" />
   </body>
 </html>

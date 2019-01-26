@@ -11,43 +11,43 @@ const mongoStore = require('connect-mongo')(session);
 
 // database
 mongoose.connection
-    .on('error', error => console.log(error))
-    .on('close', () => console.log('Database connection closed.'))
-    .once('open', () => {
-        let info = mongoose.connections;
-        if (info)
-            console.log(
-                `Connected to MongoDB\nhost: ${info[0].host}\nport: ${
-                    info[0].port
-                }\nuser: ${info[0].user}\n`
-            );
-    });
+  .on('error', error => console.log(error))
+  .on('close', () => console.log('Database connection closed.'))
+  .once('open', () => {
+    let info = mongoose.connections;
+    if (info)
+      console.log(
+        `Connected to MongoDB\nhost: ${info[0].host}\nport: ${
+          info[0].port
+        }\nuser: ${info[0].user}\n`
+      );
+  });
 
 mongoose.connect(
-    config.MONGO_URL,
-    { useNewUrlParser: true }
+  config.MONGO_URL,
+  { useNewUrlParser: true }
 );
 
 // express
 const app = express();
 app.listen(config.PORT, () =>
-    console.log(
-        `\n-----------------------------------------------------\nExample app listening on port ${
-            config.PORT
-        }!\n`
-    )
+  console.log(
+    `\n-----------------------------------------------------\nExample app listening on port ${
+      config.PORT
+    }!\n`
+  )
 );
 
 // sessions
 app.use(
-    session({
-        secret: config.SESSION_SECRET,
-        resave: true,
-        saveUninitialized: false,
-        store: new mongoStore({
-            mongooseConnection: mongoose.connection
-        })
+  session({
+    secret: config.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: false,
+    store: new mongoStore({
+      mongooseConnection: mongoose.connection
     })
+  })
 );
 
 // sets and uses
@@ -56,8 +56,8 @@ app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x
 app.use(bodyParser.json()); // for parsing application/json
 app.use(express.static(path.join(__dirname, 'public'))); //Щоб експрес віддавав статичні файли з папки public, скрипти будуть доступні просто через слеш
 app.use(
-    '/javascripts',
-    express.static(path.join(__dirname, 'node_modules', 'jquery', 'dist'))
+  '/javascripts',
+  express.static(path.join(__dirname, 'node_modules', 'jquery', 'dist'))
 );
 
 app.use('/', routes.mainpage);
@@ -72,39 +72,25 @@ app.use('/upload', routes.upload);
 app.use('/shop', routes.shop);
 app.use('/shopcart', routes.shopcart);
 
-app.get('/login', function(req, res) {
-    let _id;
-    let login;
-    if (req.session.userId && req.session.userLogin) {
-        _id = req.session.userId;
-        login = req.session.userLogin;
-    } else {
-        console.log('юзер незалогинен!');
-        _id = 0;
-        login = 0;
-    }
-    res.render('loginForm', {
-        transData: {
-            user: { _id, login }
-        }
-    });
-});
-
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-    const err = new Error('Not Found');
-    err.status = 404;
-    next(err);
+  const err = new Error('Not Found');
+  err.status = 404;
+  next(err);
 });
 
 // error handler
 // eslint-disable-next-line no-unused-vars
 app.use((error, req, res, next) => {
-    res.status(error.status || 500);
-    res.render('error', {
-        message: error.message,
-        error: !config.IS_PRODUCTION ? error : {}
-    });
+  res.status(error.status || 500);
+  res.render('error', {
+    message: error.message,
+    error: !config.IS_PRODUCTION ? error : {}
+  });
 });
+
+//  --- SERVICES ---
+//const services = require('./services');
+//services.novaposhta.updateDeliveryServiceCitiesList();
 
 module.exports = app;

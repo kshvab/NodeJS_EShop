@@ -10,7 +10,7 @@ router.get('/myprofile', function(req, res) {
   if (req.session.userId && req.session.userLogin) {
     const login = req.session.userLogin;
     const path = '/myprofile';
-
+    let shopCart = req.session.shopCart;
     user.findOne({ login }).then(userFromDB => {
       //console.log(userFromDB);
 
@@ -28,7 +28,8 @@ router.get('/myprofile', function(req, res) {
             password: userFromDB.password,
             createdAt: moment(userFromDB.createdAt).format('DD.MM.YYYY, HH:mm'),
             updatedAt: moment(userFromDB.updatedAt).format('DD.MM.YYYY, HH:mm')
-          }
+          },
+          shopCart
         };
         res.render('profile/myprofile', {
           transData: transData
@@ -232,32 +233,36 @@ router.post('/myprofile', (req, res) => {
 
 router.get('/myorders', function(req, res) {
   if (req.session.userId && req.session.userLogin) {
-    const id = req.session.userId;
+    const _id = req.session.userId;
     const login = req.session.userLogin;
+    const group = req.session.userGroup;
     const path = '/myorders';
-
+    let shopCart = req.session.shopCart;
+    console.log(group);
     res.render('profile/myorders', {
       transData: {
-        pageTitle: 'Моя корзина',
-        user: { id, login },
-        path
+        pageTitle: 'Мои заказы',
+        user: { _id, login, group },
+        path,
+        shopCart
       }
     });
   } else console.log('юзер незалогинен!');
-  //console.dir(req);
 });
 
 router.get('/mywishlist', function(req, res) {
   if (req.session.userId && req.session.userLogin) {
-    const id = req.session.userId;
+    const _id = req.session.userId;
     const login = req.session.userLogin;
     const path = '/mywishlist';
-
+    const group = req.session.userGroup;
+    let shopCart = req.session.shopCart;
     res.render('profile/mywishlist', {
       transData: {
         pageTitle: 'Мой список желаний',
-        user: { id, login },
-        path
+        user: { _id, login, group },
+        path,
+        shopCart
       }
     });
   } else console.log('юзер незалогинен!');
