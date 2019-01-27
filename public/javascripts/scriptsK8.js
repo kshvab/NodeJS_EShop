@@ -1,6 +1,17 @@
 /* eslint-disable no-undef */
+/*
+$(window).on('load', function() {
+  alert('load');
+});
 
-$(function() {
+$(document).ready(function() {
+  alert('document ready occurred!');
+});
+
+*/
+
+//$(function() {
+$(window).on('load', function() {
   //AUTH toggle forms
   var flag = true;
   $('.switch-button').on('click', function(e) {
@@ -632,6 +643,10 @@ $(function() {
     $('input[name=' + itemId + ']').val(Number(oldVal) + 1);
   });
 
+  //****************************** */
+  //  SHOP - Items list - add-item */
+  //****************************** */
+
   $('[name="add-item-to-shopcart-button"]').click(function() {
     var itemVendorCode = this.id;
     var quantity = $('input[name=' + itemVendorCode + ']').val();
@@ -646,8 +661,6 @@ $(function() {
       contentType: 'application/json',
       url: '/shopcart/additem'
     }).done(function(data) {
-      console.log('Прилетіло в скрипт від роута: ');
-      console.log(data.shopCart);
       $("[name='shop-cart-new-item-del']").attr(
         'id',
         data.shopCart[0].vendorCode
@@ -683,6 +696,8 @@ $(function() {
         );
       }
       $('#addItemToCartModal').modal();
+      //console.log('Прилетіло в скрипт від роута: ');
+      //console.log(data.shopCart);
     });
   });
 
@@ -855,5 +870,107 @@ $(function() {
         $('.department-select').trigger('chosen:updated');
       }
     });
+  });
+
+  //  SHOP - ShopCart Checkout
+  $('#shopcartcheckout').on('submit', function(e) {
+    e.preventDefault();
+    let name = $('#toorder-name').val(),
+      login = $('#toorder-login').val(),
+      _id = $('#toorder-_id').val(),
+      customer = $('#toorder-customer').val(),
+      email = $('#toorder-email').val(),
+      phonenumber = $('#toorder-phonenumber').val(),
+      group = $('#toorder-group').val(),
+      deliveryCity = $('#cities-select').val(),
+      deliveryDepartment = $('#departments-select').val(),
+      ordercomment = $('#ordercomment').val();
+
+    function deliveryTypeStr(typeNumber) {
+      switch (typeNumber) {
+        case '1':
+          return 'Отделение Новой Почты';
+          // eslint-disable-next-line no-unreachable
+          break;
+        case '2':
+          return 'Курьером по адресу';
+          // eslint-disable-next-line no-unreachable
+          break;
+        case '3':
+          return 'Самовывоз';
+          // eslint-disable-next-line no-unreachable
+          break;
+        default:
+          return '';
+          // eslint-disable-next-line no-unreachable
+          break;
+      }
+    }
+
+    function paymentMethodStr(typeNumber) {
+      switch (typeNumber) {
+        case '1':
+          return 'Наложенный платеж';
+          // eslint-disable-next-line no-unreachable
+          break;
+        case '2':
+          return 'Безналичный расчет';
+          // eslint-disable-next-line no-unreachable
+          break;
+        case '3':
+          return 'Оплата на карту Приват банка';
+          // eslint-disable-next-line no-unreachable
+          break;
+        default:
+          return '';
+          // eslint-disable-next-line no-unreachable
+          break;
+      }
+    }
+
+    let deliveryType = deliveryTypeStr($('#delivery-type-select').val());
+    let paymentMethod = paymentMethodStr($('#payment-method-select').val());
+
+    var data = {
+      user: {
+        name,
+        login,
+        _id,
+        customer,
+        email,
+        phonenumber,
+        group,
+        deliveryType,
+        deliveryCity,
+        deliveryDepartment,
+        paymentMethod,
+        ordercomment
+      }
+    };
+    console.dir(data);
+
+    $.ajax({
+      type: 'POST',
+      url: '/shopcart/neworder',
+      data: data,
+      success: function(result) {
+        console.log(result);
+
+        if (result.ok) {
+          $('#new-order-number').text(result.newOrderNumber);
+          $('#successOrdermodal').modal();
+        } else {
+          console.log(result.ok);
+        }
+      },
+      error: function(error) {
+        console.log(error);
+        //$(location).attr('href', '/administrator/error');
+      }
+    });
+  });
+
+  $('#successOrdermodal').on('hidden.bs.modal', function(e) {
+    $(location).attr('href', '/');
   });
 });

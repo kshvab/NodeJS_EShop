@@ -3,6 +3,19 @@ const router = express.Router();
 var fs = require('fs');
 const models = require('../models');
 const user = models.user;
+const order = models.order;
+const counter = models.counter;
+
+function getNextSequenceValue(sequenceName) {
+  return new Promise(function(resolve, reject) {
+    counter.findOne({ _id: sequenceName }).then(counterFromDB => {
+      let currentNumber = counterFromDB.sequence_value;
+      counterFromDB.sequence_value = currentNumber + 1;
+      counterFromDB.save();
+      resolve(counterFromDB.sequence_value);
+    });
+  });
+}
 
 // POST Add item to shopCart
 router.post('/additem', (req, res) => {
@@ -38,7 +51,7 @@ router.post('/additem', (req, res) => {
   else
     req.session.shopCart.splice(0, 0, req.session.shopCart.splice(index, 1)[0]); //move element to start of Arr
   console.log('сесія у роуті перед респондом');
-  console.log(req.session);
+  console.log(req.session.shopCart);
   res.json({
     ok: true,
     shopCart: req.session.shopCart
@@ -105,12 +118,10 @@ router.get('/', function(req, res) {
         //Тут іде основний блок для рендерінга
         res.render('shop/shop_cart', {
           transData: {
-            //shopItemsArr,
-            //shopCategoriesArr,
             pageTitle: 'Оформление заказа',
-            user: { _id, login, group },
+            user: userFromDB,
             shopCart,
-            citiesArrObj
+            cities
           }
         });
       } else {
@@ -141,6 +152,38 @@ router.get('/', function(req, res) {
       }
     });
   }
+});
+
+router.post('/neworder', (req, res) => {
+  console.dir(req.session.shopCart);
+  console.dir(req.body.user);
+
+  getNextSequenceValue('order_id').then(_id => {
+    _id = Number(_id);
+    console.log('_id ' + _id);
+    order
+      .create({
+        _id,
+        user: req.body.user,
+        shopcart: req.session.shopCart
+      })
+
+      .then(orderToDB => {
+        req.session.shopCart = [];
+        res.json({
+          ok: true,
+          newOrderNumber: orderToDB._id
+        });
+      })
+      .catch(err => {
+        console.log('K8 ERROR: Не получилось добавить orderToDB в базу');
+        console.log(err);
+        res.json({
+          ok: false,
+          error: 'Ошибка, попробуйте позже!'
+        });
+      });
+  });
 });
 
 module.exports = router;

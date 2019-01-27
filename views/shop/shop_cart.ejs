@@ -158,24 +158,14 @@
 
         <div class="col-lg-4">
           <br />
-
-          <% if (transData.user.group == "Administrator" || transData.user.group
-          == "Manager" || transData.user.group == "Agent") { %>
-          <!-- Insider: -->
-          <% include lay_orderform_insider.ejs %>
-          <!-- /Insider: -->
-          <% } else if (transData.user.group == 0) { %>
-          <!-- Guest: -->
-          <% include lay_orderform_guest.ejs %>
-          <!-- /Guest: -->
-          <% } %>
+          <% include lay_orderform.ejs %>
         </div>
       </div>
       <% } %>
     </div>
     <!-- /CONTAINER: -->
-
-    <% include ../layout/lay_site_4_bottomscripts.ejs %>
+    <% include lay_success_order_modal.ejs %> <% include
+    ../layout/lay_site_4_bottomscripts.ejs %>
     <script src="/vendor/chosen/chosen.jquery.js"></script>
     <link href="/vendor/chosen/chosen.css" rel="stylesheet" />
   </body>
