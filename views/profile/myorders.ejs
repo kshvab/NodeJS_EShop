@@ -8,63 +8,145 @@
     <!-- CONTAINER: -->
     <div class="container">
       <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <br />
           <% include lay_myprofile_sidebar_left.ejs %>
         </div>
 
-        <div class="col-lg-8">
+        <div class="col-lg-9">
           <!-- MAIN CONTENT HERE: -->
 
           <br />
           <H1>Мои заказы</H1>
 
-          <div class="card border-primary mb-3">
-            <div class="card-header">Заказ № 555</div>
-            <div class="card-body">
-              <h6>Кастрюля "Бохман" мраморное покрытие 2,2л. BH-2620 20см</h6>
-              <div class="row">
-                <div class="col-lg-4">Цена: 345 грн</div>
-                <div class="col-lg-4">Количество: 1 шт</div>
-                <div class="col-lg-4">Сумма: 345 грн</div>
-              </div>
-              <hr />
-              <h6>Кастрюля "Бохман" мраморное покрытие 2,2л. BH-2620 20см</h6>
-              <div class="row">
-                <div class="col-lg-4">Цена: 345 грн</div>
-                <div class="col-lg-4">Количество: 1 шт</div>
-                <div class="col-lg-4">Сумма: 345 грн</div>
-              </div>
+          <% if (!transData.ordersArr.length) { %>
+          <!--Empty order list: -->
+          <H3>У Вас нет заказов</H3>
+          <br />
+          <form action="/shop">
+            <button type="submit" class="btn btn-success">
+              <span class="fas fa-gift avesomePaddingRight"></span>За покупками!
+            </button>
+          </form>
+          <!--/Empty order list: -->
+          <% } else { %>
+          <!--Not Empty order list: -->
 
-              <hr />
+          <%transData.ordersArr.forEach(function(order){ %>
+          <div class="card border-success mb-3">
+            <div class="card-header">
               <div class="row">
-                <div class="col-lg-8"></div>
-                <div class="col-lg-4">ИТОГО: 345 грн</div>
+                <div class="col-lg-3"><H5>Заказ № <%=order._id%></H5></div>
+                <div class="col-lg-7">
+                  <% if (order.user.customer) {
+                  %><H5><%=order.user.customer%></H5><% } %>
+                </div>
+                <div class="col-lg-2">
+                  <%=order.createdAt.toISOString().substring(0, 10)%>
+                </div>
+              </div>
+              <% if (order.user.deliveryType) {%>
+              <%=order.user.deliveryType%><br /><% } %> <% if
+              (order.user.deliveryCity) {%> <%=order.user.deliveryCity%><% } %>
+              <% if (order.user.deliveryDepartment) {%>
+              <%=order.user.deliveryDepartment%><br /><% } %> <% if
+              (order.user.paymentMethod) {%> <%=order.user.paymentMethod%><br /><%
+              } %> <% if (order.user.ordercomment)
+              {%><em>"<%=order.user.ordercomment%>"</em><% } %>
+            </div>
+            <div class="card-body">
+              <div class="shopcart-items-table">
+                <!--Order ShopCart List -->
+                <% let totalSumm = 0; order.shopcart.forEach(function(item){ %>
+                <div class="row shopcart-one-item-row">
+                  <div class="col-lg-3">
+                    <div class="border-primary">
+                      <img
+                        style="width: 100%; max-width: 200px; display: block;"
+                        src="<%= '/import_foto/' + (item.picture).slice(13) %>"
+                        alt="Card image"
+                        onerror="this.style.display = 'none'"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-lg-9">
+                    <a href="/shop/<%= item.vendorCode %>">
+                      <h6 class="card-title"><%= item.name %></h6>
+                    </a>
+
+                    <div class="row">
+                      <div class="col-lg-6">
+                        <h6 class="text-muted">
+                          Артикул: <%= item.vendorCode %>
+                        </h6>
+                      </div>
+                    </div>
+                    <div class="shopcart-row-price-and-quantity">
+                      <div class="row">
+                        <div class="col-lg-4">
+                          <div class="cart-uah"><%= item.price %> грн</div>
+                        </div>
+
+                        <div class="col-lg-4">
+                          <div class="cart-amount btn-group">
+                            <input
+                              type="number"
+                              min="1"
+                              max="<%= item.stock %>"
+                              step="1"
+                              name="<%= item.vendorCode %>"
+                              class="cart-line-amount-input"
+                              value="<%= item.quantity %>"
+                              disabled
+                            />
+                          </div>
+                        </div>
+
+                        <div class="col-lg-4">
+                          <div
+                            class="cart-list-newItemSumm jq-div-itemsumm<%= item.vendorCode %>"
+                          >
+                            <%= (item.quantity*item.price).toFixed(2) %> грн
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <% totalSumm += item.quantity*item.price %>
+                </div>
+
+                <% }); %>
               </div>
             </div>
-          </div>
-          <br />
-          <div class="card border-primary mb-3">
-            <div class="card-header">Заказ № 555</div>
-            <div class="card-body">
-              <h6>Кастрюля "Бохман" мраморное покрытие 2,2л. BH-2620 20см</h6>
+            <div class="card-footer">
+              <!-- Summ: -->
               <div class="row">
-                <div class="col-lg-4">Цена: 345 грн</div>
-                <div class="col-lg-4">Количество: 1 шт</div>
-                <div class="col-lg-4">Сумма: 345 грн</div>
+                <div class="col-lg-7">
+                  <H5 class="cart-all-items-quantity-insert"></H5>
+                </div>
+                <div class="col-lg-5">
+                  <div class="cart-total-label">
+                    <div class="cart-total-sum" name="total">
+                      <span class="cart-total-title">Итого:</span>
+
+                      <span class="cart-total-uah">
+                        <span name="cost" id="cart-total"
+                          ><%= totalSumm.toFixed(2) %></span
+                        >
+                        &nbsp; <span class="cart-total-uah-sign">грн</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <hr />
-              <h6>Кастрюля "Бохман" мраморное покрытие 2,2л. BH-2620 20см</h6>
-              <div class="row">
-                <div class="col-lg-4">Цена: 345 грн</div>
-                <div class="col-lg-4">Количество: 1 шт</div>
-                <div class="col-lg-4">Сумма: 345 грн</div>
-              </div>
-              <hr />
+              <!-- /Summ: -->
             </div>
           </div>
-          <br />
+          <% }); %>
 
+          <!--/Not Empty order list: -->
+          <% } %>
           <!-- /MAIN CONTENT HERE: -->
         </div>
       </div>

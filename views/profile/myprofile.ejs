@@ -8,102 +8,120 @@
     <!-- CONTAINER: -->
     <div class="container">
       <div class="row">
-        <div class="col-lg-4">
+        <div class="col-lg-3">
           <br />
           <% include lay_myprofile_sidebar_left.ejs %>
         </div>
 
-        <div class="col-lg-8">
+        <div class="col-lg-9">
+
           <br />
           <H1>Мой профиль</H1>
 
-          <table class="table table-hover">
-            <tbody>
-              <tr>
-                <th scope="row">ID пользователя</th>
-                <td><%= transData.user._id %></td>
-              </tr>
-              <tr>
-                <th scope="row">Группа</th>
-                <td><%= transData.user.group %></td>
-              </tr>
-              <tr>
-                <th scope="row">Логин</th>
-                <td><%= transData.user.login %></td>
-              </tr>
+          <div class="card border-success mb-3">
+              <div class="card-header">
+                <h4><%= transData.user.login %><h4>          
+              </div>
+               
+              <div class="card-body">
+                  <table class="table table-hover">
+                      <tbody>
+                        <tr>
+                          <th scope="row">ID пользователя</th>
+                          <td><%= transData.user._id %></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Группа</th>
+                          <td><%= transData.user.group %></td>
+                          <td></td>
+                        </tr>
+          
+          
+                        <tr>
+                          <th scope="row">Имя</th>
+                          <td><%= transData.user.name %></td>
+                          <td>
+                            <button
+                              type="button"
+                              class="btn btn-primary btn-sm"
+                              data-toggle="modal"
+                              data-target="#userChangeNameModal"
+                            >
+                              <span class="fas fa-edit avesomePaddingRight"></span
+                              >Изменить
+                            </button>
+                          </td>
+                        </tr>
+          
+                        <tr>
+                          <th scope="row">E-mail</th>
+                          <td><%= transData.user.email %></td>
+                          <td>
+                            <button
+                              type="button"
+                              class="btn btn-primary btn-sm"
+                              data-toggle="modal"
+                              data-target="#userChangeEmailModal"
+                            >
+                              <span class="fas fa-edit avesomePaddingRight"></span
+                              >Изменить
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Номер телефона</th>
+                          <td>+38<%= transData.user.phonenumber %></td>
+                          <td>
+                            <button
+                              type="button"
+                              class="btn btn-primary btn-sm"
+                              data-toggle="modal"
+                              data-target="#userChangePhoneNumberModal"
+                            >
+                              <span class="fas fa-edit avesomePaddingRight"></span
+                              >Изменить
+                            </button>
+                          </td>
+                        </tr>
+          
+                        <tr>
+                          <th scope="row">Пароль</th>
+                          <td>Не отображается</td>
+                          <td>
+                            <button
+                              type="button"
+                              class="btn btn-primary btn-sm"
+                              data-toggle="modal"
+                              data-target="#userChangePasswordModal"
+                            >
+                              <span class="fas fa-edit avesomePaddingRight"></span
+                              >Изменить
+                            </button>
+                          </td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Дата регистрации</th>
+                          <td><%= transData.user.createdAt %></td>
+                          <td></td>
+                        </tr>
+                        <tr>
+                          <th scope="row">Последнее изменение</th>
+                          <td><%= transData.user.updatedAt %></td>
+                          <td></td>
+                        </tr>
+                      </tbody>
+                    </table>
+              </div>
 
-              <tr>
-                <th scope="row">Имя</th>
-                <td><%= transData.user.name %></td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm"
-                    data-toggle="modal"
-                    data-target="#userChangeNameModal"
-                  >
-                    <span class="fas fa-edit avesomePaddingRight"></span
-                    >Изменить
-                  </button>
-                </td>
-              </tr>
+            </div>
 
-              <tr>
-                <th scope="row">E-mail</th>
-                <td><%= transData.user.email %></td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm"
-                    data-toggle="modal"
-                    data-target="#userChangeEmailModal"
-                  >
-                    <span class="fas fa-edit avesomePaddingRight"></span
-                    >Изменить
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Номер телефона</th>
-                <td>+38<%= transData.user.phonenumber %></td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm"
-                    data-toggle="modal"
-                    data-target="#userChangePhoneNumberModal"
-                  >
-                    <span class="fas fa-edit avesomePaddingRight"></span
-                    >Изменить
-                  </button>
-                </td>
-              </tr>
 
-              <tr>
-                <th scope="row">Пароль</th>
-                <td>Не отображается</td>
-                <td>
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm"
-                    data-toggle="modal"
-                    data-target="#userChangePasswordModal"
-                  >
-                    <span class="fas fa-edit avesomePaddingRight"></span
-                    >Изменить
-                  </button>
-                </td>
-              </tr>
-              <tr>
-                <th scope="row">Дата регистрации</th>
-                <td><%= transData.user.createdAt %></td>
-              </tr>
-              <tr>
-                <th scope="row">Последнее изменение</th>
-                <td><%= transData.user.updatedAt %></td>
-              </tr>
-            </tbody>
-          </table>
+
+
+
+
+
 
           <br />
 
@@ -112,7 +130,7 @@
       </div>
     </div>
     <!-- /CONTAINER: -->
-    <% include lay_myprofile_modals.ejs %>
-    <% include ../layout/lay_site_4_bottomscripts.ejs %>
+    <% include lay_myprofile_modals.ejs %> <% include
+    ../layout/lay_site_4_bottomscripts.ejs %>
   </body>
 </html>

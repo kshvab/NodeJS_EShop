@@ -1,5 +1,6 @@
 const administrator = require('./administrator');
 const adminpublications = require('./adminpublications');
+const adminshop = require('./adminshop');
 const adminusers = require('./adminusers');
 const auth = require('./auth');
 const mainpage = require('./mainpage');
@@ -11,6 +12,7 @@ const upload = require('./upload');
 module.exports = {
   administrator,
   adminpublications,
+  adminshop,
   adminusers,
   auth,
   mainpage,

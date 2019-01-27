@@ -44,6 +44,10 @@ const orderSchema = mongoose.Schema(
         quantity: {
           type: String,
           required: true
+        },
+        picture: {
+          type: String,
+          required: false
         }
       }
     ]

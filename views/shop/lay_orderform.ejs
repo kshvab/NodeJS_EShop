@@ -26,7 +26,7 @@
             name="login"
             type="hidden"
             id="toorder-login"
-            value="<% if (transData.user.group) { %><%= transData.user.login %><% } else { %>0<% } %>"
+            value="<% if (transData.user.group) { %><%= transData.user.login %><% } %>"
           />
         </div>
 
@@ -38,7 +38,7 @@
             name="_id"
             type="hidden"
             id="toorder-_id"
-            value="<% if (transData.user.group) { %><%= transData.user._id %><% } else { %>0<% } %>"
+            value="<% if (transData.user.group) { %><%= transData.user._id %><% } %>"
           />
         </div>
 
@@ -62,7 +62,7 @@
             name="customer"
             type="<% if (!transData.user.group || transData.user.group == 'Registered') { %>hidden<% } else { %>text<% } %>"
             id="toorder-customer"
-            value="<% if (!transData.user.group || transData.user.group == 'Registered') { %>0<% } %>"
+            value=""
           />
         </div>
 

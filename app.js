@@ -64,6 +64,7 @@ app.use('/', routes.mainpage);
 app.use('/administrator', routes.administrator);
 app.use('/administrator/users', routes.adminusers);
 app.use('/administrator/publications', routes.adminpublications);
+app.use('/administrator/shop', routes.adminshop);
 
 app.use('/api/auth', routes.auth);
 app.use('/profile', routes.profile);

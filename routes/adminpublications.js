@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
+const moment = require('moment');
 const models = require('../models');
 const user = models.user;
 const publication = models.publication;
@@ -21,6 +21,11 @@ router.get('/', function(req, res) {
       ) {
         //Тут іде основний блок для рендерінга
         publication.find().then(publicationsObj => {
+          for (let i = 0; i < publicationsObj.length; i++) {
+            publicationsObj[i].formatedTime = moment(
+              publicationsObj[i].createdAt
+            ).format('DD.MM.YYYY, HH:mm');
+          }
           res.render('administrator/adm_publications', {
             transData: {
               pageTitle: 'Управление публикациями',

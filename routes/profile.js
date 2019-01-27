@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt-nodejs');
 const models = require('../models');
 const user = models.user;
+const order = models.order;
 const moment = require('moment');
 
 router.get('/myprofile', function(req, res) {
@@ -238,14 +239,18 @@ router.get('/myorders', function(req, res) {
     const group = req.session.userGroup;
     const path = '/myorders';
     let shopCart = req.session.shopCart;
-    console.log(group);
-    res.render('profile/myorders', {
-      transData: {
-        pageTitle: 'Мои заказы',
-        user: { _id, login, group },
-        path,
-        shopCart
-      }
+
+    order.find({ 'user.login': login }).then(ordersArr => {
+      ordersArr.reverse();
+      res.render('profile/myorders', {
+        transData: {
+          pageTitle: 'Мои заказы',
+          user: { _id, login, group },
+          path,
+          shopCart,
+          ordersArr
+        }
+      });
     });
   } else console.log('юзер незалогинен!');
 });
