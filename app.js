@@ -93,5 +93,6 @@ app.use((error, req, res, next) => {
 //  --- SERVICES ---
 //const services = require('./services');
 //services.novaposhta.updateDeliveryServiceCitiesList();
+//services.shopxmlparsing.runXmlParsing();
 
 module.exports = app;
