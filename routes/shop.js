@@ -208,6 +208,11 @@ router.get('/', function(req, res) {
   let login;
   let group;
   let shopCart = req.session.shopCart;
+  let page;
+  let itemsPerPage = 18;
+  if (req.query.hasOwnProperty('page') && req.query.page) page = req.query.page;
+  else page = 1;
+
   if (req.session.userId && req.session.userLogin) {
     _id = req.session.userId;
     login = req.session.userLogin;
@@ -233,13 +238,15 @@ router.get('/', function(req, res) {
     }
   );
   var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
-  console.dir(shopCategoriesArr);
+  //console.dir(shopCategoriesArr);
   res.render('shop/shop_mainpage', {
     transData: {
       shopItemsArr,
       shopCategoriesArr,
       user: { _id, login, group },
-      shopCart
+      shopCart,
+      page,
+      itemsPerPage
     }
   });
 });

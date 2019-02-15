@@ -1233,3 +1233,12 @@ div.telefon-topk8:hover {
   color: inherit;
   white-space: normal;
 }
+
+.tile-subcategory-bloc {
+  text-align: center;
+  padding-bottom: 20px;
+}
+
+.items-pagination {
+  text-align: center;
+}

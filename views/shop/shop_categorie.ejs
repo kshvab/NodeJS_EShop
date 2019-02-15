@@ -33,8 +33,92 @@
         <H2>
           <%= transData.shownCat.catName %>
         </H2>
+        <% if (transData.shownCat.catHasChildren) {%>
+        <% var subCatsArr = [];
+          transData.shopCategoriesArr.forEach(function(item){
+            if (item.catFatherId == transData.shownCat.catId) { subCatsArr.push(item); } }); %>
+        <% var n=subCatsArr.length; var rest = n%3; var rows = (n-rest)/3; %>
+
+        <% for (i=0; i<rows; i++) { %>
+            <div class="row">
+              <div class="col-lg-4 tile-subcategory-bloc">
+    
+                <div class="border-primary">
+                  <a href="/shop/<%= subCatsArr[i*3+0].catAlias %>">
+                    <img style="width: 100%; display: block;"
+                      src="<%= '/import_foto/' + (subCatsArr[i*3+0].catPicture).slice(13) %>" alt="Card image"
+                      onerror="this.style.display = 'none'" />
+                  </a>
+                </div>
+                <a class="tile-subcategory-name" href="/shop/<%= subCatsArr[i*3+0].catAlias %>">
+                <%= subCatsArr[i*3+0].catName %>
+              </a>
+              </div>
+              <div class="col-lg-4 tile-subcategory-bloc">
+                <div class="border-primary">
+                  <a href="/shop/<%= subCatsArr[i*3+1].catAlias %>">
+                    <img style="width: 100%; display: block;"
+                      src="<%= '/import_foto/' + (subCatsArr[i*3+1].catPicture).slice(13) %>" alt="Card image"
+                      onerror="this.style.display = 'none'" />
+                  </a>
+                </div>
+                <a class="tile-subcategory-name" href="/shop/<%= subCatsArr[i*3+1].catAlias %>">
+                <%= subCatsArr[i*3+1].catName %>
+              </a>
+              </div>
+              <div class="col-lg-4 tile-subcategory-bloc">
+                <div class="border-primary">
+                  <a href="/shop/<%= subCatsArr[i*3+2].catAlias %>">
+                    <img style="width: 100%; display: block;"
+                      src="<%= '/import_foto/' + (subCatsArr[i*3+2].catPicture).slice(13) %>" alt="Card image"
+                      onerror="this.style.display = 'none'" />
+                  </a>
+                </div>
+                <a class="tile-subcategory-name" href="/shop/<%= subCatsArr[i*3+2].catAlias %>">
+                <%= subCatsArr[i*3+2].catName %>
+              </a>
+              </div>
+            </div>
+            <%}%>
+                      <div class="row">
+                          <div class="col-lg-4 tile-subcategory-bloc"><% if (rest > 0) { %>
+            <div class="border-primary">
+              <a href="/shop/<%= subCatsArr[(rows)*3+0].catAlias %>">
+                <img style="width: 100%; display: block;"
+                  src="<%= '/import_foto/' + (subCatsArr[(rows)*3+0].catPicture).slice(13) %>" alt="Card image"
+                  onerror="this.style.display = 'none'" />
+              </a>
+            </div>
+            <a class="tile-subcategory-name" href="/shop/<%= subCatsArr[(rows)*3+0].catAlias %>">
+            <%= subCatsArr[(rows)*3+0].catName %>
+          </a>
+            <% } %>
+          
+          </div>
+          <div class="col-lg-4 tile-subcategory-bloc"><% if (rest > 1) { %>
+            <div class="border-primary">
+              <a href="/shop/<%= subCatsArr[(rows)*3+1].catAlias %>">
+                <img style="width: 100%; display: block;"
+                  src="<%= '/import_foto/' + (subCatsArr[(rows)*3+1].catPicture).slice(13) %>" alt="Card image"
+                  onerror="this.style.display = 'none'" />
+              </a>
+            </div>
+            <a class="tile-subcategory-name" href="/shop/<%= subCatsArr[(rows)*3+1].catAlias %>"></a>
+            <%= subCatsArr[(rows)*3+1].catName %>
+          </a>
+            <% } %>
+          </div>
+          <div class="col-lg-4 tile-subcategory-bloc"></div>
+        </div>
+
+
+
+
+
+        <%}%>
 
         <% transData.shownCatItems.forEach(function(item){ %>
+
         <div class="card-body">
           <div class="row">
 
