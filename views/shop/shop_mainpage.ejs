@@ -107,15 +107,15 @@
     <div class="items-pagination">
       <ul class="pagination">
         <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
-          <a class="page-link" href="/shop?page=<%=transData.page-1%>">&laquo;</a>
+          <a class="page-link" href="?page=<%=transData.page-1%>">&laquo;</a>
         </li>
         <% for (var i = 1; i<=pages; i++) { %>
           <li class="page-item <%if (transData.page == i) { %> active <%}%>">
-            <a class="page-link" href="/shop?page=<%=i%>"><%=i%></a>
+            <a class="page-link" href="?page=<%=i%>"><%=i%></a>
           </li>
         <%}%>
         <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
-          <a class="page-link" href="/shop?page=<%=+transData.page+1%>">&raquo;</a>
+          <a class="page-link" href="?page=<%=+transData.page+1%>">&raquo;</a>
         </li>
       </ul>
     </div>
@@ -193,15 +193,15 @@
     <div class="items-pagination">
         <ul class="pagination">
           <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
-            <a class="page-link" href="/shop?page=<%=transData.page-1%>">&laquo;</a>
+            <a class="page-link" href="?page=<%=transData.page-1%>">&laquo;</a>
           </li>
           <% for (var i = 1; i<=pages; i++) { %>
             <li class="page-item <%if (transData.page == i) { %> active <%}%>">
-              <a class="page-link" href="/shop?page=<%=i%>"><%=i%></a>
+              <a class="page-link" href="?page=<%=i%>"><%=i%></a>
             </li>
           <%}%>
           <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
-            <a class="page-link" href="/shop?page=<%=+transData.page+1%>">&raquo;</a>
+            <a class="page-link" href="?page=<%=+transData.page+1%>">&raquo;</a>
           </li>
         </ul>
       </div>

@@ -9,6 +9,11 @@ router.get(
     let login;
     let group;
     let shopCart = req.session.shopCart;
+    let page;
+    let itemsPerPage = 5;
+    if (req.query.hasOwnProperty('page') && req.query.page)
+      page = req.query.page;
+    else page = 1;
 
     //console.dir(req.session);
     if (req.session.userId && req.session.userLogin) {
@@ -129,7 +134,9 @@ router.get(
           shownCat,
           shownCatItems,
           breadcrumbArr,
-          shopCart
+          shopCart,
+          page,
+          itemsPerPage
         }
       });
       //console.log(shownCat);

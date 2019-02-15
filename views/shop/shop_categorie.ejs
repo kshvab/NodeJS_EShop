@@ -34,13 +34,13 @@
           <%= transData.shownCat.catName %>
         </H2>
         <% if (transData.shownCat.catHasChildren) {%>
-        <% var subCatsArr = [];
+          <% var subCatsArr = [];
           transData.shopCategoriesArr.forEach(function(item){
             if (item.catFatherId == transData.shownCat.catId) { subCatsArr.push(item); } }); %>
-        <% var n=subCatsArr.length; var rest = n%3; var rows = (n-rest)/3; %>
+          <% var n=subCatsArr.length; var rest = n%3; var rows = (n-rest)/3; %>
 
-        <% for (i=0; i<rows; i++) { %>
-            <div class="row">
+            <% for (i=0; i<rows; i++) { %>
+              <div class="row">
               <div class="col-lg-4 tile-subcategory-bloc">
     
                 <div class="border-primary">
@@ -78,9 +78,9 @@
                 <%= subCatsArr[i*3+2].catName %>
               </a>
               </div>
-            </div>
+              </div>
             <%}%>
-                      <div class="row">
+              <div class="row">
                           <div class="col-lg-4 tile-subcategory-bloc"><% if (rest > 0) { %>
             <div class="border-primary">
               <a href="/shop/<%= subCatsArr[(rows)*3+0].catAlias %>">
@@ -109,88 +109,128 @@
             <% } %>
           </div>
           <div class="col-lg-4 tile-subcategory-bloc"></div>
-        </div>
-
-
-
-
-
+              </div>
         <%}%>
 
-        <% transData.shownCatItems.forEach(function(item){ %>
-
-        <div class="card-body">
-          <div class="row">
-
-            <div class="col-lg-5">
-              <div class="border-primary">
-                <img style="width: 100%; display: block;" src="<%= '/import_foto/' + (item.picture).slice(13) %>" alt="Card image" onerror="this.style.display = 'none'"/>
-              </div>
-            </div>
-
-            <div class="col-lg-7">
-
-              <a href="/shop/<%= item.vendorCode %>">
-                <h5 class="card-title">
-                  <%= item.name %>
-                </h5>
-              </a>
-
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="cart-uah">
-                    <%= item.price %> грн</div>
-                </div>
-                <div class="col-lg-4">
-                  <h6 class="text-muted">Артикул:
-                    <%= item.vendorCode %>
-                  </h6>
-
-                </div>
-                <div class="col-lg-4">
-
-                  <h6 class="text-muted jq-stock-<%= item.vendorCode %>" value="<%= item.stock %>">Остаток:
-                    <%= item.stock %>
-                  </h6>
-                </div>
-              </div>
 
 
-              <div class="shopcart-and-wishlist-buttons">
-
-                <div class="cart-amount btn-group">
-
-                  <button name="cart-amount-minus" type="button" class="btn btn-secondary btn-sm jq-btn-minus-<%= item.vendorCode %>" id="<%= item.vendorCode %>">
-                    <span class="fas fa-minus"></span>
-                  </button>
-
-                  <input type="number" min="1" max="<%= item.stock %>" step="1" name="<%= item.vendorCode %>" id="555"
-                    class="cart-amount-input" value="1" />
-
-                  <button name="cart-amount-plus" type="button" class="btn btn-secondary btn-sm jq-btn-plus-<%= item.vendorCode %>" id="<%= item.vendorCode %>">
-                    <span class="fas fa-plus"></span>
-                  </button>
-
-                </div>
-
-                <button name="add-item-to-shopcart-button" type="button" class="btn btn-success btn-sm item-add-to-shopcart-button"
-                  id="<%= item.vendorCode %>">
-                  В Корзину
-                </button>
-
-                <button name="add-item-to-wishlist-button" type="button" class="btn btn-warning btn-sm item-add-to-wishlist-button"
-                  id="<%= item.vendorCode %>">
-                  <span class="fas fa-heart"></span>
-                </button>
-
-              </div>
+        <hr>
 
 
-            </div>
-          </div>
+        <%var len = transData.shownCatItems.length; var rest = len%transData.itemsPerPage; var fullPages = (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
+        <%if (len>transData.itemsPerPage) { %>
+        <div class="items-pagination">
+          <ul class="pagination">
+            <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
+              <a class="page-link" href="?page=<%=transData.page-1%>">&laquo;</a>
+            </li>
+            <% for (var i = 1; i<=pages; i++) { %>
+              <li class="page-item <%if (transData.page == i) { %> active <%}%>">
+                <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+              </li>
+            <%}%>
+            <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
+              <a class="page-link" href="?page=<%=+transData.page+1%>">&raquo;</a>
+            </li>
+          </ul>
         </div>
-        <% }); %>
+        <%}%>
 
+        <% for (var i = transData.page*transData.itemsPerPage-transData.itemsPerPage; i<transData.shownCatItems.length; i++ ) {%>
+      
+            <%if (i<transData.page*transData.itemsPerPage) {%>
+
+        
+
+                <div class="card-body">
+                    <div class="row">
+          
+                      <div class="col-lg-5">
+                        <div class="border-primary">
+                          <img style="width: 100%; display: block;" src="<%= '/import_foto/' + (transData.shownCatItems[i].picture).slice(13) %>" alt="Card image" onerror="this.style.display = 'none'"/>
+                        </div>
+                      </div>
+          
+                      <div class="col-lg-7">
+          
+                        <a href="/shop/<%= transData.shownCatItems[i].vendorCode %>">
+                          <h5 class="card-title">
+                            <%= transData.shownCatItems[i].name %>
+                          </h5>
+                        </a>
+          
+                        <div class="row">
+                          <div class="col-lg-4">
+                            <div class="cart-uah">
+                              <%= transData.shownCatItems[i].price %> грн</div>
+                          </div>
+                          <div class="col-lg-4">
+                            <h6 class="text-muted">Артикул:
+                              <%= transData.shownCatItems[i].vendorCode %>
+                            </h6>
+          
+                          </div>
+                          <div class="col-lg-4">
+          
+                            <h6 class="text-muted jq-stock-<%= transData.shownCatItems[i].vendorCode %>" value="<%= transData.shownCatItems[i].stock %>">Остаток:
+                              <%= transData.shownCatItems[i].stock %>
+                            </h6>
+                          </div>
+                        </div>
+          
+          
+                        <div class="shopcart-and-wishlist-buttons">
+          
+                          <div class="cart-amount btn-group">
+          
+                            <button name="cart-amount-minus" type="button" class="btn btn-secondary btn-sm jq-btn-minus-<%= transData.shownCatItems[i].vendorCode %>" id="<%= transData.shownCatItems[i].vendorCode %>">
+                              <span class="fas fa-minus"></span>
+                            </button>
+          
+                            <input type="number" min="1" max="<%= transData.shownCatItems[i].stock %>" step="1" name="<%= transData.shownCatItems[i].vendorCode %>" id="555"
+                              class="cart-amount-input" value="1" />
+          
+                            <button name="cart-amount-plus" type="button" class="btn btn-secondary btn-sm jq-btn-plus-<%= transData.shownCatItems[i].vendorCode %>" id="<%= transData.shownCatItems[i].vendorCode %>">
+                              <span class="fas fa-plus"></span>
+                            </button>
+          
+                          </div>
+          
+                          <button name="add-transData.shownCatItems[i]-to-shopcart-button" type="button" class="btn btn-success btn-sm transData.shownCatItems[i]-add-to-shopcart-button"
+                            id="<%= transData.shownCatItems[i].vendorCode %>">
+                            В Корзину
+                          </button>
+          
+                          <button name="add-transData.shownCatItems[i]-to-wishlist-button" type="button" class="btn btn-warning btn-sm transData.shownCatItems[i]-add-to-wishlist-button"
+                            id="<%= transData.shownCatItems[i].vendorCode %>">
+                            <span class="fas fa-heart"></span>
+                          </button>
+          
+                        </div>
+          
+          
+                      </div>
+                    </div>
+                  </div>
+        <% } %>
+        <% }; %>
+        <%if (len>transData.itemsPerPage) { %>
+          <div class="items-pagination">
+            <ul class="pagination">
+              <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
+                <a class="page-link" href="?page=<%=transData.page-1%>">&laquo;</a>
+              </li>
+              <% for (var i = 1; i<=pages; i++) { %>
+                <li class="page-item <%if (transData.page == i) { %> active <%}%>">
+                  <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+                </li>
+              <%}%>
+              <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
+                <a class="page-link" href="?page=<%=+transData.page+1%>">&raquo;</a>
+              </li>
+            </ul>
+          </div>
+          <%}%>
         <!-- /MAIN CONTENT HERE: -->
       </div>
     </div>
