@@ -16,10 +16,199 @@
         <br />
 
         <!-- MAIN CONTENT HERE: -->
-        <p>Тут будет главная страница по настройкам магазина</p>
-        <p><!-- /MAIN CONTENT HERE: --></p>
-      </div>
 
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="panel panel-default">
+              <div class="panel-heading">Настройки цены и скидок</div>
+
+              <div class="panel-body">
+                <div id="pricesettings-error-msg"></div>
+                <form role="form" method="post" class="pricesettings">
+                  <fieldset>
+                    <div class="form-group" id="div_usd-kurs-settings">
+                      <label class="col-form-label" for="usd-kurs-settings"
+                        >Курc доллара для входящей цены</label
+                      >
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="usd-kurs-settings"
+                          name="kursdolara"
+                        />
+                        <span class="input-group-addon">грн/$</span>
+                      </div>
+                    </div>
+
+                    <div class="form-group" id="div_usd-kurs-settings">
+                      <label class="col-form-label" for="base-nacenka-settings"
+                        >Базовая наценка на в ходящую цену</label
+                      >
+                      <div class="input-group mb-3">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="base-nacenka-settings"
+                          name="base-nacenka"
+                        />
+                        <span class="input-group-addon">%</span>
+                      </div>
+                    </div>
+                    <hr />
+
+                    <div class="form-group" id="div_usd-kurs-settings">
+                      <div class="input-group mb-3">
+                        <span class="input-group-addon"
+                          >Скидка 1й категории</span
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="skidka1-settings"
+                          name="skidka1"
+                        />
+                        <span class="input-group-addon">%</span>
+                      </div>
+                    </div>
+
+                    <div class="form-group" id="div_usd-kurs-settings">
+                      <div class="input-group mb-3">
+                        <span class="input-group-addon"
+                          >Скидка 2й категории</span
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="skidka2-settings"
+                          name="skidka2"
+                        />
+                        <span class="input-group-addon">%</span>
+                      </div>
+                    </div>
+
+                    <div class="form-group" id="div_usd-kurs-settings">
+                      <div class="input-group mb-3">
+                        <span class="input-group-addon"
+                          >Скидка 3й категории</span
+                        >
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="skidka3-settings"
+                          name="skidka3"
+                        />
+                        <span class="input-group-addon">%</span>
+                      </div>
+                    </div>
+                    <!-- Change this to a button or input when using this as a form -->
+                    <a
+                      href="#"
+                      class="shop-price-settings-button btn btn-lg btn-primary btn-block"
+                      id="shoppricesettingssave-button"
+                      >Сохранить</a
+                    >
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="panel panel-default">
+              <div class="panel-heading">Настройки отображения товаров</div>
+
+              <div class="panel-body">
+                <div id="itemsviewsettings-error-msg"></div>
+                <form role="form" method="post" class="itemsviewsettings">
+                  <fieldset>
+                    <div
+                      class="form-group"
+                      id="div_shop-settings-shopmainpage-itemsperpage"
+                    >
+                      <label
+                        class="col-form-label"
+                        for="shop-settings-shopmainpage-itemsperpage"
+                        >Количество товаров на главной магазина</label
+                      >
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="shop-settings-shopmainpage-itemsperpage"
+                        name="shopsettingsshopmainpageitemsperpage"
+                      />
+                    </div>
+
+                    <div
+                      class="form-group"
+                      id="div_shop-settings-shopcategorie-itemsperpage"
+                    >
+                      <label
+                        class="col-form-label"
+                        for="shop-settings-shopcategorie-itemsperpage"
+                        >Количество товаров на стр. категории</label
+                      >
+                      <input
+                        type="number"
+                        class="form-control"
+                        id="shop-settings-shopcategorie-itemsperpage"
+                        name="shopsettingsshopcategorieitemsperpage"
+                      />
+                    </div>
+                    <!-- Change this to a button or input when using this as a form -->
+                    <a
+                      href="#"
+                      class="shop-ittemsview-settings-button btn btn-lg btn-primary btn-block"
+                      id="shopittemsviewsettingssave-button"
+                      >Сохранить</a
+                    >
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="panel panel-default">
+              <div class="panel-heading">Настройки импорта</div>
+
+              <div class="panel-body">
+                <div id="importsettings-error-msg"></div>
+                <form role="form" method="post" class="importsettings">
+                  <fieldset>
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-block manual-import-start"
+                      id="manual-import-start-button"
+                    >
+                      Ручной запуск импорта базы товаров
+                    </button>
+
+                    <hr />
+                    <div
+                      class="form-group"
+                      id="div_shop-settings-automatic-import-status"
+                    >
+                      <label
+                        class="col-form-label"
+                        for="shop-settings-shopmainpage-itemsperpage"
+                        >Автоматический импорт по расписанию</label
+                      >
+                      <select
+                        class="form-control"
+                        id="shop-settings-automatic-import-status"
+                      >
+                        <option>Включено</option>
+                        <option>Выключено</option>
+                      </select>
+                    </div>
+
+                    !!! расписание автоматического импорта
+                  </fieldset>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
