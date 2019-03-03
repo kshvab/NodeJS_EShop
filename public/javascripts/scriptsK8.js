@@ -668,8 +668,8 @@ $(window).on('load', function() {
       );
 
       $('#newItemPicture').html(
-        '<img src="/import_foto/' +
-          data.shopCart[0].picture.slice(13) +
+        '<img src="' +
+          data.shopCart[0].picture +
           '"class="cart-list-itempicture"/>'
       );
       $('#newItemName').text(data.shopCart[0].name);

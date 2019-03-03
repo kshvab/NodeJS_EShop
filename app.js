@@ -23,10 +23,7 @@ mongoose.connection
       );
   });
 
-mongoose.connect(
-  config.MONGO_URL,
-  { useNewUrlParser: true }
-);
+mongoose.connect(config.MONGO_URL, { useNewUrlParser: true });
 
 // express
 const app = express();
@@ -93,6 +90,7 @@ app.use((error, req, res, next) => {
 //  --- SERVICES ---
 //const services = require('./services');
 //services.novaposhta.updateDeliveryServiceCitiesList();
-//services.shopxmlparsing.runXmlParsing();
+//services.catscreating.runCategoriesParsing();
+//services.itemscreating.runItemsParsing();
 
 module.exports = app;

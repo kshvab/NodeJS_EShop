@@ -41,8 +41,8 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="border-primary">
-                <img style="width: 100%; display: block;" src="<%= '/import_foto/' + (transData.shownItem.picture).slice(13) %>"
-                  alt="Card image" onerror="this.style.display = 'none'"/>
+                <img style="display: block;" src="<%= transData.shownItem.picture %>"
+                  alt="<%= transData.shownItem.name %>" onerror="this.style.display = 'none'"/>
               </div>
             </div>
 

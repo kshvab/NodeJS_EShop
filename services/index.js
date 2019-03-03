@@ -1,6 +1,9 @@
 const novaposhta = require('./novaposhta');
-const shopxmlparsing = require('./shopxmlparsing');
+const catscreating = require('./catscreating');
+const itemscreating = require('./itemscreating');
+
 module.exports = {
   novaposhta,
-  shopxmlparsing
+  catscreating,
+  itemscreating
 };

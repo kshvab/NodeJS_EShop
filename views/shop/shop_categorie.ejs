@@ -44,37 +44,29 @@
               <div class="col-lg-4 tile-subcategory-bloc">
     
                 <div class="border-primary">
-                  <a href="/shop/<%= subCatsArr[i*3+0].catAlias %>">
-                    <img style="width: 100%; display: block;"
-                      src="<%= '/import_foto/' + (subCatsArr[i*3+0].catPicture).slice(13) %>" alt="Card image"
-                      onerror="this.style.display = 'none'" />
-                  </a>
+                  
                 </div>
-                <a class="tile-subcategory-name" href="/shop/<%= subCatsArr[i*3+0].catAlias %>">
+                <a class="tile-subcategory-name btn btn-primary btn-block" href="/shop/<%= subCatsArr[i*3+0].catAlias %>">
                 <%= subCatsArr[i*3+0].catName %>
               </a>
+              
+              
+
+
               </div>
               <div class="col-lg-4 tile-subcategory-bloc">
                 <div class="border-primary">
-                  <a href="/shop/<%= subCatsArr[i*3+1].catAlias %>">
-                    <img style="width: 100%; display: block;"
-                      src="<%= '/import_foto/' + (subCatsArr[i*3+1].catPicture).slice(13) %>" alt="Card image"
-                      onerror="this.style.display = 'none'" />
-                  </a>
+                  
                 </div>
-                <a class="tile-subcategory-name" href="/shop/<%= subCatsArr[i*3+1].catAlias %>">
+                <a class="tile-subcategory-name btn btn-primary btn-block" href="/shop/<%= subCatsArr[i*3+1].catAlias %>">
                 <%= subCatsArr[i*3+1].catName %>
               </a>
               </div>
               <div class="col-lg-4 tile-subcategory-bloc">
                 <div class="border-primary">
-                  <a href="/shop/<%= subCatsArr[i*3+2].catAlias %>">
-                    <img style="width: 100%; display: block;"
-                      src="<%= '/import_foto/' + (subCatsArr[i*3+2].catPicture).slice(13) %>" alt="Card image"
-                      onerror="this.style.display = 'none'" />
-                  </a>
+                  
                 </div>
-                <a class="tile-subcategory-name" href="/shop/<%= subCatsArr[i*3+2].catAlias %>">
+                <a class="tile-subcategory-name btn btn-primary btn-block" href="/shop/<%= subCatsArr[i*3+2].catAlias %>">
                 <%= subCatsArr[i*3+2].catName %>
               </a>
               </div>
@@ -83,13 +75,9 @@
               <div class="row">
                           <div class="col-lg-4 tile-subcategory-bloc"><% if (rest > 0) { %>
             <div class="border-primary">
-              <a href="/shop/<%= subCatsArr[(rows)*3+0].catAlias %>">
-                <img style="width: 100%; display: block;"
-                  src="<%= '/import_foto/' + (subCatsArr[(rows)*3+0].catPicture).slice(13) %>" alt="Card image"
-                  onerror="this.style.display = 'none'" />
-              </a>
+              
             </div>
-            <a class="tile-subcategory-name" href="/shop/<%= subCatsArr[(rows)*3+0].catAlias %>">
+            <a class="tile-subcategory-name btn btn-primary btn-block" href="/shop/<%= subCatsArr[(rows)*3+0].catAlias %>">
             <%= subCatsArr[(rows)*3+0].catName %>
           </a>
             <% } %>
@@ -97,13 +85,9 @@
           </div>
           <div class="col-lg-4 tile-subcategory-bloc"><% if (rest > 1) { %>
             <div class="border-primary">
-              <a href="/shop/<%= subCatsArr[(rows)*3+1].catAlias %>">
-                <img style="width: 100%; display: block;"
-                  src="<%= '/import_foto/' + (subCatsArr[(rows)*3+1].catPicture).slice(13) %>" alt="Card image"
-                  onerror="this.style.display = 'none'" />
-              </a>
+              
             </div>
-            <a class="tile-subcategory-name" href="/shop/<%= subCatsArr[(rows)*3+1].catAlias %>"></a>
+            <a class="tile-subcategory-name btn btn-primary btn-block" href="/shop/<%= subCatsArr[(rows)*3+1].catAlias %>">
             <%= subCatsArr[(rows)*3+1].catName %>
           </a>
             <% } %>
@@ -147,7 +131,7 @@
           
                       <div class="col-lg-5">
                         <div class="border-primary">
-                          <img style="width: 100%; display: block;" src="<%= '/import_foto/' + (transData.shownCatItems[i].picture).slice(13) %>" alt="Card image" onerror="this.style.display = 'none'"/>
+                          <img style="display: block;" src="<%= transData.shownCatItems[i].picture %>" alt="<%= transData.shownCatItems[i].name %>" onerror="this.style.display = 'none'"/>
                         </div>
                       </div>
           
