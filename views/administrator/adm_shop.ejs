@@ -8,7 +8,9 @@
       <!-- #page-wrapper -->
       <div id="page-wrapper">
         <div class="row">
-          <div class="col-lg-12"><h1 class="page-header">Магазин</h1></div>
+          <div class="col-lg-12">
+            <h1 class="page-header">Магазин</h1>
+          </div>
           <!-- /.col-lg-12 -->
         </div>
         <!-- /.row -->
@@ -26,7 +28,7 @@
                 <div id="pricesettings-error-msg"></div>
                 <form role="form" method="post" class="pricesettings">
                   <fieldset>
-                    <div class="form-group" id="div_usd-kurs-settings">
+                    <div class="form-group pricesettings" id="div_usd-kurs">
                       <label class="col-form-label" for="usd-kurs-settings"
                         >Курc доллара для входящей цены</label
                       >
@@ -36,12 +38,13 @@
                           class="form-control"
                           id="usd-kurs-settings"
                           name="kursdolara"
+                          value="<%= transData.priceSettings.kursDolara %>"
                         />
                         <span class="input-group-addon">грн/$</span>
                       </div>
                     </div>
 
-                    <div class="form-group" id="div_usd-kurs-settings">
+                    <div class="form-group pricesettings" id="div_base-nacenka">
                       <label class="col-form-label" for="base-nacenka-settings"
                         >Базовая наценка на в ходящую цену</label
                       >
@@ -51,13 +54,14 @@
                           class="form-control"
                           id="base-nacenka-settings"
                           name="base-nacenka"
+                          value="<%= transData.priceSettings.baseNacenka %>"
                         />
                         <span class="input-group-addon">%</span>
                       </div>
                     </div>
                     <hr />
 
-                    <div class="form-group" id="div_usd-kurs-settings">
+                    <div class="form-group pricesettings" id="div_skidka1">
                       <div class="input-group mb-3">
                         <span class="input-group-addon"
                           >Скидка 1й категории</span
@@ -67,12 +71,13 @@
                           class="form-control"
                           id="skidka1-settings"
                           name="skidka1"
+                          value="<%= transData.priceSettings.skidka1 %>"
                         />
                         <span class="input-group-addon">%</span>
                       </div>
                     </div>
 
-                    <div class="form-group" id="div_usd-kurs-settings">
+                    <div class="form-group pricesettings" id="div_skidka2">
                       <div class="input-group mb-3">
                         <span class="input-group-addon"
                           >Скидка 2й категории</span
@@ -82,12 +87,13 @@
                           class="form-control"
                           id="skidka2-settings"
                           name="skidka2"
+                          value="<%= transData.priceSettings.skidka2 %>"
                         />
                         <span class="input-group-addon">%</span>
                       </div>
                     </div>
 
-                    <div class="form-group" id="div_usd-kurs-settings">
+                    <div class="form-group pricesettings" id="div_skidka3">
                       <div class="input-group mb-3">
                         <span class="input-group-addon"
                           >Скидка 3й категории</span
@@ -97,6 +103,7 @@
                           class="form-control"
                           id="skidka3-settings"
                           name="skidka3"
+                          value="<%= transData.priceSettings.skidka3 %>"
                         />
                         <span class="input-group-addon">%</span>
                       </div>
@@ -105,7 +112,7 @@
                     <a
                       href="#"
                       class="shop-price-settings-button btn btn-lg btn-primary btn-block"
-                      id="shoppricesettingssave-button"
+                      id="shoppricesettings-button"
                       >Сохранить</a
                     >
                   </fieldset>
@@ -113,6 +120,7 @@
               </div>
             </div>
           </div>
+
           <div class="col-lg-4">
             <div class="panel panel-default">
               <div class="panel-heading">Настройки отображения товаров</div>
@@ -122,7 +130,7 @@
                 <form role="form" method="post" class="itemsviewsettings">
                   <fieldset>
                     <div
-                      class="form-group"
+                      class="form-group itemsviewsettings"
                       id="div_shop-settings-shopmainpage-itemsperpage"
                     >
                       <label
@@ -134,12 +142,13 @@
                         type="number"
                         class="form-control"
                         id="shop-settings-shopmainpage-itemsperpage"
-                        name="shopsettingsshopmainpageitemsperpage"
+                        name="shopmainpageitemsperpage"
+                        value="<%= transData.itemsViewSettings.shopMainPageItemsPerPage %>"
                       />
                     </div>
 
                     <div
-                      class="form-group"
+                      class="form-group itemsviewsettings"
                       id="div_shop-settings-shopcategorie-itemsperpage"
                     >
                       <label
@@ -151,14 +160,15 @@
                         type="number"
                         class="form-control"
                         id="shop-settings-shopcategorie-itemsperpage"
-                        name="shopsettingsshopcategorieitemsperpage"
+                        name="shopcategorieitemsperpage"
+                        value="<%= transData.itemsViewSettings.shopCategorieItemsPerPage %>"
                       />
                     </div>
                     <!-- Change this to a button or input when using this as a form -->
                     <a
                       href="#"
                       class="shop-ittemsview-settings-button btn btn-lg btn-primary btn-block"
-                      id="shopittemsviewsettingssave-button"
+                      id="shopitemsviewsettings-button"
                       >Сохранить</a
                     >
                   </fieldset>
@@ -168,7 +178,9 @@
           </div>
           <div class="col-lg-4">
             <div class="panel panel-default">
-              <div class="panel-heading">Настройки импорта</div>
+              <div class="panel-heading">
+                Настройки импорта !!В РАЗРАБОТКЕ!!
+              </div>
 
               <div class="panel-body">
                 <div id="importsettings-error-msg"></div>
@@ -212,6 +224,7 @@
       <!-- /#page-wrapper -->
     </div>
     <!-- /#wrapper -->
+
     <% include lay_adm_4_bottomscripts.ejs %>
   </body>
 </html>

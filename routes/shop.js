@@ -10,7 +10,17 @@ router.get(
     let group;
     let shopCart = req.session.shopCart;
     let page;
-    let itemsPerPage = 5;
+
+    let itemsViewSettingsStr = fs.readFileSync(
+      './settings/itemsviewsettings.json',
+      {
+        encoding: 'UTF-8'
+      }
+    );
+
+    let itemsViewSettings = JSON.parse(itemsViewSettingsStr);
+
+    let itemsPerPage = itemsViewSettings.shopCategorieItemsPerPage;
     if (req.query.hasOwnProperty('page') && req.query.page)
       page = req.query.page;
     else page = 1;
@@ -216,7 +226,17 @@ router.get('/', function(req, res) {
   let group;
   let shopCart = req.session.shopCart;
   let page;
-  let itemsPerPage = 18;
+
+  let itemsViewSettingsStr = fs.readFileSync(
+    './settings/itemsviewsettings.json',
+    {
+      encoding: 'UTF-8'
+    }
+  );
+
+  let itemsViewSettings = JSON.parse(itemsViewSettingsStr);
+
+  let itemsPerPage = itemsViewSettings.shopMainPageItemsPerPage;
   if (req.query.hasOwnProperty('page') && req.query.page) page = req.query.page;
   else page = 1;
 

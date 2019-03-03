@@ -281,6 +281,7 @@ $(window).on('load', function() {
   // Admin Add New User
   $('#administratorUsersAdd-button').on('click', function(e) {
     e.preventDefault();
+
     var data = {
       name: $('#register-name').val(),
       email: $('#register-email').val(),
@@ -822,16 +823,6 @@ $(window).on('load', function() {
     }
   });
 
-  $('.city-select').chosen({
-    no_results_text: 'Вариантов не найдено!',
-    width: '100%'
-  });
-
-  $('.department-select').chosen({
-    no_results_text: 'Вариантов не найдено!',
-    width: '100%'
-  });
-
   $('#cities-select').on('change', function() {
     var CityName = this.value;
 
@@ -970,7 +961,84 @@ $(window).on('load', function() {
     });
   });
 
-  $('#successOrdermodal').on('hidden.bs.modal', function(e) {
+  $('#successOrdermodal').on('hidden.bs.modal', function() {
     $(location).attr('href', '/');
   });
+
+  // Admin Shop pricesettings
+  $('#shoppricesettings-button').on('click', function(e) {
+    e.preventDefault();
+    var data = {
+      kursDolara: $('#usd-kurs-settings').val(),
+      baseNacenka: $('#base-nacenka-settings').val(),
+      skidka1: $('#skidka1-settings').val(),
+      skidka2: $('#skidka2-settings').val(),
+      skidka3: $('#skidka3-settings').val()
+    };
+
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/administrator/shop/pricesettings'
+    }).done(function(data) {
+      $('div.pricesettings').removeClass('has-error');
+      $('div.pricesettings').addClass('has-success');
+
+      if (!data.ok) {
+        $('#pricesettings-error-msg').html(
+          '<p class="text-danger">' + data.error + '</p>'
+        );
+        if (data.fields) {
+          data.fields.forEach(function(id) {
+            $('#div_' + id).removeClass('has-success');
+            $('#div_' + id).addClass('has-error');
+          });
+        }
+      } else {
+
+        $('#pricesettings-error-msg').html(
+          '<p class="text-success">Сохранено!</p>'
+        );
+        $(location).attr('href', '/administrator/shop');
+      }
+    });
+  });
+
+  // Admin Shop itemsviewsettings
+  $('#shopitemsviewsettings-button').on('click', function(e) {
+      e.preventDefault();
+      var data = {
+        shopMainPageItemsPerPage: $('#shop-settings-shopmainpage-itemsperpage').val(),
+        shopCategorieItemsPerPage: $('#shop-settings-shopcategorie-itemsperpage').val(),
+      };
+  
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/administrator/shop/itemsviewsettings'
+      }).done(function(data) {
+        $('div.itemsviewsettings').removeClass('has-error');
+        $('div.itemsviewsettings').addClass('has-success');
+  
+        if (!data.ok) {
+          $('#itemsviewsettings-error-msg').html(
+            '<p class="text-danger">' + data.error + '</p>'
+          );
+          if (data.fields) {
+            data.fields.forEach(function(id) {
+              $('#div_' + id).removeClass('has-success');
+              $('#div_' + id).addClass('has-error');
+            });
+          }
+        } else {
+  
+          $('#itemsviewsettings-error-msg').html(
+            '<p class="text-success">Сохранено!</p>'
+          );
+          $(location).attr('href', '/administrator/shop');
+        }
+      });
+    });
 });
