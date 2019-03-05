@@ -278,4 +278,12 @@ router.get('/', function(req, res) {
   });
 });
 
+router.post('/changediscount', (req, res) => {
+  req.session.discount = req.body.newDiscount;
+
+  res.json({
+    ok: true
+  });
+});
+
 module.exports = router;

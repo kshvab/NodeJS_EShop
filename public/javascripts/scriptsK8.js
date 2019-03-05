@@ -11,8 +11,10 @@ $(document).ready(function() {
 */
 
 //$(function() {
+
 $(window).on('load', function() {
   //AUTH toggle forms
+  $('#loading-overlay').hide();
   var flag = true;
   $('.switch-button').on('click', function(e) {
     e.preventDefault();
@@ -968,6 +970,7 @@ $(window).on('load', function() {
   // Admin Shop pricesettings
   $('#shoppricesettings-button').on('click', function(e) {
     e.preventDefault();
+
     var data = {
       kursDolara: $('#usd-kurs-settings').val(),
       baseNacenka: $('#base-nacenka-settings').val(),
@@ -996,11 +999,8 @@ $(window).on('load', function() {
           });
         }
       } else {
-
-        $('#pricesettings-error-msg').html(
-          '<p class="text-success">Сохранено!</p>'
-        );
-        $(location).attr('href', '/administrator/shop');
+        $('#loading-overlay').show();
+        setTimeout(function() {window.location.reload(true);}, 1500);
       }
     });
   });
@@ -1033,12 +1033,35 @@ $(window).on('load', function() {
             });
           }
         } else {
-  
-          $('#itemsviewsettings-error-msg').html(
-            '<p class="text-success">Сохранено!</p>'
-          );
-          $(location).attr('href', '/administrator/shop');
+          $('#loading-overlay').show();
+          setTimeout(function() {window.location.reload(true);}, 1500);
         }
       });
     });
+
+    $('.select-discount-header').on('change', function(e) {
+      e.preventDefault();
+      var data = {
+        newDiscount: this.value
+      };
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/shop/changediscount'
+      }).done(function(data) {
+        if (!data.ok) {
+          console.log("Error changing discount!")
+        } else {
+          $('#loading-overlay').show();
+          setTimeout(function() {window.location.reload(true);}, 1500);
+        }
+      });
+    });
+
+
+
+
+
+
 });
