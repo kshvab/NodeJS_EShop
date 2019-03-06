@@ -55,7 +55,22 @@
   </div>
 </div>
 
-<% } %> <% }); %> <br /><br /><br />
+<% } %> <% }); %> <% transData.shopCategoriesArr.forEach(function(item){ %> <%
+if (item.catName == "Покрышки и камеры для тачки") { %>
+
+<a
+  class="btn btn-primary btn-sm btn-block btn-shop-categories-nav"
+  href="/shop/<%= item.catAlias %>"
+  role="button"
+>
+  <%= item.catName %>
+</a>
+
+<% } %><% }) %>
+
+<br /><br />
+
+<br /><br />
 <!-- cart Button experiments: -->
 
 <br /><br />

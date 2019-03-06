@@ -110,7 +110,10 @@ router.get(
           };
           active = false;
           breadcrumbArr.push(breadcrumbPart);
-          if (currentCat[0].catFatherId)
+          if (
+            currentCat[0].catFatherId &&
+            !(currentCat[0].catFatherId == 'absent')
+          )
             recursBreadcrumbArrPush(currentCat[0].catFatherId);
         }
 
@@ -178,7 +181,10 @@ router.get(
             active: false
           };
           breadcrumbArr.push(breadcrumbPart);
-          if (currentCat[0].catFatherId)
+          if (
+            currentCat[0].catFatherId &&
+            !(currentCat[0].catFatherId == 'absent')
+          )
             recursBreadcrumbArrPush(currentCat[0].catFatherId);
         }
 

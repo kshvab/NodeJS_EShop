@@ -90,12 +90,12 @@ function catItemsParsing(catUrl, catId) {
         let notSingleItem = false;
         let manufacturer = '';
         let notAvailableForSale = false;
-        let price = $('.product-list .price-product')
+        let inputPriceUsd = $('.product-list .price-product')
           .eq(i)
           .text();
         //
 
-        price = fPriceNorm(price);
+        inputPriceUsd = fPriceNorm(inputPriceUsd);
 
         let stock = 10;
         let baseUnit = 'шт';
@@ -105,6 +105,8 @@ function catItemsParsing(catUrl, catId) {
         let id = vendorCode;
 
         let groups = catId;
+        let price = 0;
+        let basePrice = 0;
 
         item = {
           murovdagUrl,
@@ -113,7 +115,9 @@ function catItemsParsing(catUrl, catId) {
           notSingleItem,
           manufacturer,
           notAvailableForSale,
+          inputPriceUsd,
           price,
+          basePrice,
           stock,
           baseUnit,
           picture,
