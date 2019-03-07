@@ -9,9 +9,12 @@ function fPriceNorm(price) {
 }
 
 function runItemsParsing() {
-  var catArrJson = fs.readFileSync('./shopCategoriesArrFile.txt', {
-    encoding: 'UTF-8'
-  });
+  var catArrJson = fs.readFileSync(
+    './public/import_foto/shopCategoriesArrFile.txt',
+    {
+      encoding: 'UTF-8'
+    }
+  );
 
   let catArr = JSON.parse(catArrJson);
 

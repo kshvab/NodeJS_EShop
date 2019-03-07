@@ -67,14 +67,21 @@
         <span class="fas fa-heart"></span>
       </button>
 
+      <% if ((typeof(transData) != 'undefined') &&
+      transData.showDiscountChooser) { %>
       <form>
-        <select class="custom-select select-discount-header">
-          <option value="0">Базовая</option>
-          <option value="1">Кат. 1</option>
-          <option value="2">Кат. 2</option>
-          <option value="3">Кат. 3</option>
+        <select
+          class="custom-select select-discount-header"
+          id="select-discount-header"
+          disabled=""
+        >
+          <option <% if (!transData.discount) { %> selected="" <% } %> value="0">Базовая</option>
+          <option <% if (transData.discount == 1) { %> selected="" <% } %> value="1">Кат. 1 (-<%= transData.priceSettings.skidka1 %>%)</option>
+          <option <% if (transData.discount == 2) { %> selected="" <% } %> value="2">Кат. 2 (-<%= transData.priceSettings.skidka2 %>%)</option>
+          <option <% if (transData.discount == 3) { %> selected="" <% } %> value="3">Кат. 3 (-<%= transData.priceSettings.skidka3 %>%)</option>
         </select>
       </form>
+      <% } %>
     </div>
   </div>
 </nav>

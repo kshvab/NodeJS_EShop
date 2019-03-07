@@ -2,6 +2,55 @@ const express = require('express');
 const router = express.Router();
 var fs = require('fs');
 
+//********* Promises ***************/
+
+let p_itemsViewSettings = new Promise(function(resolve, reject) {
+  let itemsViewSettingsStr = fs.readFileSync(
+    './settings/itemsviewsettings.json',
+    {
+      encoding: 'UTF-8'
+    }
+  );
+  let itemsViewSettings = JSON.parse(itemsViewSettingsStr);
+  if (itemsViewSettings) resolve(itemsViewSettings);
+  else reject('Can not read ./settings/itemsviewsettings.json');
+});
+
+let p_shopItemsArr = new Promise(function(resolve, reject) {
+  var shopItemsArrStr = fs.readFileSync(
+    './public/import_foto/shopItemsArrFile.txt',
+    {
+      encoding: 'UTF-8'
+    }
+  );
+  var shopItemsArr = JSON.parse(shopItemsArrStr);
+
+  if (shopItemsArr) resolve(shopItemsArr);
+  else reject('Can not read ./public/import_foto/shopItemsArrFile.txt');
+});
+
+let p_shopCategoriesArr = new Promise(function(resolve, reject) {
+  var shopCategoriesArrStr = fs.readFileSync(
+    './public/import_foto/shopCategoriesArrFile.txt',
+    {
+      encoding: 'UTF-8'
+    }
+  );
+  var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
+  if (shopCategoriesArr) resolve(shopCategoriesArr);
+  else reject('Can not read ./public/import_foto/shopCategoriesArrFile.txt');
+});
+
+let p_priceSettings = new Promise(function(resolve, reject) {
+  let priceSettingsStr = fs.readFileSync('./settings/pricesettings.json', {
+    encoding: 'UTF-8'
+  });
+  let priceSettings = JSON.parse(priceSettingsStr);
+
+  if (priceSettings) resolve(priceSettings);
+  else reject('Can not read ./settings/pricesettings.json');
+});
+
 router.get(
   '(?:/:pathPart0)(?:/:pathPart1)?(?:/:pathPart2)?(?:/:pathPart3)?(?:/:pathPart4)?(?:/:pathPart5)?(?:/:pathPart6)?',
   function(req, res) {
@@ -10,219 +59,225 @@ router.get(
     let group;
     let shopCart = req.session.shopCart;
     let page;
-
-    let itemsViewSettingsStr = fs.readFileSync(
-      './settings/itemsviewsettings.json',
-      {
-        encoding: 'UTF-8'
-      }
-    );
-
-    let itemsViewSettings = JSON.parse(itemsViewSettingsStr);
-
-    let itemsPerPage = itemsViewSettings.shopCategorieItemsPerPage;
+    let showDiscountChooser = false;
+    let discount = 0;
     if (req.query.hasOwnProperty('page') && req.query.page)
       page = req.query.page;
     else page = 1;
 
-    //console.dir(req.session);
     if (req.session.userId && req.session.userLogin) {
       _id = req.session.userId;
       login = req.session.userLogin;
       group = req.session.userGroup;
+      if (group != 'Guest' && group != 'Registered') showDiscountChooser = true;
     } else {
       _id = 0;
       login = 0;
       group = 0;
     }
-    //READ FILES
-    var shopItemsArrStr = fs.readFileSync(
-      './public/import_foto/shopItemsArrFile.txt',
-      {
-        encoding: 'UTF-8'
-      }
-    );
-    var shopItemsArr = JSON.parse(shopItemsArrStr);
 
-    var shopCategoriesArrStr = fs.readFileSync(
-      './public/import_foto/shopCategoriesArrFile.txt',
-      {
-        encoding: 'UTF-8'
-      }
-    );
-    var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
+    if (req.session.discount) discount = req.session.discount;
 
-    //URL PARSING
-    let urlArr = Object.values(req.params); //to array
-    urlArr = urlArr.filter(function(x) {
-      //delete undefined elements
-      return x !== undefined && x !== null;
-    });
+    Promise.all([
+      p_shopCategoriesArr,
+      p_shopItemsArr,
+      p_itemsViewSettings,
+      p_priceSettings
+    ]).then(function(values) {
+      let shopCategoriesArr = values[0];
+      let shopItemsArr = values[1];
+      let itemsViewSettings = values[2];
+      let priceSettings = values[3];
 
-    let viewsView;
-    //The last element in URL is cat or item?
-    var isItInCatArr = shopCategoriesArr.filter(function(cat) {
-      return cat.catAlias == urlArr[urlArr.length - 1];
-    });
+      let itemsPerPage = itemsViewSettings.shopMainPageItemsPerPage;
 
-    var isItInItemArr = shopItemsArr.filter(function(item) {
-      return item.vendorCode == urlArr[urlArr.length - 1];
-    });
+      let priceKoef = fpriceKoefDef(priceSettings, discount);
 
-    if (isItInCatArr[0]) {
-      viewsView = 'shop/shop_categorie';
-      showCategorie(isItInCatArr[0]);
-    } else if (isItInItemArr[0]) {
-      viewsView = 'shop/shop_item';
-      showItem(isItInItemArr[0]);
-    } else {
-      res.render('error', {
-        transData: {
-          user: { _id, login, group }
-        },
-        message: 'Такой страницы не существует!',
-        error: { code: 404 }
-      });
-    }
+      shopItemsArr = fItemsArrRecalc(
+        shopItemsArr,
+        priceSettings.kursDolara,
+        priceSettings.baseNacenka,
+        priceKoef
+      );
 
-    //  if it is Cat :
-    function showCategorie(shownCat) {
-      let shownCatItems = shopItemsArr.filter(function(item) {
-        return item.groups == shownCat.catId;
+      //URL PARSING
+      let urlArr = Object.values(req.params); //to array
+      urlArr = urlArr.filter(function(x) {
+        //delete undefined elements
+        return x !== undefined && x !== null;
       });
 
-      var breadcrumbArr = [];
+      let viewsView;
+      //The last element in URL is cat or item?
+      var isItInCatArr = shopCategoriesArr.filter(function(cat) {
+        return cat.catAlias == urlArr[urlArr.length - 1];
+      });
 
-      fullBreadcrumbArr();
-      // let us make a Breadcrumb arr
-      function fullBreadcrumbArr() {
-        let active = true;
-        recursBreadcrumbArrPush(shownCat.catId);
+      var isItInItemArr = shopItemsArr.filter(function(item) {
+        return item.vendorCode == urlArr[urlArr.length - 1];
+      });
 
-        function recursBreadcrumbArrPush(currentCatId) {
-          let currentCat = shopCategoriesArr.filter(function(cat) {
-            return cat.catId == currentCatId;
-          });
-          let breadcrumbPart = {
-            name: currentCat[0].catName,
-            url: '/' + currentCat[0].catAlias,
-            active
-          };
-          active = false;
-          breadcrumbArr.push(breadcrumbPart);
-          if (
-            currentCat[0].catFatherId &&
-            !(currentCat[0].catFatherId == 'absent')
-          )
-            recursBreadcrumbArrPush(currentCat[0].catFatherId);
-        }
-
-        var breadcrumbShop = {
-          name: 'Каталог',
-          url: 'shop',
-          active: false
-        };
-        breadcrumbArr.push(breadcrumbShop);
-        var breadcrumbMainPage = {
-          name: 'Главная',
-          url: '/',
-          active: false
-        };
-        breadcrumbArr.push(breadcrumbMainPage);
-        breadcrumbArr.reverse();
-
-        //urls in arr are not full yet, so:
-        let fullUrl = '';
-        for (let i = 0; i < breadcrumbArr.length; i++) {
-          breadcrumbArr[i].url = fullUrl + breadcrumbArr[i].url;
-          fullUrl = breadcrumbArr[i].url;
-        }
+      if (isItInCatArr[0]) {
+        viewsView = 'shop/shop_categorie';
+        showCategorie(isItInCatArr[0]);
+      } else if (isItInItemArr[0]) {
+        viewsView = 'shop/shop_item';
+        showItem(isItInItemArr[0]);
+      } else {
+        res.render('error', {
+          transData: {
+            user: { _id, login, group }
+          },
+          message: 'Такой страницы не существует!',
+          error: { code: 404 }
+        });
       }
 
-      res.render(viewsView, {
-        transData: {
-          shopItemsArr,
-          shopCategoriesArr,
-          user: { _id, login, group },
-          shownCat,
-          shownCatItems,
-          breadcrumbArr,
-          shopCart,
-          page,
-          itemsPerPage
-        }
-      });
-      //console.log(shownCat);
-    }
+      //  if it is Cat :
+      function showCategorie(shownCat) {
+        let shownCatItems = shopItemsArr.filter(function(item) {
+          return item.groups == shownCat.catId;
+        });
 
-    //  if it is Item :
-    function showItem(shownItem) {
-      var breadcrumbArr = [];
+        var breadcrumbArr = [];
 
-      fullBreadcrumbArr();
-      // let us make a Breadcrumb arr
-      function fullBreadcrumbArr() {
-        var breadcrumbEnd = {
-          name: shownItem.name,
-          url: '/' + shownItem.vendorCode,
-          active: true
-        };
-        breadcrumbArr.push(breadcrumbEnd);
+        fullBreadcrumbArr();
+        // let us make a Breadcrumb arr
+        function fullBreadcrumbArr() {
+          let active = true;
+          recursBreadcrumbArrPush(shownCat.catId);
 
-        recursBreadcrumbArrPush(shownItem.groups);
+          function recursBreadcrumbArrPush(currentCatId) {
+            let currentCat = shopCategoriesArr.filter(function(cat) {
+              return cat.catId == currentCatId;
+            });
+            let breadcrumbPart = {
+              name: currentCat[0].catName,
+              url: '/' + currentCat[0].catAlias,
+              active
+            };
+            active = false;
+            breadcrumbArr.push(breadcrumbPart);
+            if (
+              currentCat[0].catFatherId &&
+              !(currentCat[0].catFatherId == 'absent')
+            )
+              recursBreadcrumbArrPush(currentCat[0].catFatherId);
+          }
 
-        function recursBreadcrumbArrPush(currentCatId) {
-          let currentCat = shopCategoriesArr.filter(function(cat) {
-            return cat.catId == currentCatId;
-          });
-          let breadcrumbPart = {
-            name: currentCat[0].catName,
-            url: '/' + currentCat[0].catAlias,
+          var breadcrumbShop = {
+            name: 'Каталог',
+            url: 'shop',
             active: false
           };
-          breadcrumbArr.push(breadcrumbPart);
-          if (
-            currentCat[0].catFatherId &&
-            !(currentCat[0].catFatherId == 'absent')
-          )
-            recursBreadcrumbArrPush(currentCat[0].catFatherId);
+          breadcrumbArr.push(breadcrumbShop);
+          var breadcrumbMainPage = {
+            name: 'Главная',
+            url: '/',
+            active: false
+          };
+          breadcrumbArr.push(breadcrumbMainPage);
+          breadcrumbArr.reverse();
+
+          //urls in arr are not full yet, so:
+          let fullUrl = '';
+          for (let i = 0; i < breadcrumbArr.length; i++) {
+            breadcrumbArr[i].url = fullUrl + breadcrumbArr[i].url;
+            fullUrl = breadcrumbArr[i].url;
+          }
         }
 
-        var breadcrumbShop = {
-          name: 'Каталог',
-          url: 'shop',
-          active: false
-        };
-        breadcrumbArr.push(breadcrumbShop);
-        var breadcrumbMainPage = {
-          name: 'Главная',
-          url: '/',
-          active: false
-        };
-        breadcrumbArr.push(breadcrumbMainPage);
-        breadcrumbArr.reverse();
-
-        //urls in arr are not full yet, so:
-        let fullUrl = '';
-        for (let i = 0; i < breadcrumbArr.length; i++) {
-          breadcrumbArr[i].url = fullUrl + breadcrumbArr[i].url;
-          fullUrl = breadcrumbArr[i].url;
-        }
+        res.render(viewsView, {
+          transData: {
+            shopItemsArr,
+            shopCategoriesArr,
+            user: { _id, login, group },
+            shownCat,
+            shownCatItems,
+            breadcrumbArr,
+            shopCart,
+            page,
+            itemsPerPage,
+            showDiscountChooser,
+            discount,
+            priceSettings
+          }
+        });
+        //console.log(shownCat);
       }
-      //console.log(breadcrumbArr);
 
-      res.render(viewsView, {
-        transData: {
-          shopItemsArr,
-          shopCategoriesArr,
-          user: { _id, login, group },
-          shownItem,
-          breadcrumbArr,
-          shopCart
+      //  if it is Item :
+      function showItem(shownItem) {
+        var breadcrumbArr = [];
+
+        fullBreadcrumbArr();
+        // let us make a Breadcrumb arr
+        function fullBreadcrumbArr() {
+          var breadcrumbEnd = {
+            name: shownItem.name,
+            url: '/' + shownItem.vendorCode,
+            active: true
+          };
+          breadcrumbArr.push(breadcrumbEnd);
+
+          recursBreadcrumbArrPush(shownItem.groups);
+
+          function recursBreadcrumbArrPush(currentCatId) {
+            let currentCat = shopCategoriesArr.filter(function(cat) {
+              return cat.catId == currentCatId;
+            });
+            let breadcrumbPart = {
+              name: currentCat[0].catName,
+              url: '/' + currentCat[0].catAlias,
+              active: false
+            };
+            breadcrumbArr.push(breadcrumbPart);
+            if (
+              currentCat[0].catFatherId &&
+              !(currentCat[0].catFatherId == 'absent')
+            )
+              recursBreadcrumbArrPush(currentCat[0].catFatherId);
+          }
+
+          var breadcrumbShop = {
+            name: 'Каталог',
+            url: 'shop',
+            active: false
+          };
+          breadcrumbArr.push(breadcrumbShop);
+          var breadcrumbMainPage = {
+            name: 'Главная',
+            url: '/',
+            active: false
+          };
+          breadcrumbArr.push(breadcrumbMainPage);
+          breadcrumbArr.reverse();
+
+          //urls in arr are not full yet, so:
+          let fullUrl = '';
+          for (let i = 0; i < breadcrumbArr.length; i++) {
+            breadcrumbArr[i].url = fullUrl + breadcrumbArr[i].url;
+            fullUrl = breadcrumbArr[i].url;
+          }
         }
-      });
-      //console.log(shownItem);
-    }
+        //console.log(breadcrumbArr);
+
+        res.render(viewsView, {
+          transData: {
+            shopItemsArr,
+            shopCategoriesArr,
+            user: { _id, login, group },
+            shownItem,
+            breadcrumbArr,
+            shopCart,
+            showDiscountChooser,
+            discount,
+            priceSettings
+          }
+        });
+        //console.log(shownItem);
+      }
+    });
   }
 );
 
@@ -232,17 +287,10 @@ router.get('/', function(req, res) {
   let group;
   let shopCart = req.session.shopCart;
   let page;
+  let showDiscountChooser = false;
+  let discount = 0;
 
-  let itemsViewSettingsStr = fs.readFileSync(
-    './settings/itemsviewsettings.json',
-    {
-      encoding: 'UTF-8'
-    }
-  );
-
-  let itemsViewSettings = JSON.parse(itemsViewSettingsStr);
-
-  let itemsPerPage = itemsViewSettings.shopMainPageItemsPerPage;
+  //********** Def main params of the router *********** */
   if (req.query.hasOwnProperty('page') && req.query.page) page = req.query.page;
   else page = 1;
 
@@ -250,37 +298,50 @@ router.get('/', function(req, res) {
     _id = req.session.userId;
     login = req.session.userLogin;
     group = req.session.userGroup;
+    if (group != 'Guest' && group != 'Registered') showDiscountChooser = true;
   } else {
     _id = 0;
     login = 0;
     group = 0;
   }
 
-  var shopItemsArrStr = fs.readFileSync(
-    './public/import_foto/shopItemsArrFile.txt',
-    {
-      encoding: 'UTF-8'
-    }
-  );
-  var shopItemsArr = JSON.parse(shopItemsArrStr);
+  if (req.session.discount) discount = req.session.discount;
 
-  var shopCategoriesArrStr = fs.readFileSync(
-    './public/import_foto/shopCategoriesArrFile.txt',
-    {
-      encoding: 'UTF-8'
-    }
-  );
-  var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
-  //console.dir(shopCategoriesArr);
-  res.render('shop/shop_mainpage', {
-    transData: {
+  Promise.all([
+    p_shopCategoriesArr,
+    p_shopItemsArr,
+    p_itemsViewSettings,
+    p_priceSettings
+  ]).then(function(values) {
+    let shopCategoriesArr = values[0];
+    let shopItemsArr = values[1];
+    let itemsViewSettings = values[2];
+    let priceSettings = values[3];
+
+    let itemsPerPage = itemsViewSettings.shopMainPageItemsPerPage;
+
+    let priceKoef = fpriceKoefDef(priceSettings, discount);
+
+    shopItemsArr = fItemsArrRecalc(
       shopItemsArr,
-      shopCategoriesArr,
-      user: { _id, login, group },
-      shopCart,
-      page,
-      itemsPerPage
-    }
+      priceSettings.kursDolara,
+      priceSettings.baseNacenka,
+      priceKoef
+    );
+
+    res.render('shop/shop_mainpage', {
+      transData: {
+        shopItemsArr,
+        shopCategoriesArr,
+        user: { _id, login, group },
+        shopCart,
+        page,
+        itemsPerPage,
+        showDiscountChooser,
+        discount,
+        priceSettings
+      }
+    });
   });
 });
 
@@ -291,5 +352,25 @@ router.post('/changediscount', (req, res) => {
     ok: true
   });
 });
+
+//************* FUNCTIONS ****** */
+function fpriceKoefDef(priceSettings, discount) {
+  let koef;
+  if (discount == 0) koef = 1;
+  else if (discount == 1) koef = 1 - priceSettings.skidka1 / 100;
+  else if (discount == 2) koef = 1 - priceSettings.skidka2 / 100;
+  else if (discount == 3) koef = 1 - priceSettings.skidka3 / 100;
+  return koef;
+}
+
+function fItemsArrRecalc(arr, kurs, nacenka, priceKoef) {
+  for (let i = 0; i < arr.length; i++) {
+    arr[i].basePrice = +((arr[i].inputPriceUsd * kurs * nacenka) / 100).toFixed(
+      2
+    );
+    arr[i].price = +(arr[i].basePrice * priceKoef).toFixed(2);
+  }
+  return arr;
+}
 
 module.exports = router;

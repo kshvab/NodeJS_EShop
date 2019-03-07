@@ -15,6 +15,7 @@ $(document).ready(function() {
 $(window).on('load', function() {
   //AUTH toggle forms
   $('#loading-overlay').hide();
+  $('#select-discount-header').removeAttr('disabled');
   var flag = true;
   $('.switch-button').on('click', function(e) {
     e.preventDefault();
