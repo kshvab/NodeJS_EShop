@@ -61,7 +61,15 @@
   
             <div class="row">
               <div class="col-lg-4">
-                <div class="cart-uah"><%= transData.shopItemsArr[i].price %> грн</div>
+                <div class="cart-uah"><span id="price<%= transData.shopItemsArr[i].vendorCode %>"><%= transData.shopItemsArr[i].price.toFixed(2) %></span> грн</div>
+                
+                <div class="cart-uah-base-line-through" <% if (+transData.discount == 0) { %> style = "display: none" <% } %>>
+                  <span id="basePrice<%= transData.shopItemsArr[i].vendorCode %>">
+                    <%= transData.shopItemsArr[i].basePrice.toFixed(2) %>
+                  </span>
+                  грн
+                </div>
+                
               </div>
   
               <div class="col-lg-4">

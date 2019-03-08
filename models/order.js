@@ -37,6 +37,14 @@ const orderSchema = mongoose.Schema(
           type: String,
           required: true
         },
+        inputPriceUsd: {
+          type: String,
+          required: true
+        },
+        basePrice: {
+          type: String,
+          required: true
+        },
         price: {
           type: String,
           required: true
@@ -46,6 +54,10 @@ const orderSchema = mongoose.Schema(
           required: true
         },
         picture: {
+          type: String,
+          required: false
+        },
+        groups: {
           type: String,
           required: false
         }

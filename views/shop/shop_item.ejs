@@ -63,8 +63,17 @@
               </div>
               <br><br>
               <div class="cart-uah">
-                <%= transData.shownItem.price %> грн</div>
-             
+                  <span id="price<%= transData.shownItem.vendorCode %>">
+                    <%= transData.shownItem.price.toFixed(2) %>
+                  </span>
+                  грн
+              </div>
+              <div class="cart-uah-base-line-through" <% if (+transData.discount == 0) { %> style = "display: none" <% } %>>
+                <span id="basePrice<%= transData.shownItem.vendorCode %>">
+                  <%= transData.shownItem.basePrice.toFixed(2) %>
+                </span>
+                грн
+              </div>
               <div class="shopcart-and-wishlist-buttons">
                 <div class="cart-amount btn-group">
                   <button name="cart-amount-minus" type="button" class="btn btn-secondary btn-sm jq-btn-minus-<%= transData.shownItem.vendorCode %>"

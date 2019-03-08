@@ -16,6 +16,11 @@ $(window).on('load', function() {
   //AUTH toggle forms
   $('#loading-overlay').hide();
   $('#select-discount-header').removeAttr('disabled');
+
+  if (+$('#topshopbuttonitemsquantity').text()) {
+    $('#select-discount-header').attr( 'disabled', '' );
+  }
+
   var flag = true;
   $('.switch-button').on('click', function(e) {
     e.preventDefault();
@@ -654,10 +659,14 @@ $(window).on('load', function() {
   $('[name="add-item-to-shopcart-button"]').click(function() {
     var itemVendorCode = this.id;
     var quantity = $('input[name=' + itemVendorCode + ']').val();
+    var price = +$('#price' + itemVendorCode).text();
+    var basePrice = +$('#basePrice' + itemVendorCode).text();
 
     var data = {
       itemVendorCode,
-      quantity
+      quantity,
+      price,
+      basePrice
     };
     $.ajax({
       type: 'POST',
@@ -676,8 +685,9 @@ $(window).on('load', function() {
           '"class="cart-list-itempicture"/>'
       );
       $('#newItemName').text(data.shopCart[0].name);
-      $('#newItemPrice').text(data.shopCart[0].price + ' грн');
+      $('#newItemPrice').text(data.shopCart[0].price.toFixed(2) + ' грн');
       $('#topshopbuttonitemsquantity').text(data.shopCart.length);
+      $('#select-discount-header').attr( 'disabled', '' );
 
       var cartTotalSumm = 0;
 
@@ -1001,68 +1011,72 @@ $(window).on('load', function() {
         }
       } else {
         $('#loading-overlay').show();
-        setTimeout(function() {window.location.reload(true);}, 1500);
+        setTimeout(function() {
+          window.location.reload(true);
+        }, 1500);
       }
     });
   });
 
   // Admin Shop itemsviewsettings
   $('#shopitemsviewsettings-button').on('click', function(e) {
-      e.preventDefault();
-      var data = {
-        shopMainPageItemsPerPage: $('#shop-settings-shopmainpage-itemsperpage').val(),
-        shopCategorieItemsPerPage: $('#shop-settings-shopcategorie-itemsperpage').val(),
-      };
-  
-      $.ajax({
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        url: '/administrator/shop/itemsviewsettings'
-      }).done(function(data) {
-        $('div.itemsviewsettings').removeClass('has-error');
-        $('div.itemsviewsettings').addClass('has-success');
-  
-        if (!data.ok) {
-          $('#itemsviewsettings-error-msg').html(
-            '<p class="text-danger">' + data.error + '</p>'
-          );
-          if (data.fields) {
-            data.fields.forEach(function(id) {
-              $('#div_' + id).removeClass('has-success');
-              $('#div_' + id).addClass('has-error');
-            });
-          }
-        } else {
-          $('#loading-overlay').show();
-          setTimeout(function() {window.location.reload(true);}, 1500);
+    e.preventDefault();
+    var data = {
+      shopMainPageItemsPerPage: $(
+        '#shop-settings-shopmainpage-itemsperpage'
+      ).val(),
+      shopCategorieItemsPerPage: $(
+        '#shop-settings-shopcategorie-itemsperpage'
+      ).val()
+    };
+
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/administrator/shop/itemsviewsettings'
+    }).done(function(data) {
+      $('div.itemsviewsettings').removeClass('has-error');
+      $('div.itemsviewsettings').addClass('has-success');
+
+      if (!data.ok) {
+        $('#itemsviewsettings-error-msg').html(
+          '<p class="text-danger">' + data.error + '</p>'
+        );
+        if (data.fields) {
+          data.fields.forEach(function(id) {
+            $('#div_' + id).removeClass('has-success');
+            $('#div_' + id).addClass('has-error');
+          });
         }
-      });
+      } else {
+        $('#loading-overlay').show();
+        setTimeout(function() {
+          window.location.reload(true);
+        }, 1500);
+      }
     });
+  });
 
-    $('.select-discount-header').on('change', function(e) {
-      e.preventDefault();
-      var data = {
-        newDiscount: this.value
-      };
-      $.ajax({
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        url: '/shop/changediscount'
-      }).done(function(data) {
-        if (!data.ok) {
-          console.log("Error changing discount!")
-        } else {
-          $('#loading-overlay').show();
-          setTimeout(function() {window.location.reload(true);}, 1500);
-        }
-      });
+  $('.select-discount-header').on('change', function(e) {
+    e.preventDefault();
+    var data = {
+      newDiscount: this.value
+    };
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/shop/changediscount'
+    }).done(function(data) {
+      if (!data.ok) {
+        console.log('Error changing discount!');
+      } else {
+        $('#loading-overlay').show();
+        setTimeout(function() {
+          window.location.reload(true);
+        }, 1500);
+      }
     });
-
-
-
-
-
-
+  });
 });

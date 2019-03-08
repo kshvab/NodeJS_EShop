@@ -1661,3 +1661,10 @@ div.telefon-topk8:hover {
 }
 
 /*************** END of loading-overlay ***********/
+
+.cart-uah-base-line-through {
+  text-decoration: line-through;
+  color: #ff6707;
+  padding: 6px 5px 5px;
+  font-size: 1.05em;
+}

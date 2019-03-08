@@ -1,6 +1,6 @@
 {
   "name": "nodesite",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {

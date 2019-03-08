@@ -21,7 +21,10 @@ function getNextSequenceValue(sequenceName) {
 router.post('/additem', (req, res) => {
   const itemVendorCode = req.body.itemVendorCode;
   const quantity = req.body.quantity;
+  const price = req.body.price;
+  const basePrice = req.body.basePrice;
   if (!req.session.shopCart) req.session.shopCart = [];
+
   var shopItemsArrStr = fs.readFileSync(
     './public/import_foto/shopItemsArrFile.txt',
     {
@@ -35,6 +38,8 @@ router.post('/additem', (req, res) => {
   });
   itemForAdding = itemForAdding[0];
   itemForAdding.quantity = quantity;
+  itemForAdding.price = price;
+  itemForAdding.basePrice = basePrice;
 
   let existInshopCart = false;
   let index = 0;
