@@ -89,7 +89,7 @@ router.get(
       let itemsViewSettings = values[2];
       let priceSettings = values[3];
 
-      let itemsPerPage = itemsViewSettings.shopMainPageItemsPerPage;
+      let itemsPerPage = itemsViewSettings.shopCategorieItemsPerPage;
 
       let priceKoef = fpriceKoefDef(priceSettings, discount);
 

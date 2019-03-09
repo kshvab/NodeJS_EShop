@@ -15,126 +15,152 @@
 
       <div class="col-lg-9">
         <!-- MAIN CONTENT HERE: -->
-        
+
         <br />
+
         <H1>Каталог товаров</H1>
-        
 
+        <!-- PAGINATION: -->
+        <%var len = transData.shopItemsArr.length; var rest = len%transData.itemsPerPage; var fullPages = (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
 
-
-    <%var len = transData.shopItemsArr.length; var rest = len%transData.itemsPerPage; var fullPages = (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
-    <div class="items-pagination">
-      <ul class="pagination">
-        <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
-          <a class="page-link" href="?page=<%=transData.page-1%>">&laquo;</a>
-        </li>
-        <% for (var i = 1; i<=pages; i++) { %>
-          <li class="page-item <%if (transData.page == i) { %> active <%}%>">
-            <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+        <div class="items-pagination">
+          <ul class="pagination">
+            <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
+            <a class="page-link" href="?page=1">&laquo;</a>
           </li>
+
+        <% for (var i = 1; i<=pages; i++) { %>
+          <% var lWide = 3; var rWide = 3; %>
+          <% if (transData.page == 1) rWide = 5;  if (transData.page == 2) rWide = 4;%>
+          <% if (transData.page == +pages) lWide = 5;  if (transData.page == +pages-1) lWide = 4;%>
+          <% if ( ( i > (+transData.page-lWide) ) && ( i < (+transData.page+rWide) ) ){ %>
+          <li class=" page-item <%if (transData.page == i) { %> active <%}%>">
+            <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+            </li>
+            <%}%>
         <%}%>
-        <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
-          <a class="page-link" href="?page=<%=+transData.page+1%>">&raquo;</a>
-        </li>
-      </ul>
-    </div>
+
+            <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
+          <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
+            </li>
+          </ul>
+        </div>
+        <!-- /PAGINATION -->
 
 
+        <% for (var i = transData.page*transData.itemsPerPage-transData.itemsPerPage; i<transData.shopItemsArr.length; i++ ) {%>
 
-    <% for (var i = transData.page*transData.itemsPerPage-transData.itemsPerPage; i<transData.shopItemsArr.length; i++ ) {%>
-      
-      <%if (i<transData.page*transData.itemsPerPage) {%>
+        <%if (i<transData.page*transData.itemsPerPage) {%>
 
-      <div class="card-body">
-        <div class="row">
-          <div class="col-lg-5">
-            <div class="border-primary">
-              <img style="display: block;" src="<%=transData.shopItemsArr[i].picture%>"
-                alt="<%= transData.shopItemsArr[i].name %>" onerror="this.style.display = 'none'" />
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-5">
+              <div class="border-primary">
+                <img style="display: block;" src="<%=transData.shopItemsArr[i].picture%>"
+                  alt="<%= transData.shopItemsArr[i].name %>" onerror="this.style.display = 'none'" />
+              </div>
             </div>
-          </div>
-  
-          <div class="col-lg-7">
-            <a href="/shop/<%= transData.shopItemsArr[i].vendorCode %>">
-              <h5 class="card-title"><%= transData.shopItemsArr[i].name %></h5>
-            </a>
-  
-            <div class="row">
-              <div class="col-lg-4">
-                <div class="cart-uah"><span id="price<%= transData.shopItemsArr[i].vendorCode %>"><%= transData.shopItemsArr[i].price.toFixed(2) %></span> грн</div>
-                
-                <div class="cart-uah-base-line-through" <% if (+transData.discount == 0) { %> style = "display: none" <% } %>>
-                  <span id="basePrice<%= transData.shopItemsArr[i].vendorCode %>">
-                    <%= transData.shopItemsArr[i].basePrice.toFixed(2) %>
-                  </span>
-                  грн
+
+            <div class="col-lg-7">
+              <a href="/shop/<%= transData.shopItemsArr[i].vendorCode %>">
+                <h5 class="card-title"><%= transData.shopItemsArr[i].name %></h5>
+              </a>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="cart-uah"><span
+                      id="price<%= transData.shopItemsArr[i].vendorCode %>"><%= transData.shopItemsArr[i].price.toFixed(2) %></span>
+                    грн</div>
+
+                  <div class="cart-uah-base-line-through" <% if (+transData.discount == 0) { %> style="display: none"
+                    <% } %>>
+                    <span id="basePrice<%= transData.shopItemsArr[i].vendorCode %>">
+                      <%= transData.shopItemsArr[i].basePrice.toFixed(2) %>
+                    </span>
+                    грн
+                  </div>
+
                 </div>
-                
-              </div>
-  
-              <div class="col-lg-4">
-                <h6 class="text-muted">Артикул: <%= transData.shopItemsArr[i].vendorCode %></h6>
-              </div>
-              <% if (transData.user.group == "Administrator" ||
+
+                <div class="col-lg-4">
+                  <h6 class="text-muted">Артикул: <%= transData.shopItemsArr[i].vendorCode %></h6>
+                </div>
+                <% if (transData.user.group == "Administrator" ||
                     transData.user.group == "Manager" || transData.user.group ==
                     "Agent") { %>
-              <div class="col-lg-4">
-                <h6 class="text-muted jq-stock-<%= transData.shopItemsArr[i].vendorCode %>" value="<%= transData.shopItemsArr[i].stock %>">
-                  Остаток: <%= transData.shopItemsArr[i].stock %>
-                </h6>
+                <div class="col-lg-4">
+                  <h6 class="text-muted jq-stock-<%= transData.shopItemsArr[i].vendorCode %>"
+                    value="<%= transData.shopItemsArr[i].stock %>">
+                    Остаток: <%= transData.shopItemsArr[i].stock %>
+                  </h6>
+                </div>
+                <% } %>
               </div>
-              <% } %>
-            </div>
-  
-            <div class="shopcart-and-wishlist-buttons">
-              <div class="cart-amount btn-group">
-                <button name="cart-amount-minus" type="button"
-                  class="btn btn-secondary btn-sm jq-btn-minus-<%= transData.shopItemsArr[i].vendorCode %>" id="<%= transData.shopItemsArr[i].vendorCode %>">
-                  <span class="fas fa-minus"></span>
+
+              <div class="shopcart-and-wishlist-buttons">
+                <div class="cart-amount btn-group">
+                  <button name="cart-amount-minus" type="button"
+                    class="btn btn-secondary btn-sm jq-btn-minus-<%= transData.shopItemsArr[i].vendorCode %>"
+                    id="<%= transData.shopItemsArr[i].vendorCode %>">
+                    <span class="fas fa-minus"></span>
+                  </button>
+
+                  <input type="number" min="1" max="<%= transData.shopItemsArr[i].stock %>" step="1"
+                    name="<%= transData.shopItemsArr[i].vendorCode %>" id="555" class="cart-amount-input" value="1" />
+
+                  <button name="cart-amount-plus" type="button"
+                    class="btn btn-secondary btn-sm jq-btn-plus-<%= transData.shopItemsArr[i].vendorCode %>"
+                    id="<%= transData.shopItemsArr[i].vendorCode %>">
+                    <span class="fas fa-plus"></span>
+                  </button>
+                </div>
+
+                <button name="add-item-to-shopcart-button" type="button"
+                  class="btn btn-success btn-sm item-add-to-shopcart-button"
+                  id="<%= transData.shopItemsArr[i].vendorCode %>">
+                  В Корзину
                 </button>
-  
-                <input type="number" min="1" max="<%= transData.shopItemsArr[i].stock %>" step="1" name="<%= transData.shopItemsArr[i].vendorCode %>" id="555"
-                  class="cart-amount-input" value="1" />
-  
-                <button name="cart-amount-plus" type="button"
-                  class="btn btn-secondary btn-sm jq-btn-plus-<%= transData.shopItemsArr[i].vendorCode %>" id="<%= transData.shopItemsArr[i].vendorCode %>">
-                  <span class="fas fa-plus"></span>
+
+                <button name="add-item-to-wishlist-button" type="button"
+                  class="btn btn-warning btn-sm item-add-to-wishlist-button"
+                  id="<%= transData.shopItemsArr[i].vendorCode %>">
+                  <span class="fas fa-heart"></span>
                 </button>
               </div>
-  
-              <button name="add-item-to-shopcart-button" type="button"
-                class="btn btn-success btn-sm item-add-to-shopcart-button" id="<%= transData.shopItemsArr[i].vendorCode %>">
-                В Корзину
-              </button>
-  
-              <button name="add-item-to-wishlist-button" type="button"
-                class="btn btn-warning btn-sm item-add-to-wishlist-button" id="<%= transData.shopItemsArr[i].vendorCode %>">
-                <span class="fas fa-heart"></span>
-              </button>
             </div>
           </div>
         </div>
-      </div>
-      <% } %>
-    <% }; %>
-    <div class="items-pagination">
-        <ul class="pagination">
-          <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
-            <a class="page-link" href="?page=<%=transData.page-1%>">&laquo;</a>
-          </li>
+        <% } %>
+        <% }; %>
+
+        <div class="items-pagination">
+          <ul class="pagination">
+            <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
+              <a class="page-link" href="?page=1">&laquo;</a>
+            </li>
+  
           <% for (var i = 1; i<=pages; i++) { %>
-            <li class="page-item <%if (transData.page == i) { %> active <%}%>">
+            <% var lWide = 3; var rWide = 3; %>
+            <% if (transData.page == 1) rWide = 5;  if (transData.page == 2) rWide = 4;%>
+            <% if (transData.page == +pages) lWide = 5;  if (transData.page == +pages-1) lWide = 4;%>
+            <% if ( ( i > (+transData.page-lWide) ) && ( i < (+transData.page+rWide) ) ){ %>
+            <li class=" page-item <%if (transData.page == i) { %> active <%}%>">
               <a class="page-link" href="?page=<%=i%>"><%=i%></a>
             </li>
+            <%}%>
           <%}%>
-          <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
-            <a class="page-link" href="?page=<%=+transData.page+1%>">&raquo;</a>
-          </li>
-        </ul>
+
+            <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
+            <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
+            </li>
+          </ul>
+        </div>
+
+
+
+        <!-- /MAIN CONTENT HERE: -->
       </div>
-    <!-- /MAIN CONTENT HERE: -->
-  </div>
-  </div>
+    </div>
   </div>
   <!-- /CONTAINER: -->
 

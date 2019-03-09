@@ -33,6 +33,7 @@
         <H2>
           <%= transData.shownCat.catName %>
         </H2>
+        <!-- Sub cats -->
         <% if (transData.shownCat.catHasChildren) {%>
           <% var subCatsArr = [];
           transData.shopCategoriesArr.forEach(function(item){
@@ -94,31 +95,41 @@
           </div>
           <div class="col-lg-4 tile-subcategory-bloc"></div>
               </div>
+              <hr>
         <%}%>
+        <!-- /Sub cats -->
 
-
-
-        <hr>
-
-
+        <!-- PAGINATION -->
         <%var len = transData.shownCatItems.length; var rest = len%transData.itemsPerPage; var fullPages = (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
+       
         <%if (len>transData.itemsPerPage) { %>
+        
         <div class="items-pagination">
           <ul class="pagination">
             <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
-              <a class="page-link" href="?page=<%=transData.page-1%>">&laquo;</a>
+            <a class="page-link" href="?page=1">&laquo;</a>
+          </li>
+
+        <% for (var i = 1; i<=pages; i++) { %>
+          <% var lWide = 3; var rWide = 3; %>
+          <% if (transData.page == 1) rWide = 5;  if (transData.page == 2) rWide = 4;%>
+          <% if (transData.page == +pages) lWide = 5;  if (transData.page == +pages-1) lWide = 4;%>
+          <% if ( ( i > (+transData.page-lWide) ) && ( i < (+transData.page+rWide) ) ){ %>
+          <li class=" page-item <%if (transData.page == i) { %> active <%}%>">
+            <a class="page-link" href="?page=<%=i%>"><%=i%></a>
             </li>
-            <% for (var i = 1; i<=pages; i++) { %>
-              <li class="page-item <%if (transData.page == i) { %> active <%}%>">
-                <a class="page-link" href="?page=<%=i%>"><%=i%></a>
-              </li>
             <%}%>
+        <%}%>
+
             <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
-              <a class="page-link" href="?page=<%=+transData.page+1%>">&raquo;</a>
+          <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
             </li>
           </ul>
         </div>
         <%}%>
+        <!-- /PAGINATION -->
+ 
+
 
         <% for (var i = transData.page*transData.itemsPerPage-transData.itemsPerPage; i<transData.shownCatItems.length; i++ ) {%>
       
@@ -207,23 +218,34 @@
                   </div>
         <% } %>
         <% }; %>
+
+        <!-- Bottom Pagination: -->
         <%if (len>transData.itemsPerPage) { %>
+        
           <div class="items-pagination">
             <ul class="pagination">
               <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
-                <a class="page-link" href="?page=<%=transData.page-1%>">&laquo;</a>
+              <a class="page-link" href="?page=1">&laquo;</a>
+            </li>
+  
+          <% for (var i = 1; i<=pages; i++) { %>
+            <% var lWide = 3; var rWide = 3; %>
+            <% if (transData.page == 1) rWide = 5;  if (transData.page == 2) rWide = 4;%>
+            <% if (transData.page == +pages) lWide = 5;  if (transData.page == +pages-1) lWide = 4;%>
+            <% if ( ( i > (+transData.page-lWide) ) && ( i < (+transData.page+rWide) ) ){ %>
+            <li class=" page-item <%if (transData.page == i) { %> active <%}%>">
+              <a class="page-link" href="?page=<%=i%>"><%=i%></a>
               </li>
-              <% for (var i = 1; i<=pages; i++) { %>
-                <li class="page-item <%if (transData.page == i) { %> active <%}%>">
-                  <a class="page-link" href="?page=<%=i%>"><%=i%></a>
-                </li>
               <%}%>
+          <%}%>
+  
               <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
-                <a class="page-link" href="?page=<%=+transData.page+1%>">&raquo;</a>
+            <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
               </li>
             </ul>
           </div>
           <%}%>
+          <!-- /Bottom Pagination: -->
         <!-- /MAIN CONTENT HERE: -->
       </div>
     </div>
