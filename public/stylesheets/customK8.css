@@ -1179,12 +1179,12 @@ div.telefon-topk8:hover {
 }
 
 .cart-total-title {
-  font-size: 1.3em;
-  margin-right: 30px;
+  font-size: 1.2em;
+  margin-right: 20px;
 }
 
 .cart-total-uah {
-  font-size: 1.4em;
+  font-size: 1.2em;
   float: right;
 }
 
@@ -1667,4 +1667,8 @@ div.telefon-topk8:hover {
   color: #ff6707;
   padding: 6px 5px 5px;
   font-size: 1.05em;
+}
+
+.order-item-footer {
+  border-bottom: 1px solid #73a839;
 }

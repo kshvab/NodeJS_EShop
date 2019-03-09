@@ -1,7 +1,7 @@
 {
   "name": "nodesite",
-  "version": "2.2.3",
-  "version-GIT-description": "Pagination Normalization",
+  "version": "2.2.4",
+  "version-GIT-description": "Orders management start",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {
