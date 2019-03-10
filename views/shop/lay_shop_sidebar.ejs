@@ -1,81 +1,90 @@
-<div class="form-group">
-  <input
-    type="text"
-    class="form-control"
-    placeholder="Поиск"
-    id="inputDefault"
-  />
-</div>
-
-<% transData.shopCategoriesArr.forEach(function(item){ %> <% if
-(!item.catFatherId && !item.catHasChildren) { %>
-
-<a
-  class="btn btn-primary btn-sm btn-block btn-shop-categories-nav"
-  href="/shop/<%= item.catAlias %>"
-  role="button"
->
-  <%= item.catName %>
-</a>
-
-<% } else if (!item.catFatherId && item.catHasChildren) {%>
-
-<div
-  class="btn-group btn-block "
-  role="group"
-  aria-label="Button group with nested dropdown"
->
-  <a
-    role="button"
-    class="btn btn-primary btn-sm btn-block btn-shop-categories-nav"
-    href="/shop/<%= item.catAlias %>"
+<div class="vertnavbar vertnavbar-expand-lg vertnavbar-light">
+  <button
+    class="vertnavbar-toggler btn-block k8-cats-toggler-btn"
+    type="button"
+    data-toggle="collapse"
+    data-target="#sidebarShopCats"
+    aria-controls="sidebarShopCats"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
   >
-    <%= item.catName %>
-  </a>
-  <div class="btn-group" role="group">
-    <button
-      id="btnGroupDrop1"
-      type="button"
-      class="btn btn-primary dropdown-toggle  btn-sm"
-      data-toggle="dropdown"
-      aria-haspopup="true"
-      aria-expanded="false"
-    ></button>
-    <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-      <% transData.shopCategoriesArr.forEach(function(subItem){ %> <% if
-      (subItem.catFatherId == item.catId) { %>
+    <span class="vertnavbar-toggler-icon"></span> Категории
+  </button>
 
-      <a
-        class="dropdown-item"
-        href="/shop/<%= item.catAlias %>/<%= subItem.catAlias %>"
-        ><%= subItem.catName %></a
-      >
-      <% }}) %>
+  <div class="collapse vertnavbar-collapse" id="sidebarShopCats">
+    <!-- ******************************************* -->
+    <div class="form-group">
+      <input
+        type="text"
+        class="form-control"
+        placeholder="Поиск"
+        id="inputDefault"
+      />
     </div>
+
+    <% transData.shopCategoriesArr.forEach(function(item){ %> <% if
+    (!item.catFatherId && !item.catHasChildren) { %>
+
+    <a
+      class="btn btn-primary btn-sm btn-block btn-shop-categories-nav"
+      href="/shop/<%= item.catAlias %>"
+      role="button"
+    >
+      <%= item.catName %>
+    </a>
+
+    <% } else if (!item.catFatherId && item.catHasChildren) {%>
+
+    <div
+      class="btn-group btn-block "
+      role="group"
+      aria-label="Button group with nested dropdown"
+    >
+      <a
+        role="button"
+        class="btn btn-primary btn-sm btn-block btn-shop-categories-nav"
+        href="/shop/<%= item.catAlias %>"
+      >
+        <%= item.catName %>
+      </a>
+      <div class="btn-group" role="group">
+        <button
+          id="btnGroupDrop1"
+          type="button"
+          class="btn btn-primary dropdown-toggle  btn-sm"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        ></button>
+        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+          <% transData.shopCategoriesArr.forEach(function(subItem){ %> <% if
+          (subItem.catFatherId == item.catId) { %>
+
+          <a
+            class="dropdown-item"
+            href="/shop/<%= item.catAlias %>/<%= subItem.catAlias %>"
+            ><%= subItem.catName %></a
+          >
+          <% }}) %>
+        </div>
+      </div>
+    </div>
+
+    <% } %> <% }); %> <% transData.shopCategoriesArr.forEach(function(item){ %>
+    <% if (item.catName == "Покрышки и камеры для тачки") { %>
+
+    <a
+      class="btn btn-primary btn-sm btn-block btn-shop-categories-nav"
+      href="/shop/<%= item.catAlias %>"
+      role="button"
+    >
+      <%= item.catName %>
+    </a>
+
+    <% } %><% }) %>
+
+    <!-- ******************************************* -->
   </div>
 </div>
-
-<% } %> <% }); %> <% transData.shopCategoriesArr.forEach(function(item){ %> <%
-if (item.catName == "Покрышки и камеры для тачки") { %>
-
-<a
-  class="btn btn-primary btn-sm btn-block btn-shop-categories-nav"
-  href="/shop/<%= item.catAlias %>"
-  role="button"
->
-  <%= item.catName %>
-</a>
-
-<% } %><% }) %>
-
-<br /><br />
-
-<br /><br />
-<!-- cart Button experiments: -->
-
-<br /><br />
-
+<!-- ******************************************* -->
 <% include lay_shop_cart_modal_window.ejs %>
-<!-- /cart Button experiments: -->
-
-<br /><br /><br />
