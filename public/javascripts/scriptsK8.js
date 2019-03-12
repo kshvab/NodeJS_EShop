@@ -18,7 +18,7 @@ $(window).on('load', function() {
   $('#select-discount-header').removeAttr('disabled');
 
   if (+$('#topshopbuttonitemsquantity').text()) {
-    $('#select-discount-header').attr( 'disabled', '' );
+    $('#select-discount-header').attr('disabled', '');
   }
 
   var flag = true;
@@ -687,7 +687,7 @@ $(window).on('load', function() {
       $('#newItemName').text(data.shopCart[0].name);
       $('#newItemPrice').text(data.shopCart[0].price.toFixed(2) + ' грн');
       $('#topshopbuttonitemsquantity').text(data.shopCart.length);
-      $('#select-discount-header').attr( 'disabled', '' );
+      $('#select-discount-header').attr('disabled', '');
 
       var cartTotalSumm = 0;
 
@@ -1079,4 +1079,36 @@ $(window).on('load', function() {
       }
     });
   });
+
+
+// User Dell One Order from list
+$("[name='orders-list-del-one']").on('click', function(e) {
+  e.preventDefault();
+  let delOrder_id = this.value;
+  let confirmed = confirm(
+    'Вы точно хотите удалить заказ ' + delOrder_id + '?'
+  );
+  if (confirmed) {
+    let data = {
+      delOrder_id
+    };
+    $.ajax({
+      type: 'DELETE',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/shop//deleteorder'
+    }).done(function(data) {
+      if (!data.ok) {
+        alert(data.error);
+      } else {
+        $('#loading-overlay').show();
+        setTimeout(function() {
+          window.location.reload(true);
+        }, 1500);
+      }
+    });
+  } else return;
+});
+
+
 });

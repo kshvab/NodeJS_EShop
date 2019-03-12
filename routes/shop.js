@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 var fs = require('fs');
+const models = require('../models');
+const order = models.order;
 
 //********* Promises ***************/
 
@@ -351,6 +353,27 @@ router.post('/changediscount', (req, res) => {
   res.json({
     ok: true
   });
+});
+
+// DELETE order
+router.delete('/deleteorder', (req, res) => {
+  const _id = req.body.delOrder_id;
+  order
+    .findOne({ _id })
+    .then(orderFromDB => {
+      orderFromDB.remove(DBanswer => {
+        res.json({
+          ok: true
+        });
+      });
+    })
+    .catch(err => {
+      console.log('K8 ERROR: Не получилось удалить' + err);
+      res.json({
+        ok: false,
+        error: 'K8 ERROR: Не получилось удалить' + err
+      });
+    });
 });
 
 //************* FUNCTIONS ****** */

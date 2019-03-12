@@ -1,7 +1,7 @@
 {
   "name": "nodesite",
-  "version": "2.2.5",
-  "version-GIT-description": "sidebar mob vision cats togler",
+  "version": "2.2.6",
+  "version-GIT-description": "Order deletion by admin and by user",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {

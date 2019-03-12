@@ -160,6 +160,10 @@ router.get('/', function(req, res) {
 });
 
 router.post('/neworder', (req, res) => {
+  let discount;
+  if (req.session.hasOwnProperty('discount')) discount = req.session.discount;
+  else discount = 0;
+
   console.dir(req.session.shopCart);
   console.dir(req.body.user);
 
@@ -170,7 +174,8 @@ router.post('/neworder', (req, res) => {
       .create({
         _id,
         user: req.body.user,
-        shopcart: req.session.shopCart
+        shopcart: req.session.shopCart,
+        discount
       })
 
       .then(orderToDB => {

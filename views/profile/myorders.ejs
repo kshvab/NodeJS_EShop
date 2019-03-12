@@ -153,7 +153,15 @@
                   <p>Позиций в заказе: <%= order.shopcart.length %></p>
                   <button type="button" class="btn btn-success btn-sm">Выгрузить</button>
                   <button type="button" class="btn btn-warning btn-sm">Редактировать</button>
-                  <button type="button" class="btn btn-danger btn-sm">Удалить</button>
+                  <button
+                          name="orders-list-del-one"
+                          value="<%=order._id%>"
+                          type="button"
+                          class="btn btn-danger btn-sm"
+                        >
+                          <i class="fa fa-times fa-fw"></i> Удалить
+                        </button>
+                 
                   <br>КНОПКИ В РАЗРАБОТКЕ!
                 </div>
                 <div class="col-lg-5">

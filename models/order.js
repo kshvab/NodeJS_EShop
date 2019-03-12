@@ -62,7 +62,11 @@ const orderSchema = mongoose.Schema(
           required: false
         }
       }
-    ]
+    ],
+    discount: {
+      type: String,
+      required: false
+    }
   },
   {
     timestamps: true
