@@ -9,7 +9,11 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">Заказ успешно оформлен!</h4>
+        <h4 class="modal-title">
+          <%if (transData.editedOrder_id) { %>Заказ <%=
+          transData.editedOrder_id%> отредактирован!<% } else {%>Заказ успешно
+          оформлен!<% }%>
+        </h4>
         <button
           type="button"
           class="close"

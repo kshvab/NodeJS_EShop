@@ -55,8 +55,7 @@ router.post('/additem', (req, res) => {
   if (!existInshopCart) req.session.shopCart.unshift(itemForAdding);
   else
     req.session.shopCart.splice(0, 0, req.session.shopCart.splice(index, 1)[0]); //move element to start of Arr
-  console.log('сесія у роуті перед респондом');
-  console.log(req.session.shopCart);
+
   res.json({
     ok: true,
     shopCart: req.session.shopCart
@@ -103,6 +102,16 @@ router.get('/', function(req, res) {
   let _id, login, group, shopCart;
   shopCart = req.session.shopCart;
 
+  let ordercomment;
+  let customer;
+  let editedOrder_id;
+  if (req.session.hasOwnProperty('editedOrder_id'))
+    editedOrder_id = req.session.editedOrder_id;
+  if (req.session.hasOwnProperty('editedOrderOrdercomment'))
+    ordercomment = req.session.editedOrderOrdercomment;
+  if (req.session.hasOwnProperty('editedOrderCustomer'))
+    customer = req.session.editedOrderCustomer;
+
   //Delivery Service data
 
   var citiesArrJson = fs.readFileSync(
@@ -126,7 +135,10 @@ router.get('/', function(req, res) {
             pageTitle: 'Оформление заказа',
             user: userFromDB,
             shopCart,
-            cities
+            cities,
+            ordercomment,
+            customer,
+            editedOrder_id
           }
         });
       } else {
@@ -164,36 +176,65 @@ router.post('/neworder', (req, res) => {
   if (req.session.hasOwnProperty('discount')) discount = req.session.discount;
   else discount = 0;
 
-  console.dir(req.session.shopCart);
-  console.dir(req.body.user);
-
-  getNextSequenceValue('order_id').then(_id => {
-    _id = Number(_id);
-    console.log('_id ' + _id);
+  if (
+    req.session.hasOwnProperty('editedOrder_id') &&
+    req.session.editedOrder_id != undefined
+  ) {
+    const _id = req.session.editedOrder_id;
     order
-      .create({
-        _id,
-        user: req.body.user,
-        shopcart: req.session.shopCart,
-        discount
-      })
-
-      .then(orderToDB => {
+      .findOne({ _id })
+      .then(orderFromDB => {
+        orderFromDB.shopcart = req.session.shopCart;
+        orderFromDB.user = req.body.user; //Jq gives a new data
+        //clean session data
         req.session.shopCart = [];
+        req.session.editedOrder_id = undefined;
+        req.session.editedOrderOrdercomment = undefined;
+        req.session.editedOrderCustomer = undefined;
+
+        orderFromDB.save();
         res.json({
           ok: true,
-          newOrderNumber: orderToDB._id
+          newOrderNumber: _id
         });
       })
       .catch(err => {
-        console.log('K8 ERROR: Не получилось добавить orderToDB в базу');
-        console.log(err);
+        console.log('K8 ERROR: Не получилось редактировать заказ' + err);
         res.json({
           ok: false,
-          error: 'Ошибка, попробуйте позже!'
+          error: 'K8 ERROR: Не получилось редактировать заказ' + err
         });
       });
-  });
+  } else {
+    getNextSequenceValue('order_id').then(_id => {
+      _id = Number(_id);
+
+      order
+        .create({
+          _id,
+          user: req.body.user,
+          shopcart: req.session.shopCart,
+          discount
+        })
+
+        .then(orderToDB => {
+          req.session.shopCart = [];
+
+          res.json({
+            ok: true,
+            newOrderNumber: orderToDB._id
+          });
+        })
+        .catch(err => {
+          console.log('K8 ERROR: Не получилось добавить orderToDB в базу');
+          console.log(err);
+          res.json({
+            ok: false,
+            error: 'Ошибка, попробуйте позже!'
+          });
+        });
+    });
+  }
 });
 
 module.exports = router;

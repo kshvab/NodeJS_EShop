@@ -1096,7 +1096,7 @@ $("[name='orders-list-del-one']").on('click', function(e) {
       type: 'DELETE',
       data: JSON.stringify(data),
       contentType: 'application/json',
-      url: '/shop//deleteorder'
+      url: '/shop/deleteorder'
     }).done(function(data) {
       if (!data.ok) {
         alert(data.error);
@@ -1109,6 +1109,43 @@ $("[name='orders-list-del-one']").on('click', function(e) {
     });
   } else return;
 });
+
+  // User Edit One Order from list
+  $("[name='orders-list-edit-one']").on('click', function(e) {
+    e.preventDefault();
+    let editOrder_id = this.value;
+    let confirmed = confirm(
+      'Вы точно хотите редактировать заказ ' + editOrder_id + '?'
+    );
+    if (confirmed) {
+      let data = {
+        editOrder_id
+      };
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/shop/editorder'
+      }).done(function(data) {
+        if (!data.ok) {
+          alert(data.error);
+        } else {
+          $('#loading-overlay').show();
+          setTimeout(function() {
+            window.location.href = "/shopcart";
+          }, 1500);
+        }
+      });
+    } else return;
+
+
+    //$(location).attr('href', '/administrator/users/edit/' + this.value);
+
+
+
+  });
+
+
 
 
 });

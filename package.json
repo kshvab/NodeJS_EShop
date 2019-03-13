@@ -1,7 +1,7 @@
 {
   "name": "nodesite",
-  "version": "2.2.6",
-  "version-GIT-description": "Order deletion by admin and by user",
+  "version": "2.3.0",
+  "version-GIT-description": "Order editing by user",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {

@@ -376,6 +376,31 @@ router.delete('/deleteorder', (req, res) => {
     });
 });
 
+router.post('/editorder', (req, res) => {
+  const _id = req.body.editOrder_id;
+  order
+    .findOne({ _id })
+    .then(orderFromDB => {
+      console.log();
+      req.session.shopCart = orderFromDB.shopcart;
+      req.session.discount = +orderFromDB.discount;
+      req.session.editedOrder_id = +orderFromDB._id;
+
+      req.session.editedOrderOrdercomment = orderFromDB.user.ordercomment;
+      req.session.editedOrderCustomer = orderFromDB.user.customer;
+      res.json({
+        ok: true
+      });
+    })
+    .catch(err => {
+      console.log('K8 ERROR: Не получилось редактировать заказ' + err);
+      res.json({
+        ok: false,
+        error: 'K8 ERROR: Не получилось редактировать заказ' + err
+      });
+    });
+});
+
 //************* FUNCTIONS ****** */
 function fpriceKoefDef(priceSettings, discount) {
   let koef;

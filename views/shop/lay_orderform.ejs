@@ -3,7 +3,10 @@
 <form role="form" method="post" class="toorder" id="shopcartcheckout">
   <fieldset>
     <div class="card border-success mb-3">
-      <div class="card-header">Оформление заказа</div>
+      <div class="card-header">
+        <%if (transData.editedOrder_id) { %>Редактирование заказа №<%= transData.editedOrder_id%>
+        <% } else {%>Оформление заказа<% }%>
+      </div>
       <div class="card-body">
         <!-- name -->
         <div class="form-group">
@@ -62,7 +65,7 @@
             name="customer"
             type="<% if (!transData.user.group || transData.user.group == 'Registered') { %>hidden<% } else { %>text<% } %>"
             id="toorder-customer"
-            value=""
+            value="<%if (transData.customer) { %><%= transData.customer%><% } %>"
           />
         </div>
 
@@ -164,7 +167,7 @@
             rows="3"
             style="height: 60px;"
             placeholder="Комментарий к заказу..."
-          ></textarea>
+          ><%if (transData.ordercomment) { %><%= transData.ordercomment%><% } %></textarea>
         </div>
 
         <!-- BUTTON -->
@@ -173,7 +176,11 @@
           class="toorder-button btn btn-lg btn-success btn-block"
           id="toorder-button"
         >
+        <%if (transData.editedOrder_id) { %>
+          Сохранить
+        <% } else {%>
           Заказать
+        <% }%>
         </button>
       </div>
     </div>
