@@ -88,9 +88,10 @@ app.use((error, req, res, next) => {
 });
 
 //  --- SERVICES ---
-//const services = require('./services');
+const services = require('./services');
 //services.novaposhta.updateDeliveryServiceCitiesList();
 //services.catscreating.runCategoriesParsing();
 //services.itemscreating.runItemsParsing();
+services.photoparsing.runPhotoParsing();
 
 module.exports = app;
