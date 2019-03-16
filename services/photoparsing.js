@@ -1,95 +1,88 @@
-var request = require('request');
 var fs = require('fs');
-const cheerio = require('cheerio');
+const mkdirp = require('mkdirp');
+var Jimp = require('jimp');
 
-function runPhotoParsing() {
-  console.log('Photoparsing');
-
-  let shopItemsArrStr = fs.readFileSync(
+let p_shopItemsArr = new Promise(function(resolve, reject) {
+  var shopItemsArrStr = fs.readFileSync(
     './public/import_foto/shopItemsArrFile.txt',
     {
       encoding: 'UTF-8'
     }
   );
+  var shopItemsArr = JSON.parse(shopItemsArrStr);
 
-  let shopItemsArr = JSON.parse(shopItemsArrStr);
+  if (shopItemsArr) resolve(shopItemsArr);
+  else reject('Can not read ./public/import_foto/shopItemsArrFile.txt');
+});
 
-  let catUrl = shopItemsArr[0].murovdagUrl;
-  console.log(catUrl);
-  request(catUrl, function(error, response, body) {
-    if (error) {
+function fsavePictures(itemsArr) {
+  console.log(itemsArr.length);
+  let errorLogArr = [];
+
+  let itemsCounter = 690;
+
+  fSavePicOneItem(itemsCounter);
+
+  function fSavePicOneItem(index) {
+    let soursePath220 = encodeURI(itemsArr[index].picture);
+    let soursePath800 = soursePath220.replace('220x220', '800x800');
+    let folderPath = itemsArr[index].picture_220x220.substring(0, 37);
+
+    mkdirp(folderPath, function(err) {
+      if (err) console.log(err);
+      else {
+        fSave220();
+      }
+    });
+
+    function fSave220() {
+      Jimp.read(soursePath220, function(err, image) {
+        if (err) {
+          errorLogArr.push({ itemID: itemsArr[index].id, err });
+          fSave800();
+          console.log('Не вдалося прочитати фотку ' + soursePath220, err);
+        } else {
+          image.write(itemsArr[index].picture_220x220, (err, success) => {
+            err ? console.log(err) : fSave800();
+          });
+        }
+      });
+    }
+
+    function fSave800() {
+      Jimp.read(soursePath800, function(err, image) {
+        if (err) {
+          errorLogArr.push({ itemID: itemsArr[index].id, err });
+          nextTic();
+          console.log('Не вдалося прочитати фотку ' + soursePath800, err);
+        } else {
+          image.write(itemsArr[index].picture_800x800, (err, success) => {
+            err ? console.log(err) : nextTic();
+          });
+        }
+      });
+    }
+
+    function nextTic() {
+      console.log(itemsArr.length - index + ' of ' + itemsArr.length);
+      index++;
+      if (index < itemsArr.length) fSavePicOneItem(index);
+      else {
+        console.log('All pictures are saved!');
+        console.log(errorLogArr);
+      }
+    }
+  }
+}
+
+function runPhotoParsing() {
+  console.log('Photoparsing');
+
+  p_shopItemsArr
+    .then(itemsArr => fsavePictures(itemsArr))
+    .catch(error => {
       console.log(error);
-    }
-
-    var $ = cheerio.load(body, { decodeEntities: false });
-
-    let lookingFor = $('#gallery_zoom').attr('src');
-
-    console.log(lookingFor);
-    /*
-    let catItemsLen; 
-
-    if (!catItemsLen) resolve(0);
-    let catItemsArr = [];
-
-    for (let i = 0; i < catItemsLen; i++) {
-      let item = {};
-      let murovdagUrl = $('.product-list .name-product a')
-        .eq(i)
-        .attr('href');
-      let name = $('.product-list .name-product a')
-        .eq(i)
-        .text();
-
-      let vendorCode = $('.product-list .models')
-        .eq(i)
-        .text();
-      vendorCode = vendorCode.slice(10);
-      let notSingleItem = false;
-      let manufacturer = '';
-      let notAvailableForSale = false;
-      let inputPriceUsd = $('.product-list .price-product')
-        .eq(i)
-        .text();
-      //
-
-      inputPriceUsd = fPriceNorm(inputPriceUsd);
-
-      let stock = 10;
-      let baseUnit = 'шт';
-      let picture = $('.product-list img')
-        .eq(i)
-        .attr('src');
-      let id = vendorCode;
-
-      let groups = catId;
-      let price = 0;
-      let basePrice = 0;
-
-      item = {
-        murovdagUrl,
-        name,
-        vendorCode,
-        notSingleItem,
-        manufacturer,
-        notAvailableForSale,
-        inputPriceUsd,
-        price,
-        basePrice,
-        stock,
-        baseUnit,
-        picture,
-        id,
-        groups
-      };
-      catItemsArr.push(item);
-    }
-
-    resolve(catItemsArr);
-
-
-    */
-  });
+    });
 }
 
 module.exports = {

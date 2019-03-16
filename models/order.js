@@ -57,6 +57,14 @@ const orderSchema = mongoose.Schema(
           type: String,
           required: false
         },
+        picture_220x220: {
+          type: String,
+          required: false
+        },
+        picture_800x800: {
+          type: String,
+          required: false
+        },
         groups: {
           type: String,
           required: false

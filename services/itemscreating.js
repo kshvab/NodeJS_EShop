@@ -1,6 +1,14 @@
 var request = require('request');
 var fs = require('fs');
 const cheerio = require('cheerio');
+const config = require('../config');
+
+const picSaveDest = config.SHOP_PICTURE_SAVE_DESTINATION;
+const randomStr1Symb = () => {
+  return Math.random()
+    .toString(36)
+    .slice(-1);
+};
 
 function fPriceNorm(price) {
   let priceln = price.length;
@@ -111,6 +119,13 @@ function catItemsParsing(catUrl, catId) {
         let price = 0;
         let basePrice = 0;
 
+        let dir = '/picfolder_' + randomStr1Symb();
+
+        let picture_220x220 =
+          picSaveDest + dir + '/img_' + vendorCode + '_220x220.png';
+        let picture_800x800 =
+          picSaveDest + dir + '/img_' + vendorCode + '_800x800.png';
+
         item = {
           murovdagUrl,
           name,
@@ -124,9 +139,12 @@ function catItemsParsing(catUrl, catId) {
           stock,
           baseUnit,
           picture,
+          picture_220x220,
+          picture_800x800,
           id,
           groups
         };
+
         catItemsArr.push(item);
       }
 

@@ -1,7 +1,7 @@
 {
   "name": "nodesite",
-  "version": "2.3.0",
-  "version-GIT-description": "Order editing by user",
+  "version": "2.4.0",
+  "version-GIT-description": "pictures parsing is complete",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {
@@ -23,20 +23,21 @@
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.18.3",
+    "cheerio": "^1.0.0-rc.2",
     "connect-mongo": "^2.0.3",
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-session": "^1.15.6",
+    "jimp": "^0.6.0",
     "jquery": "^3.3.1",
     "mkdirp": "^0.5.1",
     "moment": "^2.23.0",
     "mongoose": "^5.4.1",
     "multer": "^1.4.1",
     "request": "^2.88.0",
+    "slugify": "^1.3.4",
     "transliteration": "^1.6.6",
-    "xml2js": "^0.4.19",
-    "cheerio": "^1.0.0-rc.2",
-    "slugify": "^1.3.4"
+    "xml2js": "^0.4.19"
   }
 }
