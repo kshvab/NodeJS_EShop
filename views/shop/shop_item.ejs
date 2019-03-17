@@ -40,9 +40,13 @@
         <div class="card-body">
           <div class="row">
             <div class="col-lg-6">
-              <div class="border-primary">
-                <img style="display: block;" src="<%= transData.shownItem.picture_220x220 %>"
+              <div class="border-primary"
+                    data-toggle="modal"
+                    data-target="#bigPictureModal">
+                  
+                <img style="display: block; cursor: pointer;" src="<%= transData.shownItem.picture_220x220 %>"
                   alt="<%= transData.shownItem.name %>" onerror="this.style.display = 'none'"/>
+
               </div>
             </div>
 
@@ -183,7 +187,34 @@
             </p>
           </div>
         </div>
-
+        <!-- Modal -->
+        <div
+          class="modal fade bd-example-modal-lg"
+          id="bigPictureModal"
+          tabindex="-1"
+          role="dialog"
+          aria-labelledby="bigPictureModalLabel"
+          aria-hidden="true"
+        >
+          <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h6 class="modal-title" id="bigPictureModalLabel"><%= transData.shownItem.name %></h6>
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body modal-body-bigPictureModal"><img class="img-bigPictureModal" src="<%= transData.shownItem.picture_800x800 %>"
+                alt="<%= transData.shownItem.name %>" onerror="this.style.display = 'none'"/></div>
+              <div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть просмотр</button></div>
+            </div>
+          </div>
+        </div>
 
 
         <!-- /MAIN CONTENT HERE: -->

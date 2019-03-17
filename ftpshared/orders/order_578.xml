@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+  <user>
+    <group>Administrator</group>
+    <name>Nick Shvab</name>
+    <login>kshvab</login>
+    <_id>5c2f64601bdc7609cc6399a2</_id>
+    <customer>1000 Дрібниць</customer>
+    <email>kshvab@gmail.com</email>
+    <phonenumber>0673267467</phonenumber>
+    <deliveryType/>
+    <deliveryCity/>
+    <deliveryDepartment/>
+    <paymentMethod/>
+    <ordercomment>rtbe54tb</ordercomment>
+  </user>
+  <unloaded>false</unloaded>
+  <_id>578</_id>
+  <shopcart>
+    <_id>5c8e6bb34e7a472b908d3f4e</_id>
+    <name>Амортизатор на раму, длина 150 мм</name>
+    <vendorCode>VZ0247</vendorCode>
+    <inputPriceUsd>3</inputPriceUsd>
+    <price>48.72</price>
+    <basePrice>60.9</basePrice>
+    <picture>http://murovdag.com.ua/image/cache/catalog/ КМС Цепь /47E099E1-44B1-4DA7-A971-BE822083C98A-220x220.jpeg</picture>
+    <picture_220x220>/images/shop_images/picfolder_47/img_VZ0247_220x220.png</picture_220x220>
+    <picture_800x800>/images/shop_images/picfolder_47/img_VZ0247_800x800.png</picture_800x800>
+    <groups>firstlvl1-1</groups>
+    <quantity>1</quantity>
+  </shopcart>
+  <shopcart>
+    <_id>5c8e6bb34e7a472b908d3f4d</_id>
+    <name>Покрышки 20"x2.00 ,ЕЛКА</name>
+    <vendorCode>VZ0968</vendorCode>
+    <inputPriceUsd>2</inputPriceUsd>
+    <price>32.48</price>
+    <basePrice>40.6</basePrice>
+    <picture>http://murovdag.com.ua/image/cache/catalog/ Покрышки разный /7D0B3D54-71AF-4A60-838E-B427F97E7480-220x220.jpeg</picture>
+    <picture_220x220>/images/shop_images/picfolder_68/img_VZ0968_220x220.png</picture_220x220>
+    <picture_800x800>/images/shop_images/picfolder_68/img_VZ0968_800x800.png</picture_800x800>
+    <groups>firstlvl1</groups>
+    <quantity>1</quantity>
+  </shopcart>
+  <discount>2</discount>
+  <createdAt>2019-03-17T15:45:55.546Z</createdAt>
+  <updatedAt>2019-03-17T15:45:55.546Z</updatedAt>
+  <__v>0</__v>
+</root>

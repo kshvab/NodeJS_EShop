@@ -74,6 +74,11 @@ const orderSchema = mongoose.Schema(
     discount: {
       type: String,
       required: false
+    },
+    unloaded: {
+      type: Boolean,
+      required: true,
+      default: false
     }
   },
   {

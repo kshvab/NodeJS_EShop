@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<root>
+  <user>
+    <group>Guest</group>
+    <name>Василий Алибабаев</name>
+    <login/>
+    <_id/>
+    <customer/>
+    <email>kshvab@gmail.com</email>
+    <phonenumber>673267467</phonenumber>
+    <deliveryType>Отделение Новой Почты</deliveryType>
+    <deliveryCity>Барановка</deliveryCity>
+    <deliveryDepartment>Отделение №1: ул. Звягельская, 28</deliveryDepartment>
+    <paymentMethod>Наложенный платеж</paymentMethod>
+    <ordercomment>Wow, nice!!!</ordercomment>
+  </user>
+  <unloaded>false</unloaded>
+  <_id>582</_id>
+  <shopcart>
+    <_id>5c8e7416d315cd19f8efd3c6</_id>
+    <name>Крыло переднее и заднее ,SIMPLA 26"-28" NEXT SDS  ,Польша</name>
+    <vendorCode>VZ0805</vendorCode>
+    <inputPriceUsd>4.2</inputPriceUsd>
+    <price>85.26</price>
+    <basePrice>85.26</basePrice>
+    <picture>http://murovdag.com.ua/image/cache/catalog/Petşok/645190EA-F99D-4560-887F-769CEA9283FF-220x220.jpeg</picture>
+    <picture_220x220>/images/shop_images/picfolder_05/img_VZ0805_220x220.png</picture_220x220>
+    <picture_800x800>/images/shop_images/picfolder_05/img_VZ0805_800x800.png</picture_800x800>
+    <groups>firstlvl0-8</groups>
+    <quantity>1</quantity>
+  </shopcart>
+  <shopcart>
+    <_id>5c8e7416d315cd19f8efd3c5</_id>
+    <name>Защита пера SHIMANO XTR , тикань</name>
+    <vendorCode>VZ0850</vendorCode>
+    <inputPriceUsd>0.8</inputPriceUsd>
+    <price>16.24</price>
+    <basePrice>16.24</basePrice>
+    <picture>http://murovdag.com.ua/image/cache/catalog/wp-content/uploads/2017/01/DSC01704-220x220.jpg</picture>
+    <picture_220x220>/images/shop_images/picfolder_50/img_VZ0850_220x220.png</picture_220x220>
+    <picture_800x800>/images/shop_images/picfolder_50/img_VZ0850_800x800.png</picture_800x800>
+    <groups>firstlvl0-12</groups>
+    <quantity>2</quantity>
+  </shopcart>
+  <discount>0</discount>
+  <createdAt>2019-03-17T16:21:42.059Z</createdAt>
+  <updatedAt>2019-03-17T16:21:42.059Z</updatedAt>
+  <__v>0</__v>
+</root>

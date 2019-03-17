@@ -1192,12 +1192,26 @@ div.telefon-topk8:hover {
   font-size: 0.7em;
 }
 
+.btn-shopcart-header {
+  margin-right: 10px;
+  margin-bottom: 2px;
+  margin-top: 2px;
+}
+
 .btn-wishlist-header {
-  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 2px;
+  margin-top: 2px;
 }
 
 .select-discount-header {
-  margin-left: 10px;
+  margin-right: 10px;
+  margin-bottom: 2px;
+  margin-top: 2px;
+}
+
+.sticky-top {
+  z-index: 1040 !important;
 }
 
 .shopcart-and-wishlist-buttons {
@@ -1245,6 +1259,16 @@ div.telefon-topk8:hover {
 
 .items-pagination {
   text-align: center;
+}
+
+.modal-body-bigPictureModal {
+  text-align: center;
+  padding: 0rem !important;
+}
+
+.img-bigPictureModal {
+  max-height: 75vh;
+  max-width: 80vw;
 }
 
 /*************** loading-overlay ***********/
@@ -1673,8 +1697,6 @@ div.telefon-topk8:hover {
   border-bottom: 1px solid #73a839;
 }
 
-
-
 .vertnavbar {
   position: relative;
   display: inherit;
@@ -1687,13 +1709,13 @@ div.telefon-topk8:hover {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
-      flex-wrap: wrap;
+  flex-wrap: wrap;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
   -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
 }
 
 .vertnavbar-brand {
@@ -1706,7 +1728,8 @@ div.telefon-topk8:hover {
   white-space: nowrap;
 }
 
-.vertnavbar-brand:hover, .vertnavbar-brand:focus {
+.vertnavbar-brand:hover,
+.vertnavbar-brand:focus {
   text-decoration: none;
 }
 
@@ -1716,8 +1739,8 @@ div.telefon-topk8:hover {
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
   padding-left: 0;
   margin-bottom: 0;
   list-style: none;
@@ -1741,13 +1764,13 @@ div.telefon-topk8:hover {
 
 .vertnavbar-collapse {
   -ms-flex-preferred-size: 100%;
-      flex-basis: 100%;
+  flex-basis: 100%;
   -webkit-box-flex: 1;
-      -ms-flex-positive: 1;
-          flex-grow: 1;
+  -ms-flex-positive: 1;
+  flex-grow: 1;
   -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
 }
 
 .vertnavbar-toggler {
@@ -1759,7 +1782,8 @@ div.telefon-topk8:hover {
   border-radius: 0.25rem;
 }
 
-.vertnavbar-toggler:hover, .vertnavbar-toggler:focus {
+.vertnavbar-toggler:hover,
+.vertnavbar-toggler:focus {
   text-decoration: none;
 }
 
@@ -1772,7 +1796,7 @@ div.telefon-topk8:hover {
   width: 1.5em;
   height: 1.5em;
   vertical-align: middle;
-  content: "";
+  content: '';
   background: no-repeat center center;
   background-size: 100% 100%;
 }
@@ -1789,17 +1813,17 @@ div.telefon-topk8:hover {
   .vertnavbar-expand-sm {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-        -ms-flex-flow: row nowrap;
-            flex-flow: row nowrap;
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
     -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
   }
   .vertnavbar-expand-sm .vertnavbar-nav {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
   }
   .vertnavbar-expand-sm .vertnavbar-nav .dropdown-menu {
     position: absolute;
@@ -1811,14 +1835,14 @@ div.telefon-topk8:hover {
   .vertnavbar-expand-sm > .container,
   .vertnavbar-expand-sm > .container-fluid {
     -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
+    flex-wrap: nowrap;
   }
   .vertnavbar-expand-sm .vertnavbar-collapse {
     display: -webkit-box !important;
     display: -ms-flexbox !important;
     display: flex !important;
     -ms-flex-preferred-size: auto;
-        flex-basis: auto;
+    flex-basis: auto;
   }
   .vertnavbar-expand-sm .vertnavbar-toggler {
     display: none;
@@ -1837,17 +1861,17 @@ div.telefon-topk8:hover {
   .vertnavbar-expand-md {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-        -ms-flex-flow: row nowrap;
-            flex-flow: row nowrap;
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
     -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
   }
   .vertnavbar-expand-md .vertnavbar-nav {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
   }
   .vertnavbar-expand-md .vertnavbar-nav .dropdown-menu {
     position: absolute;
@@ -1859,14 +1883,14 @@ div.telefon-topk8:hover {
   .vertnavbar-expand-md > .container,
   .vertnavbar-expand-md > .container-fluid {
     -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
+    flex-wrap: nowrap;
   }
   .vertnavbar-expand-md .vertnavbar-collapse {
     display: -webkit-box !important;
     display: -ms-flexbox !important;
     display: flex !important;
     -ms-flex-preferred-size: auto;
-        flex-basis: auto;
+    flex-basis: auto;
   }
   .vertnavbar-expand-md .vertnavbar-toggler {
     display: none;
@@ -1885,17 +1909,17 @@ div.telefon-topk8:hover {
   .vertnavbar-expand-lg {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-        -ms-flex-flow: row nowrap;
-            flex-flow: row nowrap;
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
     -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
   }
   .vertnavbar-expand-lg .vertnavbar-nav {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
   }
   .vertnavbar-expand-lg .vertnavbar-nav .dropdown-menu {
     position: absolute;
@@ -1907,14 +1931,14 @@ div.telefon-topk8:hover {
   .vertnavbar-expand-lg > .container,
   .vertnavbar-expand-lg > .container-fluid {
     -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
+    flex-wrap: nowrap;
   }
   .vertnavbar-expand-lg .vertnavbar-collapse {
     display: -webkit-box !important;
     display: -ms-flexbox !important;
     display: inherit !important;
     -ms-flex-preferred-size: auto;
-        flex-basis: auto;
+    flex-basis: auto;
   }
   .vertnavbar-expand-lg .vertnavbar-toggler {
     display: none;
@@ -1933,17 +1957,17 @@ div.telefon-topk8:hover {
   .vertnavbar-expand-xl {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-        -ms-flex-flow: row nowrap;
-            flex-flow: row nowrap;
+    -ms-flex-flow: row nowrap;
+    flex-flow: row nowrap;
     -webkit-box-pack: start;
-        -ms-flex-pack: start;
-            justify-content: flex-start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
   }
   .vertnavbar-expand-xl .vertnavbar-nav {
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
-        -ms-flex-direction: row;
-            flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
   }
   .vertnavbar-expand-xl .vertnavbar-nav .dropdown-menu {
     position: absolute;
@@ -1955,14 +1979,14 @@ div.telefon-topk8:hover {
   .vertnavbar-expand-xl > .container,
   .vertnavbar-expand-xl > .container-fluid {
     -ms-flex-wrap: nowrap;
-        flex-wrap: nowrap;
+    flex-wrap: nowrap;
   }
   .vertnavbar-expand-xl .vertnavbar-collapse {
     display: -webkit-box !important;
     display: -ms-flexbox !important;
     display: flex !important;
     -ms-flex-preferred-size: auto;
-        flex-basis: auto;
+    flex-basis: auto;
   }
   .vertnavbar-expand-xl .vertnavbar-toggler {
     display: none;
@@ -1972,11 +1996,11 @@ div.telefon-topk8:hover {
 .vertnavbar-expand {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-flow: row nowrap;
-          flex-flow: row nowrap;
+  -ms-flex-flow: row nowrap;
+  flex-flow: row nowrap;
   -webkit-box-pack: start;
-      -ms-flex-pack: start;
-          justify-content: flex-start;
+  -ms-flex-pack: start;
+  justify-content: flex-start;
 }
 
 .vertnavbar-expand > .container,
@@ -1988,8 +2012,8 @@ div.telefon-topk8:hover {
 .vertnavbar-expand .vertnavbar-nav {
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
-      -ms-flex-direction: row;
-          flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
 }
 
 .vertnavbar-expand .vertnavbar-nav .dropdown-menu {
@@ -2004,7 +2028,7 @@ div.telefon-topk8:hover {
 .vertnavbar-expand > .container,
 .vertnavbar-expand > .container-fluid {
   -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
+  flex-wrap: nowrap;
 }
 
 .vertnavbar-expand .vertnavbar-collapse {
@@ -2012,7 +2036,7 @@ div.telefon-topk8:hover {
   display: -ms-flexbox !important;
   display: flex !important;
   -ms-flex-preferred-size: auto;
-      flex-basis: auto;
+  flex-basis: auto;
 }
 
 .vertnavbar-expand .vertnavbar-toggler {
@@ -2023,7 +2047,8 @@ div.telefon-topk8:hover {
   color: rgba(0, 0, 0, 0.9);
 }
 
-.vertnavbar-light .vertnavbar-brand:hover, .vertnavbar-light .vertnavbar-brand:focus {
+.vertnavbar-light .vertnavbar-brand:hover,
+.vertnavbar-light .vertnavbar-brand:focus {
   color: rgba(0, 0, 0, 0.9);
 }
 
@@ -2031,7 +2056,8 @@ div.telefon-topk8:hover {
   color: rgba(0, 0, 0, 0.5);
 }
 
-.vertnavbar-light .vertnavbar-nav .nav-link:hover, .vertnavbar-light .vertnavbar-nav .nav-link:focus {
+.vertnavbar-light .vertnavbar-nav .nav-link:hover,
+.vertnavbar-light .vertnavbar-nav .nav-link:focus {
   color: rgba(0, 0, 0, 0.7);
 }
 
@@ -2063,7 +2089,8 @@ div.telefon-topk8:hover {
   color: rgba(0, 0, 0, 0.9);
 }
 
-.vertnavbar-light .vertnavbar-text a:hover, .vertnavbar-light .vertnavbar-text a:focus {
+.vertnavbar-light .vertnavbar-text a:hover,
+.vertnavbar-light .vertnavbar-text a:focus {
   color: rgba(0, 0, 0, 0.9);
 }
 
@@ -2071,7 +2098,8 @@ div.telefon-topk8:hover {
   color: #fff;
 }
 
-.vertnavbar-dark .vertnavbar-brand:hover, .vertnavbar-dark .vertnavbar-brand:focus {
+.vertnavbar-dark .vertnavbar-brand:hover,
+.vertnavbar-dark .vertnavbar-brand:focus {
   color: #fff;
 }
 
@@ -2079,7 +2107,8 @@ div.telefon-topk8:hover {
   color: rgba(255, 255, 255, 0.8);
 }
 
-.vertnavbar-dark .vertnavbar-nav .nav-link:hover, .vertnavbar-dark .vertnavbar-nav .nav-link:focus {
+.vertnavbar-dark .vertnavbar-nav .nav-link:hover,
+.vertnavbar-dark .vertnavbar-nav .nav-link:focus {
   color: #fff;
 }
 
@@ -2111,10 +2140,10 @@ div.telefon-topk8:hover {
   color: #fff;
 }
 
-.vertnavbar-dark .vertnavbar-text a:hover, .vertnavbar-dark .vertnavbar-text a:focus {
+.vertnavbar-dark .vertnavbar-text a:hover,
+.vertnavbar-dark .vertnavbar-text a:focus {
   color: #fff;
 }
-
 
 .k8-cats-toggler-btn {
   margin-bottom: 15px;

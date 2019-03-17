@@ -1,8 +1,9 @@
 const express = require('express');
 const router = express.Router();
-var fs = require('fs');
+const fs = require('fs');
 const models = require('../models');
 const order = models.order;
+const xml2js = require('xml2js');
 
 //********* Promises ***************/
 
@@ -397,6 +398,43 @@ router.post('/editorder', (req, res) => {
       res.json({
         ok: false,
         error: 'K8 ERROR: Не получилось редактировать заказ' + err
+      });
+    });
+});
+
+router.post('/unloadorder', (req, res) => {
+  const _id = req.body.unloadOrder_id;
+  order
+    .findOne({ _id })
+    .then(orderFromDB => {
+      let orderStr = JSON.stringify(orderFromDB);
+      let order = JSON.parse(orderStr);
+      var myXmlBuilder = new xml2js.Builder();
+      var orderXml = myXmlBuilder.buildObject(order);
+      console.log(orderXml);
+
+      fs.writeFile(
+        './ftpshared/orders/order_' + orderFromDB._id + '.xml',
+        orderXml,
+        function(err) {
+          if (err) {
+            console.log('ERROR Order XML Saving!');
+          } else {
+            orderFromDB.unloaded = true;
+            orderFromDB.save();
+            console.log('Saved Order XML!');
+            res.json({
+              ok: true
+            });
+          }
+        }
+      );
+    })
+    .catch(err => {
+      console.log('K8 ERROR: Не получилось выгрузить заказ' + err);
+      res.json({
+        ok: false,
+        error: 'K8 ERROR: Не получилось выгрузить заказ' + err
       });
     });
 });

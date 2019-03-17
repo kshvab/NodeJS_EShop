@@ -1137,15 +1137,31 @@ $("[name='orders-list-del-one']").on('click', function(e) {
         }
       });
     } else return;
-
-
-    //$(location).attr('href', '/administrator/users/edit/' + this.value);
-
-
-
   });
 
-
+  // User Unload One Order from list
+  $("[name='orders-list-unload-one']").on('click', function(e) {
+    e.preventDefault();
+    let unloadOrder_id = this.value;
+      let data = {
+        unloadOrder_id
+      };
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/shop/unloadorder'
+      }).done(function(data) {
+        if (!data.ok) {
+          alert(data.error);
+        } else {
+          $('#loading-overlay').show();
+          setTimeout(function() {
+            window.location.reload(true);
+          }, 1500);
+        }
+      });
+  });
 
 
 });

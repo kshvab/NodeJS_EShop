@@ -152,7 +152,8 @@
                 <div class="col-lg-7">
                   <p>Позиций в заказе: <%= order.shopcart.length %></p>
                   <% if(transData.user.group == 'Administrator' || transData.user.group == 'Manager' || transData.user.group == 'Agent') { %>
-                    <button name="orders-list-send-one" value="<%=order._id%>" type="button" class="btn btn-success btn-sm">
+                    <% if (!order.unloaded) { %>
+                    <button name="orders-list-unload-one" value="<%=order._id%>" type="button" class="btn btn-success btn-sm">
                       <i class="fa fa-share-square fa-fw"></i> Отправить
                     </button>
 
@@ -163,6 +164,9 @@
                     <button name="orders-list-del-one" value="<%=order._id%>" type="button" class="btn btn-danger btn-sm">
                       <i class="fa fa-times fa-fw"></i> Удалить
                     </button>
+                    <% } else { %>
+                      <span class="badge badge-success">Заказ выгружен!</span>
+                    <% } %> 
                   <%}%>
 
                 </div>

@@ -27,6 +27,7 @@
                   <thead>
                     <tr>
                       <th scope="col">ID</th>
+                      <th scope="col">Статус</th>
                       <th scope="col">Имя</th>
                       <th scope="col">Группа</th>
                       <th scope="col">Дата</th>
@@ -37,28 +38,39 @@
                     <% transData.ordersArr.forEach(function(order){ %>
                     <tr>
                       <th scope="row"><%= order._id %></th>
-
+                      <td>
+                        <% if (order.unloaded) { %>
+                        <span class="badge timeline-badge success"
+                          >Выгружен</span
+                        >
+                        <% } else {%>
+                        <span class="badge timeline-badge warning"
+                          >Ожидает</span
+                        >
+                        <% } %>
+                      </td>
                       <td><%= order.user.name %></td>
                       <td><%= order.user.group %></td>
                       <td><%= order.formatedTime %></td>
                       <td>
-                        <button
-                          name=""
-                          value=""
-                          type="button"
-                          class="btn btn-primary btn-xs"
-                        >
-                          <i class="fa fa-pencil fa-fw"></i> Edit (в разраб)
-                        </button>
-
                         <button
                           name="orders-list-del-one"
                           value="<%=order._id%>"
                           type="button"
                           class="btn btn-danger btn-xs"
                         >
-                          <i class="fa fa-times fa-fw"></i> Удалить (работает)
+                          <i class="fa fa-times fa-fw"></i> Удалить
                         </button>
+                        <% if (!order.unloaded) { %>
+                        <button
+                          name="orders-list-unload-one"
+                          value="<%=order._id%>"
+                          type="button"
+                          class="btn btn-success btn-xs"
+                        >
+                          <i class="fa fa-send fa-fw"></i> Выгрузить
+                        </button>
+                        <% } %>
                       </td>
                     </tr>
 

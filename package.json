@@ -1,7 +1,7 @@
 {
   "name": "nodesite",
-  "version": "2.4.1",
-  "version-GIT-description": "pictures parsing optimization",
+  "version": "2.4.2",
+  "version-GIT-description": "Orders XML files generation",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {

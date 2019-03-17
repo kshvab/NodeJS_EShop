@@ -5,6 +5,7 @@ const models = require('../models');
 const user = models.user;
 const order = models.order;
 const counter = models.counter;
+const xml2js = require('xml2js');
 
 function getNextSequenceValue(sequenceName) {
   return new Promise(function(resolve, reject) {
@@ -15,6 +16,26 @@ function getNextSequenceValue(sequenceName) {
       resolve(counterFromDB.sequence_value);
     });
   });
+}
+
+function fOrderOnload(orderToDB) {
+  let orderStr = JSON.stringify(orderToDB);
+  let order = JSON.parse(orderStr);
+  var myXmlBuilder = new xml2js.Builder();
+  var orderXml = myXmlBuilder.buildObject(order);
+  fs.writeFile(
+    './ftpshared/orders/order_' + orderToDB._id + '.xml',
+    orderXml,
+    function(err) {
+      if (err) {
+        console.log('ERROR Order XML Saving!');
+      } else {
+        orderToDB.unloaded = true;
+        orderToDB.save();
+        console.log('Saved Order ' + orderToDB._id + ' XML!');
+      }
+    }
+  );
 }
 
 // POST Add item to shopCart
@@ -219,6 +240,12 @@ router.post('/neworder', (req, res) => {
 
         .then(orderToDB => {
           req.session.shopCart = [];
+
+          if (
+            orderToDB.user.group == 'Registered' ||
+            orderToDB.user.group == 'Guest'
+          )
+            fOrderOnload(orderToDB);
 
           res.json({
             ok: true,

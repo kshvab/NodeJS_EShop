@@ -18,7 +18,7 @@ let p_shopItemsArr = new Promise(function(resolve, reject) {
 function fsavePictures(itemsArr) {
   console.log(itemsArr.length);
 
-  let itemsCounter = 130;
+  let itemsCounter = 1200;
 
   fSavePicOneItem(itemsCounter);
 
@@ -27,12 +27,16 @@ function fsavePictures(itemsArr) {
     let soursePath800 = soursePath220.replace('220x220', '800x800');
     let folderPath = itemsArr[index].picture_220x220.substring(0, 37);
 
+    //console.log(index);
+    //console.log(itemsArr[index].id);
+    //console.log(itemsArr[index].picture_800x800);
     console.log(
       index +
+        1 +
         ' from ' +
         itemsArr.length +
         ' (rem ' +
-        (itemsArr.length - index) +
+        (itemsArr.length - index - 1) +
         ')'
     );
 
@@ -46,6 +50,7 @@ function fsavePictures(itemsArr) {
     function fReadAndSave() {
       Jimp.read(soursePath800)
         .then(image => {
+          //console.log(index + ' --- PROCESSING ' + itemsArr[index].id);
           return image.writeAsync('public' + itemsArr[index].picture_800x800); // save 800
         })
         .then(image => {
@@ -54,7 +59,7 @@ function fsavePictures(itemsArr) {
         .then(image => {
           return image.writeAsync('public' + itemsArr[index].picture_220x220);
         })
-        .then(nextTic()) // save 220
+        .then(nextTic(index + 1)) // save 220
         .catch(err => {
           fSaveAsNoImg(itemsArr[index]);
           console.error(err);
@@ -74,11 +79,10 @@ function fsavePictures(itemsArr) {
         });
     }
 
-    function nextTic() {
-      index++;
-      if (index < itemsArr.length) {
+    function nextTic(newIndex) {
+      if (newIndex < itemsArr.length - 1) {
         setTimeout(() => {
-          fSavePicOneItem(index);
+          fSavePicOneItem(newIndex);
         }, 2500);
       } else {
         console.log('All pictures are saved!');
