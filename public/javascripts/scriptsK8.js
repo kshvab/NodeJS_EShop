@@ -681,7 +681,7 @@ $(window).on('load', function() {
 
       $('#newItemPicture').html(
         '<img src="' +
-          data.shopCart[0].picture_220x220.slice(6) +
+          data.shopCart[0].picture_220x220 +
           '"class="cart-list-itempicture"/>'
       );
       $('#newItemName').text(data.shopCart[0].name);

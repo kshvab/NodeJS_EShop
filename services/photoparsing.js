@@ -17,9 +17,8 @@ let p_shopItemsArr = new Promise(function(resolve, reject) {
 
 function fsavePictures(itemsArr) {
   console.log(itemsArr.length);
-  let errorLogArr = [];
 
-  let itemsCounter = 690;
+  let itemsCounter = 130;
 
   fSavePicOneItem(itemsCounter);
 
@@ -28,48 +27,61 @@ function fsavePictures(itemsArr) {
     let soursePath800 = soursePath220.replace('220x220', '800x800');
     let folderPath = itemsArr[index].picture_220x220.substring(0, 37);
 
+    console.log(
+      index +
+        ' from ' +
+        itemsArr.length +
+        ' (rem ' +
+        (itemsArr.length - index) +
+        ')'
+    );
+
     mkdirp(folderPath, function(err) {
       if (err) console.log(err);
       else {
-        fSave220();
+        fReadAndSave();
       }
     });
 
-    function fSave220() {
-      Jimp.read(soursePath220, function(err, image) {
-        if (err) {
-          errorLogArr.push({ itemID: itemsArr[index].id, err });
-          fSave800();
-          console.log('Не вдалося прочитати фотку ' + soursePath220, err);
-        } else {
-          image.write(itemsArr[index].picture_220x220, (err, success) => {
-            err ? console.log(err) : fSave800();
-          });
-        }
-      });
+    function fReadAndSave() {
+      Jimp.read(soursePath800)
+        .then(image => {
+          return image.writeAsync('public' + itemsArr[index].picture_800x800); // save 800
+        })
+        .then(image => {
+          return image.resize(220, Jimp.AUTO); // resize
+        })
+        .then(image => {
+          return image.writeAsync('public' + itemsArr[index].picture_220x220);
+        })
+        .then(nextTic()) // save 220
+        .catch(err => {
+          fSaveAsNoImg(itemsArr[index]);
+          console.error(err);
+        });
     }
 
-    function fSave800() {
-      Jimp.read(soursePath800, function(err, image) {
-        if (err) {
-          errorLogArr.push({ itemID: itemsArr[index].id, err });
-          nextTic();
-          console.log('Не вдалося прочитати фотку ' + soursePath800, err);
-        } else {
-          image.write(itemsArr[index].picture_800x800, (err, success) => {
-            err ? console.log(err) : nextTic();
-          });
-        }
-      });
+    function fSaveAsNoImg(item) {
+      Jimp.read('public/images/noimage_800x800.png')
+        .then(image => {
+          return image
+            .write('public' + item.picture_800x800) // save 800
+            .resize(220, Jimp.AUTO) // resize
+            .write('public' + item.picture_220x220);
+        })
+        .catch(err => {
+          console.error(err);
+        });
     }
 
     function nextTic() {
-      console.log(itemsArr.length - index + ' of ' + itemsArr.length);
       index++;
-      if (index < itemsArr.length) fSavePicOneItem(index);
-      else {
+      if (index < itemsArr.length) {
+        setTimeout(() => {
+          fSavePicOneItem(index);
+        }, 2500);
+      } else {
         console.log('All pictures are saved!');
-        console.log(errorLogArr);
       }
     }
   }

@@ -3,12 +3,7 @@ var fs = require('fs');
 const cheerio = require('cheerio');
 const config = require('../config');
 
-const picSaveDest = config.SHOP_PICTURE_SAVE_DESTINATION;
-const randomStr1Symb = () => {
-  return Math.random()
-    .toString(36)
-    .slice(-1);
-};
+const picSaveDest = config.SHOP_PICTURE_SAVE_DESTINATION.slice(6);
 
 function fPriceNorm(price) {
   let priceln = price.length;
@@ -119,7 +114,7 @@ function catItemsParsing(catUrl, catId) {
         let price = 0;
         let basePrice = 0;
 
-        let dir = '/picfolder_' + randomStr1Symb();
+        let dir = '/picfolder_' + vendorCode.slice(vendorCode.length - 2);
 
         let picture_220x220 =
           picSaveDest + dir + '/img_' + vendorCode + '_220x220.png';

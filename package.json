@@ -1,7 +1,7 @@
 {
   "name": "nodesite",
-  "version": "2.4.0",
-  "version-GIT-description": "pictures parsing is complete",
+  "version": "2.4.1",
+  "version-GIT-description": "pictures parsing optimization",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {
