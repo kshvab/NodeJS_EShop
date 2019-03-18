@@ -93,5 +93,6 @@ app.use((error, req, res, next) => {
 //services.catscreating.runCategoriesParsing();
 //services.itemscreating.runItemsParsing();
 //services.photoparsing.runPhotoParsing();
+//services.mailsending.sendOrderMail(514, 'kshvab@gmail.com');
 
 module.exports = app;

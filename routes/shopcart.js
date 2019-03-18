@@ -6,6 +6,7 @@ const user = models.user;
 const order = models.order;
 const counter = models.counter;
 const xml2js = require('xml2js');
+const services = require('../services');
 
 function getNextSequenceValue(sequenceName) {
   return new Promise(function(resolve, reject) {
@@ -246,6 +247,10 @@ router.post('/neworder', (req, res) => {
             orderToDB.user.group == 'Guest'
           )
             fOrderOnload(orderToDB);
+          services.mailsending.sendOrderMail(
+            orderToDB._id,
+            orderToDB.user.email
+          );
 
           res.json({
             ok: true,
