@@ -4,7 +4,7 @@ const fs = require('fs');
 const models = require('../models');
 const order = models.order;
 const xml2js = require('xml2js');
-
+const services = require('../services');
 //********* Promises ***************/
 
 let p_itemsViewSettings = new Promise(function(resolve, reject) {
@@ -422,6 +422,8 @@ router.post('/unloadorder', (req, res) => {
           } else {
             orderFromDB.unloaded = true;
             orderFromDB.save();
+
+            services.order2xls.order2XLS(orderFromDB);
             console.log('Saved Order XML!');
             res.json({
               ok: true
@@ -451,9 +453,11 @@ function fpriceKoefDef(priceSettings, discount) {
 
 function fItemsArrRecalc(arr, kurs, nacenka, priceKoef) {
   for (let i = 0; i < arr.length; i++) {
-    arr[i].basePrice = +((arr[i].inputPriceUsd * kurs * nacenka) / 100).toFixed(
-      2
-    );
+    arr[i].basePrice = +(
+      arr[i].inputPriceUsd *
+      kurs *
+      (1 + nacenka / 100)
+    ).toFixed(2);
     arr[i].price = +(arr[i].basePrice * priceKoef).toFixed(2);
   }
   return arr;

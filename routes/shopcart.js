@@ -245,12 +245,14 @@ router.post('/neworder', (req, res) => {
           if (
             orderToDB.user.group == 'Registered' ||
             orderToDB.user.group == 'Guest'
-          )
+          ) {
             fOrderOnload(orderToDB);
-          services.mailsending.sendOrderMail(
-            orderToDB._id,
-            orderToDB.user.email
-          );
+            services.order2xls.order2XLS(orderToDB);
+            services.mailsending.sendOrderMail(
+              orderToDB._id,
+              orderToDB.user.email
+            );
+          }
 
           res.json({
             ok: true,
