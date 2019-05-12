@@ -1080,35 +1080,34 @@ $(window).on('load', function() {
     });
   });
 
-
-// User Dell One Order from list
-$("[name='orders-list-del-one']").on('click', function(e) {
-  e.preventDefault();
-  let delOrder_id = this.value;
-  let confirmed = confirm(
-    'Вы точно хотите удалить заказ ' + delOrder_id + '?'
-  );
-  if (confirmed) {
-    let data = {
-      delOrder_id
-    };
-    $.ajax({
-      type: 'DELETE',
-      data: JSON.stringify(data),
-      contentType: 'application/json',
-      url: '/shop/deleteorder'
-    }).done(function(data) {
-      if (!data.ok) {
-        alert(data.error);
-      } else {
-        $('#loading-overlay').show();
-        setTimeout(function() {
-          window.location.reload(true);
-        }, 1500);
-      }
-    });
-  } else return;
-});
+  // User Dell One Order from list
+  $("[name='orders-list-del-one']").on('click', function(e) {
+    e.preventDefault();
+    let delOrder_id = this.value;
+    let confirmed = confirm(
+      'Вы точно хотите удалить заказ ' + delOrder_id + '?'
+    );
+    if (confirmed) {
+      let data = {
+        delOrder_id
+      };
+      $.ajax({
+        type: 'DELETE',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/shop/deleteorder'
+      }).done(function(data) {
+        if (!data.ok) {
+          alert(data.error);
+        } else {
+          $('#loading-overlay').show();
+          setTimeout(function() {
+            window.location.reload(true);
+          }, 1500);
+        }
+      });
+    } else return;
+  });
 
   // User Edit One Order from list
   $("[name='orders-list-edit-one']").on('click', function(e) {
@@ -1132,7 +1131,7 @@ $("[name='orders-list-del-one']").on('click', function(e) {
         } else {
           $('#loading-overlay').show();
           setTimeout(function() {
-            window.location.href = "/shopcart";
+            window.location.href = '/shopcart';
           }, 1500);
         }
       });
@@ -1143,25 +1142,63 @@ $("[name='orders-list-del-one']").on('click', function(e) {
   $("[name='orders-list-unload-one']").on('click', function(e) {
     e.preventDefault();
     let unloadOrder_id = this.value;
-      let data = {
-        unloadOrder_id
-      };
-      $.ajax({
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        url: '/shop/unloadorder'
-      }).done(function(data) {
-        if (!data.ok) {
-          alert(data.error);
-        } else {
-          $('#loading-overlay').show();
-          setTimeout(function() {
-            window.location.reload(true);
-          }, 1500);
-        }
-      });
+    let data = {
+      unloadOrder_id
+    };
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/shop/unloadorder'
+    }).done(function(data) {
+      if (!data.ok) {
+        alert(data.error);
+      } else {
+        $('#loading-overlay').show();
+        setTimeout(function() {
+          window.location.reload(true);
+        }, 1500);
+      }
+    });
   });
 
+  // Main search input
+  {
+    $('#mainsearch-button').on('click', function(e) {
+      e.preventDefault();
+      let newSearchQuery = $('#mainsearch-input').val();
+      console.log(newSearchQuery);
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify({ newSearchQuery }),
+        contentType: 'application/json',
+        url: '/shop/search'
+      }).done(function(data) {
+        $('mainsearch-input').removeClass('is-invalid');
+        $('mainsearch-input').addClass('is-valid');
+        if (!data.ok) {
+          $('.search-form-error-msg').html(
+            '<p class="text-danger">' + data.error + '</p>'
+          );
+          $('input').removeClass('is-valid');
+          $('input').addClass('is-invalid');
+        } else {
+          $(location).attr(
+            'href',
+            '/search/shopsearch?searchquery=' + newSearchQuery
+          );
+        }
+      });
+    });
 
+    $('#mainsearch-input').keypress(function(e) {
+      if (e.which == 13) {
+        jQuery(this).blur();
+        jQuery('#mainsearch-button')
+          .focus()
+          .click();
+        return false;
+      }
+    });
+  }
 });

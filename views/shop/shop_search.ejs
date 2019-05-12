@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<% include ../layout/lay_site_1_head.ejs %>
+
+<body>
+  <% include ../layout/lay_site_2_navigation.ejs %>
+  <!-- CONTAINER: -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3">
+        <br />
+        <% include lay_shop_sidebar.ejs %>
+      </div>
+
+      <div class="col-lg-9">
+        <!-- MAIN CONTENT HERE: -->
+
+        <br />
+
+        <H1>Результаты поиска товаров</H1>
+        <H2>Запрос: <%= transData.searchQuery %></H2>
+
+
+        <% if (!transData.shopItemsArr.length) { %>
+          <H2>По Вашему запросу товаров не найдено.</H2>
+          <%  } %>
+        <% for (var i = 0; i<transData.shopItemsArr.length; i++ ) {%>
+
+        
+
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-5">
+              <div class="border-primary">
+                <img style="display: block;" src="<%=transData.shopItemsArr[i].picture_220x220 %>"
+                  alt="<%= transData.shopItemsArr[i].name %>" onerror="this.style.display = 'none'" />
+              </div>
+            </div>
+
+            <div class="col-lg-7">
+              <a href="/shop/<%= transData.shopItemsArr[i].vendorCode %>">
+                <h5 class="card-title"><%= transData.shopItemsArr[i].name %></h5>
+              </a>
+
+              <div class="row">
+                <div class="col-lg-4">
+                  <div class="cart-uah"><span
+                      id="price<%= transData.shopItemsArr[i].vendorCode %>"><%= transData.shopItemsArr[i].price.toFixed(2) %></span>
+                    грн</div>
+
+                  <div class="cart-uah-base-line-through" <% if (+transData.discount == 0) { %> style="display: none"
+                    <% } %>>
+                    <span id="basePrice<%= transData.shopItemsArr[i].vendorCode %>">
+                      <%= transData.shopItemsArr[i].basePrice.toFixed(2) %>
+                    </span>
+                    грн
+                  </div>
+
+                </div>
+
+                <div class="col-lg-4">
+                  <h6 class="text-muted">Артикул: <%= transData.shopItemsArr[i].vendorCode %></h6>
+                </div>
+                <% if (transData.user.group == "Administrator" ||
+                    transData.user.group == "Manager" || transData.user.group ==
+                    "Agent") { %>
+                <div class="col-lg-4">
+                  <h6 class="text-muted jq-stock-<%= transData.shopItemsArr[i].vendorCode %>"
+                    value="<%= transData.shopItemsArr[i].stock %>">
+                    Остаток: <%= transData.shopItemsArr[i].stock %>
+                  </h6>
+                </div>
+                <% } %>
+              </div>
+
+              <div class="shopcart-and-wishlist-buttons">
+                <div class="cart-amount btn-group">
+                  <button name="cart-amount-minus" type="button"
+                    class="btn btn-secondary btn-sm jq-btn-minus-<%= transData.shopItemsArr[i].vendorCode %>"
+                    id="<%= transData.shopItemsArr[i].vendorCode %>">
+                    <span class="fas fa-minus"></span>
+                  </button>
+
+                  <input type="number" min="1" max="<%= transData.shopItemsArr[i].stock %>" step="1"
+                    name="<%= transData.shopItemsArr[i].vendorCode %>" id="555" class="cart-amount-input" value="1" />
+
+                  <button name="cart-amount-plus" type="button"
+                    class="btn btn-secondary btn-sm jq-btn-plus-<%= transData.shopItemsArr[i].vendorCode %>"
+                    id="<%= transData.shopItemsArr[i].vendorCode %>">
+                    <span class="fas fa-plus"></span>
+                  </button>
+                </div>
+
+                <button name="add-item-to-shopcart-button" type="button"
+                  class="btn btn-success btn-sm item-add-to-shopcart-button"
+                  id="<%= transData.shopItemsArr[i].vendorCode %>">
+                  В Корзину
+                </button>
+
+                <button name="add-item-to-wishlist-button" type="button"
+                  class="btn btn-warning btn-sm item-add-to-wishlist-button"
+                  id="<%= transData.shopItemsArr[i].vendorCode %>">
+                  <span class="fas fa-heart"></span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+     
+        <% }; %>
+
+
+
+
+
+        <!-- /MAIN CONTENT HERE: -->
+      </div>
+    </div>
+  </div>
+  <!-- /CONTAINER: -->
+
+  <% include ../layout/lay_site_4_bottomscripts.ejs %>
+</body>
+
+</html>

@@ -13,13 +13,29 @@
 
   <div class="collapse vertnavbar-collapse" id="sidebarShopCats">
     <!-- ******************************************* -->
+
     <div class="form-group">
-      <input
-        type="text"
-        class="form-control"
-        placeholder="Поиск"
-        id="inputDefault"
-      />
+      <div class="form-group">
+        <div class="input-group mb-3">
+          <div class="search-form-error-msg"></div>
+          <input
+            id="mainsearch-input"
+            class="form-control"
+            type="text"
+            placeholder="Поиск.."
+            name="search"
+          />
+          <div class="input-group-append">
+            <button
+              id="mainsearch-button"
+              class="btn btn-primary"
+              type="submit"
+            >
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <% transData.shopCategoriesArr.forEach(function(item){ %> <% if

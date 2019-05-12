@@ -386,7 +386,6 @@ router.post('/editorder', (req, res) => {
       req.session.shopCart = orderFromDB.shopcart;
       req.session.discount = +orderFromDB.discount;
       req.session.editedOrder_id = +orderFromDB._id;
-
       req.session.editedOrderOrdercomment = orderFromDB.user.ordercomment;
       req.session.editedOrderCustomer = orderFromDB.user.customer;
       res.json({
@@ -439,6 +438,29 @@ router.post('/unloadorder', (req, res) => {
         error: 'K8 ERROR: Не получилось выгрузить заказ' + err
       });
     });
+});
+
+router.post('/search', function(req, res) {
+  const newSearchQuery = req.body.newSearchQuery;
+
+  if (newSearchQuery.length < 3) {
+    res.json({
+      ok: false,
+      error: 'Длина запроса - минимум 3 символа!'
+    });
+  } else {
+    res.json({
+      ok: true
+    });
+  }
+});
+
+router.get('/search', function(req, res) {
+  if (req.query.hasOwnProperty('searchquery') && req.query.searchquery)
+    searchQuery = req.query.searchquery;
+  else searchQuery = 1;
+  console.log('searchQuery');
+  res.send('searchQuery');
 });
 
 //************* FUNCTIONS ****** */

@@ -66,7 +66,7 @@ app.use('/administrator/shop', routes.adminshop);
 app.use('/api/auth', routes.auth);
 app.use('/profile', routes.profile);
 app.use('/upload', routes.upload);
-
+app.use('/search', routes.search);
 app.use('/shop', routes.shop);
 app.use('/shopcart', routes.shopcart);
 
