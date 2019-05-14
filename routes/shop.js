@@ -455,14 +455,6 @@ router.post('/search', function(req, res) {
   }
 });
 
-router.get('/search', function(req, res) {
-  if (req.query.hasOwnProperty('searchquery') && req.query.searchquery)
-    searchQuery = req.query.searchquery;
-  else searchQuery = 1;
-  console.log('searchQuery');
-  res.send('searchQuery');
-});
-
 //************* FUNCTIONS ****** */
 function fpriceKoefDef(priceSettings, discount) {
   let koef;

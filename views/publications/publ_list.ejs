@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <% include ../layout/lay_site_1_head.ejs %>
+
+  <body>
+
+    <% include ../layout/lay_site_2_navigation.ejs %>
+
+    <!-- CONTAINER: -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <br />
+          <% include ../layout/lay_site_3_sidebar.ejs %>
+        </div>
+
+        <div class="col-lg-8">
+          <!-- MAIN CONTENT HERE: -->
+
+          <br />
+          <H1>Публикации</H1>
+
+
+        <!-- PAGINATION: -->
+        <%var len = transData.publicationsObj.length; var rest = len%transData.itemsPerPage; var fullPages = (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
+        <% if(transData.publicationsObj.length>transData.itemsPerPage) {%>
+        <div class="items-pagination">
+          <ul class="pagination">
+            <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
+            <a class="page-link" href="?page=1">&laquo;</a>
+          </li>
+
+        <% for (var i = 1; i<=pages; i++) { %>
+          <% var lWide = 3; var rWide = 3; %>
+          <% if (transData.page == 1) rWide = 5;  if (transData.page == 2) rWide = 4;%>
+          <% if (transData.page == +pages) lWide = 5;  if (transData.page == +pages-1) lWide = 4;%>
+          <% if ( ( i > (+transData.page-lWide) ) && ( i < (+transData.page+rWide) ) ){ %>
+          <li class=" page-item <%if (transData.page == i) { %> active <%}%>">
+            <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+            </li>
+            <%}%>
+        <%}%>
+
+            <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
+          <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
+            </li>
+          </ul>
+        </div>
+        <%}%>
+        <!-- /PAGINATION -->
+
+
+
+          <hr class="my-4" />
+    
+
+         
+          <% for (var i = transData.page*transData.itemsPerPage-transData.itemsPerPage; i<transData.publicationsObj.length; i++ ) {%>
+            <%if (i<transData.page*transData.itemsPerPage) {%>
+              
+              <a href="/publications/<%= transData.publicationsObj[i].alias %>">
+                <h3><%= transData.publicationsObj[i].title%></h3>
+              </a>
+              
+              <div class="row">
+                  <div class="col-lg-5">
+                      <div class="border-primary">
+                          <img style="display: block; width: 100%" src="<%=transData.publicationsObj[i].picture %>"
+                            alt="<%= transData.publicationsObj[i].title %>" onerror="this.style.display = 'none'" />
+                        </div>
+                  </div>
+                  <div class="col-lg-7">
+                      <p><%= transData.publicationsObj[i].shorttext%></p>
+                      <p>
+                        <a
+                          class="btn btn-primary btn-sm"
+                          href="/publications/<%= transData.publicationsObj[i].alias %>">
+                          Подробнее...
+                        </a>
+                      </p>
+                  </div>
+              </div>
+
+              
+
+              
+
+              <hr class="my-4" />
+
+              <% } %>
+          <% } %>
+          
+
+
+                  <!-- PAGINATION: -->
+        <%var len = transData.publicationsObj.length; var rest = len%transData.itemsPerPage; var fullPages = (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
+
+        <% if(transData.publicationsObj.length>transData.itemsPerPage) {%>
+        <div class="items-pagination">
+          <ul class="pagination">
+            <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
+            <a class="page-link" href="?page=1">&laquo;</a>
+          </li>
+
+        <% for (var i = 1; i<=pages; i++) { %>
+          <% var lWide = 3; var rWide = 3; %>
+          <% if (transData.page == 1) rWide = 5;  if (transData.page == 2) rWide = 4;%>
+          <% if (transData.page == +pages) lWide = 5;  if (transData.page == +pages-1) lWide = 4;%>
+          <% if ( ( i > (+transData.page-lWide) ) && ( i < (+transData.page+rWide) ) ){ %>
+          <li class=" page-item <%if (transData.page == i) { %> active <%}%>">
+            <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+            </li>
+            <%}%>
+        <%}%>
+
+            <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
+          <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
+            </li>
+          </ul>
+        </div>
+        <% } %>
+        <!-- /PAGINATION -->
+          <!-- /MAIN CONTENT HERE: -->
+        </div>
+      </div>
+    </div>
+    <!-- /CONTAINER: -->
+
+    <% include ../layout/lay_site_4_bottomscripts.ejs %>
+  </body>
+</html>

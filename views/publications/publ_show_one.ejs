@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <% include ../layout/lay_site_1_head.ejs %>
+
+  <body>
+    <% include ../layout/lay_site_2_navigation.ejs %>
+
+    <!-- CONTAINER: -->
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-4">
+          <br />
+          <% include ../layout/lay_site_3_sidebar.ejs %>
+        </div>
+
+        <div class="col-lg-8">
+          <!-- MAIN CONTENT HERE: -->
+
+          <!-- breadcrumb: -->
+          <ol class="breadcrumb breadcrumb-K8-adapted">
+            <li class="breadcrumb-item">
+              <a href="/">
+                Главная
+              </a>
+            </li>
+            <li class="breadcrumb-item">
+              <a href="/publications">
+                Публикации
+              </a>
+            </li>
+            <li class="breadcrumb-item">
+              <%= transData.publToShow.title %>
+            </li>
+          </ol>
+          <!-- /breadcrumb: -->
+
+          <H2><%= transData.publToShow.title %></H2>
+          <hr class="my-4" />
+          <div class="border-primary">
+            <img
+              style="display: block;"
+              src="<%=transData.publToShow.picture %>"
+              alt="<%= transData.publToShow.title %>"
+              onerror="this.style.display = 'none'"
+            />
+          </div>
+          <div>
+            <%- transData.publToShow.fulltext%>
+          </div>
+          <!-- /MAIN CONTENT HERE: -->
+        </div>
+      </div>
+    </div>
+    <!-- /CONTAINER: -->
+
+    <% include ../layout/lay_site_4_bottomscripts.ejs %>
+  </body>
+</html>

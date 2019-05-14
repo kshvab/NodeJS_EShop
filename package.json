@@ -1,7 +1,7 @@
 {
   "name": "nodesite",
-  "version": "2.6.0",
-  "version-GIT-description": "Shop items search is ready.",
+  "version": "2.7.0",
+  "version-GIT-description": "Frontend for the Publication module",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {

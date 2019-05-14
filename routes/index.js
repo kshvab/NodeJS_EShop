@@ -5,6 +5,7 @@ const adminusers = require('./adminusers');
 const auth = require('./auth');
 const mainpage = require('./mainpage');
 const profile = require('./profile');
+const publications = require('./publications');
 const search = require('./search');
 const shop = require('./shop');
 const shopcart = require('./shopcart');
@@ -18,6 +19,7 @@ module.exports = {
   auth,
   mainpage,
   profile,
+  publications,
   search,
   shop,
   shopcart,

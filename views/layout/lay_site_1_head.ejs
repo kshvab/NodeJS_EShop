@@ -4,12 +4,20 @@
   <title><%= transData.pageTitle %></title>
   <% } else { %>
   <title>E-Shop</title>
-  <% }; %>
+  <% }; %> <% if ((typeof(transData) != 'undefined') && transData.description)
+  {%>
+  <meta name="description" content="<%= transData.description %>" />
+  <% } %> <% if ((typeof(transData) != 'undefined') && transData.keywords) { %>
+  <meta name="description" content="<%= transData.keywords %>" />
+  <% } %>
 
   <meta
     name="viewport"
     content="width=device-width, initial-scale=1, shrink-to-fit=no"
   />
+
+  <meta name="description" content=" " />
+  <meta name="keywords" content=" " />
 
   <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
   <link rel="stylesheet" href="/stylesheets/customK8.css" />

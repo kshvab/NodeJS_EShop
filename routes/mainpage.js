@@ -3,9 +3,8 @@ const router = express.Router();
 
 router.get('/', function(req, res) {
   //Temporary redirect to E-Shop
-  res.redirect('/shop');
+  //res.redirect('/shop');
 
-  /*
   let _id;
   let login;
   let group;
@@ -27,8 +26,6 @@ router.get('/', function(req, res) {
       shopCart
     }
   });
-
-  */
 });
 
 router.get('/login', function(req, res) {
