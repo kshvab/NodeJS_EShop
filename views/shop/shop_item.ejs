@@ -116,10 +116,13 @@
 
         <ul class="nav nav-tabs">
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#home">Описание</a>
+            <a class="nav-link active" data-toggle="tab" href="#itemDescription">Описание</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#profile">Отзывы</a>
+            <a class="nav-link" data-toggle="tab" href="#itemCharacteristics">Характеристики</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#itemTestimonials">Отзывы</a>
           </li>
           <li class="nav-item">
             <a class="nav-link disabled" href="#">Видео</a>
@@ -144,7 +147,7 @@
           </li>
         </ul>
         <div id="myTabContent" class="tab-content">
-          <div class="tab-pane fade show active" id="home">
+          <div class="tab-pane fade show active" id="itemDescription">
             <p>
               Raw denim you probably haven't heard of them jean shorts Austin.
               Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache
@@ -155,17 +158,63 @@
               voluptate nisi qui.
             </p>
           </div>
-          <div class="tab-pane fade" id="profile">
+
+          <div class="tab-pane fade" id="itemCharacteristics">
             <p>
-              Food truck fixie locavore, accusamus mcsweeney's marfa nulla
-              single-origin coffee squid. Exercitation +1 labore velit, blog
-              sartorial PBR leggings next level wes anderson artisan four loko
-              farm-to-table craft beer twee. Qui photo booth letterpress, commodo
-              enim craft beer mlkshk aliquip jean shorts ullamco ad vinyl cillum
-              PBR. Homo nostrud organic, assumenda labore aesthetic magna delectus
-              mollit.
+              Отзывы
             </p>
           </div>
+
+          <div class="tab-pane fade" id="itemTestimonials">
+              <br>
+              <div class="card border-success mb-3">
+                  <h4 class="card-header">Оставить отзыв</h4>
+                  <div class="card-body">
+                    <div id="newTestimonial-error-msg"></div>
+                      <div class="row">
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                              <label class="col-form-label" for="newTestimonialAuthorName">Имя</label>
+                              <input type="text" class="form-control" placeholder="Ваше имя" id="newTestimonialAuthorName">
+                            </div>
+                            <div class="form-group">
+                               <input type="hidden" id="newTestimonialItemVendorCode"  value="<%= transData.shownItem.vendorCode %>">
+                            </div>
+                        </div>
+                        <div class="col-lg-7">
+                            <div class="form-group">
+                              <label for="newTestimonialContent">Содержимое отзыва</label>
+                              <textarea class="form-control" id="newTestimonialContent" rows="2"></textarea>
+                            </div>
+                        </div>
+                      </div>
+
+                    
+                  </div>
+                  <div class="modal-footer">
+                    <!-- Button: -->
+                    <button id="newtestimonial-button" type="button" class="btn btn-primary">Отправить</button>
+                    <!-- /Button: -->
+                  </div>
+              </div>
+              
+           <% if(transData.testimonialArr.length) { %>
+              <%for (let i = 0; i< transData.testimonialArr.length; i++) { %>
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title"><%= transData.testimonialArr[i].authorname %></h5>
+                  <p class="card-text"><%= transData.testimonialArr[i].content %></p>
+                </div>
+              </div>
+              <br>
+              <% } %>
+          <% } %>   
+          </div>
+
+
+
+
+
           <div class="tab-pane fade" id="dropdown1">
             <p>
               Etsy mixtape wayfarers, ethical wes anderson tofu before they sold
@@ -222,6 +271,28 @@
     </div>
   </div>
   <!-- /CONTAINER: -->
+
+<!-- addNewTestimonialModal -->
+<div
+  class="modal fade"
+  id="addNewTestimonialModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="headerAddNewTestimonialModal"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="headerAddNewTestimonialModal">Спасибо, отзыв отправлен!</h5>
+      </div>
+      <div class="modal-body">Ваш отзыв будет опубликован в течении 24ч.</div>
+      <div class="modal-footer"><button type="button" id="finishAddNewTestimonial" class="btn btn-success">Ok</button></div>
+    </div>
+  </div>
+</div>
+<!-- /addNewTestimonialModal -->
+
 
   <% include ../layout/lay_site_4_bottomscripts.ejs %>
 </body>

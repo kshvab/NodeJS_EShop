@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const fs = require('fs');
+const mongoose = require('mongoose');
 const models = require('../models');
 const order = models.order;
+const testimonial = models.testimonial;
 const xml2js = require('xml2js');
 const services = require('../services');
 //********* Promises ***************/
@@ -265,19 +267,36 @@ router.get(
         }
         //console.log(breadcrumbArr);
 
-        res.render(viewsView, {
-          transData: {
-            shopItemsArr,
-            shopCategoriesArr,
-            user: { _id, login, group },
-            shownItem,
-            breadcrumbArr,
-            shopCart,
-            showDiscountChooser,
-            discount,
-            priceSettings
-          }
-        });
+        testimonial
+          .find({ shopitemid: shownItem.vendorCode, approved: true })
+          .then(testimonialArr => {
+            testimonialArr.reverse();
+            res.render(viewsView, {
+              transData: {
+                shopItemsArr,
+                shopCategoriesArr,
+                user: { _id, login, group },
+                shownItem,
+                breadcrumbArr,
+                shopCart,
+                showDiscountChooser,
+                discount,
+                priceSettings,
+                testimonialArr
+              }
+            });
+          })
+          .catch(err => {
+            console.log('K8 ERROR: Нет доступа к базе.' + err);
+            res.render('error', {
+              transData: {
+                user: { _id, login, group }
+              },
+              message: 'Ошибка сервера, попробуйте позже!',
+              error: { code: 503 }
+            });
+          });
+
         //console.log(shownItem);
       }
     });
@@ -453,6 +472,104 @@ router.post('/search', function(req, res) {
       ok: true
     });
   }
+});
+
+router.post('/testimonial', (req, res) => {
+  const shopitemid = req.body.newTestimonialItemVendorCode;
+  const authorname = req.body.newTestimonialAuthorName;
+  const content = req.body.newTestimonialContent;
+
+  let ok = true,
+    authorNameError = false,
+    contentError = false,
+    error = '';
+
+  if (authorname.length < 3) {
+    ok = false;
+    authorNameError = true;
+    error = 'Проверьте имя автора!';
+  }
+  if (content.length < 10) {
+    ok = false;
+    contentError = true;
+    error = error + ' Отзыв не содержательный!';
+  }
+
+  if (ok) {
+    testimonial
+      .create({
+        _id: new mongoose.Types.ObjectId(),
+        shopitemid,
+        authorname,
+        content
+      })
+      .then(testimonialToDB => {
+        res.json({
+          ok,
+          authorNameError,
+          contentError,
+          error
+        });
+      })
+      .catch(err => {
+        console.log('K8 ERROR: Не получилось добавить комментарий в базу');
+        console.log(err);
+        res.json({
+          ok: false,
+          authorNameError,
+          contentError,
+          error: 'Ошибка на стороне сервера,попробуйте позже!'
+        });
+      });
+  } else {
+    res.json({
+      ok,
+      authorNameError,
+      contentError,
+      error
+    });
+  }
+});
+
+// DELETE order
+router.delete('/deletetestimonial', (req, res) => {
+  const _id = req.body.delTestimonial_id;
+  testimonial
+    .findOne({ _id })
+    .then(testimonialFromDB => {
+      testimonialFromDB.remove(DBanswer => {
+        res.json({
+          ok: true
+        });
+      });
+    })
+    .catch(err => {
+      console.log('K8 ERROR: Не получилось удалить' + err);
+      res.json({
+        ok: false,
+        error: 'K8 ERROR: Не получилось удалить' + err
+      });
+    });
+});
+
+router.post('/approvetestimonial', (req, res) => {
+  const _id = req.body.testimonial_id;
+  testimonial
+    .findOne({ _id })
+    .then(testimonialFromDB => {
+      testimonialFromDB.approved = true;
+      testimonialFromDB.save();
+      res.json({
+        ok: true
+      });
+    })
+    .catch(err => {
+      console.log('K8 ERROR: Не получилось одобрить отзыв' + err);
+      res.json({
+        ok: false,
+        error: 'K8 ERROR: Не получилось одобрить отзыв' + err
+      });
+    });
 });
 
 //************* FUNCTIONS ****** */

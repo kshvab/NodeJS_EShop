@@ -1,7 +1,7 @@
 {
   "name": "nodesite",
-  "version": "2.7.0",
-  "version-GIT-description": "Frontend for the Publication module",
+  "version": "2.8.0",
+  "version-GIT-description": "A testimonials system has been added",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {

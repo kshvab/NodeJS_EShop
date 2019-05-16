@@ -1201,4 +1201,129 @@ $(window).on('load', function() {
       }
     });
   }
+
+  // Post new Testimonial
+  {
+    $('#newtestimonial-button').on('click', function(e) {
+      e.preventDefault();
+
+      let newTestimonialAuthorName = $('#newTestimonialAuthorName').val();
+      let newTestimonialContent = $('#newTestimonialContent').val();
+      let newTestimonialItemVendorCode = $(
+        '#newTestimonialItemVendorCode'
+      ).val();
+
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify({
+          newTestimonialAuthorName,
+          newTestimonialContent,
+          newTestimonialItemVendorCode
+        }),
+        contentType: 'application/json',
+        url: '/shop/testimonial'
+      }).done(function(data) {
+        $('#newTestimonialAuthorName').removeClass('is-invalid');
+        $('#newTestimonialContent').removeClass('is-invalid');
+        $('#newTestimonialAuthorName').addClass('is-valid');
+        $('#newTestimonialContent').addClass('is-valid');
+        if (!data.ok) {
+          $('#newTestimonial-error-msg').html(
+            '<p class="text-danger">' + data.error + '</p>'
+          );
+          if (data.authorNameError) {
+            $('#newTestimonialAuthorName').removeClass('is-valid');
+            $('#newTestimonialAuthorName').addClass('is-invalid');
+          }
+          if (data.contentError) {
+            $('#newTestimonialContent').removeClass('is-valid');
+            $('#newTestimonialContent').addClass('is-invalid');
+          }
+        } else {
+          $('#addNewTestimonialModal').modal();
+        }
+      });
+    });
+
+    $('#finishAddNewTestimonial').on('click', function(e) {
+      e.preventDefault();
+      $('#loading-overlay').show();
+      setTimeout(function() {
+        window.location.reload(true);
+      }, 1500);
+    });
+
+    $('#addNewTestimonialModal').on('hide.bs.modal', function(e) {
+      e.preventDefault();
+      $('#loading-overlay').show();
+      setTimeout(function() {
+        window.location.reload(true);
+      }, 1500);
+    });
+
+    $('#newTestimonialContent').keypress(function(e) {
+      if (e.which == 13) {
+        jQuery(this).blur();
+        jQuery('#newtestimonial-button')
+          .focus()
+          .click();
+        return false;
+      }
+    });
+  }
+
+  {
+    // User Dell One Testimonial from list
+    $("[name='testimonial-list-del-one']").on('click', function(e) {
+      e.preventDefault();
+      let delTestimonial_id = this.value;
+      let confirmed = confirm(
+        'Вы точно хотите удалить отзыв ' + delTestimonial_id + '?'
+      );
+      if (confirmed) {
+        let data = {
+          delTestimonial_id
+        };
+        $.ajax({
+          type: 'DELETE',
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          url: '/shop/deletetestimonial'
+        }).done(function(data) {
+          if (!data.ok) {
+            alert(data.error);
+          } else {
+            $('#loading-overlay').show();
+            setTimeout(function() {
+              window.location.reload(true);
+            }, 1500);
+          }
+        });
+      } else return;
+    });
+
+    // User approve One Testimonial from list
+    $("[name='testimonial-list-approve-one']").on('click', function(e) {
+      e.preventDefault();
+      let testimonial_id = this.value;
+      let data = {
+        testimonial_id
+      };
+      $.ajax({
+        type: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/shop/approvetestimonial'
+      }).done(function(data) {
+        if (!data.ok) {
+          alert(data.error);
+        } else {
+          $('#loading-overlay').show();
+          setTimeout(function() {
+            window.location.reload(true);
+          }, 1500);
+        }
+      });
+    });
+  }
 });
