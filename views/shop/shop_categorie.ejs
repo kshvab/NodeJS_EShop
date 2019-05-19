@@ -205,11 +205,14 @@
                             В Корзину
                           </button>
           
+                          <% if ((typeof(transData) != 'undefined') && transData.user.login &&
+                          transData.user._id) { %>
                           <button name="add-item-to-wishlist-button" type="button" class="btn btn-warning btn-sm item-add-to-wishlist-button"
                             id="<%= transData.shownCatItems[i].vendorCode %>">
                             <span class="fas fa-heart"></span>
                           </button>
-          
+                          <% } %>
+
                         </div>
           
           

@@ -18,11 +18,45 @@
 
           <br />
           <H1>Мой список желаний</H1>
-          <p>Раздел в разработке...</p>
-          <br />
 
-          <br />
+          <% if (!transData.wishlist || !transData.wishlist.length) { %>
+            <H2>Ваш список желаний пуст</H2>
+            <%  } else { %>
+          <% for (var i = 0; i<transData.wishlist.length; i++ ) {%>
+  
+          
+  
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-3">
+                <div class="border-primary">
+                  <img style="display: block; width: 100px" src="<%=transData.wishlist[i].picture_220x220 %>"
+                    alt="<%= transData.wishlist[i].name %>" onerror="this.style.display = 'none'" />
+                </div>
+              </div>
+  
+              <div class="col-lg-9">
+                <a href="/shop/<%= transData.wishlist[i].vendorCode %>">
+                  <h5 class="card-title"><%= transData.wishlist[i].name %></h5>
+                </a>
+  
+                <div class="row">
+           
+                  <div class="col-lg-4">
+                    <button type="button" name="dell-item-from-wishlist-button" class="btn btn-danger btn-sm" id="<%= transData.wishlist[i].vendorCode %>">Удалить из списка</button>
+                  </div>
+                  <div class="col-lg-4">
+                    <h6 class="text-muted">Артикул: <%= transData.wishlist[i].vendorCode %></h6>
+                  </div>
+                  
+                </div>
 
+              </div>
+            </div>
+          </div>
+       
+          <% }; %>
+          <% }; %>
           <!-- /MAIN CONTENT HERE: -->
         </div>
       </div>

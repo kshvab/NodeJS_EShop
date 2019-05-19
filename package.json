@@ -1,7 +1,7 @@
 {
   "name": "nodesite",
-  "version": "2.8.0",
-  "version-GIT-description": "A testimonials system has been added",
+  "version": "2.9.0",
+  "version-GIT-description": "WishList system has been added",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {

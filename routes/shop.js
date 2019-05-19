@@ -4,6 +4,7 @@ const fs = require('fs');
 const mongoose = require('mongoose');
 const models = require('../models');
 const order = models.order;
+const wishlist = models.wishlist;
 const testimonial = models.testimonial;
 const xml2js = require('xml2js');
 const services = require('../services');
@@ -531,7 +532,7 @@ router.post('/testimonial', (req, res) => {
   }
 });
 
-// DELETE order
+// DELETE deletetestimonial
 router.delete('/deletetestimonial', (req, res) => {
   const _id = req.body.delTestimonial_id;
   testimonial
@@ -572,6 +573,106 @@ router.post('/approvetestimonial', (req, res) => {
     });
 });
 
+router.post('/additemtowishlist', (req, res) => {
+  let userLogin;
+  if (req.session.userLogin) userLogin = req.session.userLogin;
+  const itemVendorCode = req.body.itemVendorCode;
+
+  function fResOk() {
+    res.json({
+      ok: true
+    });
+  }
+
+  function fCreateNewWishlist() {
+    wishlist
+      .create({
+        userLogin,
+        wishlist: [{ vendorCode: itemVendorCode }]
+      })
+      .then(wishlistFromDB => {
+        fResOk();
+      })
+      .catch(err => {
+        console.log('K8 ERROR: Не получилось создать wishlist в базе');
+        console.log(err);
+        res.json({
+          ok: false,
+          error: 'Ошибка, попробуйте позже!'
+        });
+      });
+  }
+
+  wishlist
+    .findOne({ userLogin })
+    .then(wishlistFromDB => {
+      if (!wishlistFromDB) fCreateNewWishlist();
+      else {
+        let isInWishList = false;
+        for (let i = 0; i < wishlistFromDB.wishlist.length; i++) {
+          if (wishlistFromDB.wishlist[i].vendorCode == itemVendorCode) {
+            isInWishList = true;
+          }
+        }
+        if (isInWishList) fResOk();
+        else {
+          wishlistFromDB.wishlist.push({ vendorCode: itemVendorCode });
+          wishlistFromDB
+            .save()
+            .then(wishlistEdited => {
+              fResOk();
+            })
+            .catch(err => {
+              console.log(
+                'K8 ERROR: Не получилось редактировать wishlist в базе'
+              );
+              console.log(err);
+              res.json({
+                ok: false,
+                error: 'Ошибка, попробуйте позже!'
+              });
+            });
+        }
+      }
+    })
+    .catch(err => {
+      console.log('K8 ERROR: Не получилось найти wishlistFromDB' + err);
+      res.json({
+        ok: false,
+        error: 'K8 ERROR: Не получилось удалить' + err
+      });
+    });
+});
+
+router.delete('/deleteitemfromwishlist', (req, res) => {
+  const vendorCode = req.body.delWishListItemVendorCode;
+  let userLogin;
+  if (req.session.userLogin) userLogin = req.session.userLogin;
+
+  wishlist
+    .findOne({ userLogin })
+    .then(wishListFromDB => {
+      for (let i = 0; i < wishListFromDB.wishlist.length; i++) {
+        if (wishListFromDB.wishlist[i].vendorCode == vendorCode)
+          wishListFromDB.wishlist.splice(i, 1);
+      }
+
+      wishListFromDB.save();
+
+      res.json({
+        ok: true
+      });
+    })
+    .catch(err => {
+      console.log(
+        'K8 ERROR: Не получилось удалить товар из списка желаний' + err
+      );
+      res.json({
+        ok: false,
+        error: 'K8 ERROR: Не получилось удалить товар из списка желаний' + err
+      });
+    });
+});
 //************* FUNCTIONS ****** */
 function fpriceKoefDef(priceSettings, discount) {
   let koef;

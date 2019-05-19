@@ -98,11 +98,14 @@
                   id="<%= transData.shownItem.vendorCode %>">
                   В Корзину
                 </button>
-
+                <% if ((typeof(transData) != 'undefined') && transData.user.login &&
+                transData.user._id) { %>
                 <button name="add-item-to-wishlist-button" type="button" class="btn btn-warning btn-sm item-add-to-wishlist-button"
                   id="<%= transData.shownItem.vendorCode %>">
                   <span class="fas fa-heart"></span>
                 </button>
+                <% } %>
+
               </div>
             </div>
           </div>
@@ -236,7 +239,8 @@
             </p>
           </div>
         </div>
-        <!-- Modal -->
+
+        <!-- Modal bigPictureModal -->
         <div
           class="modal fade bd-example-modal-lg"
           id="bigPictureModal"

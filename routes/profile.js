@@ -5,7 +5,22 @@ const bcrypt = require('bcrypt-nodejs');
 const models = require('../models');
 const user = models.user;
 const order = models.order;
+const wishlist = models.wishlist;
 const moment = require('moment');
+const fs = require('fs');
+
+let p_shopItemsArr = new Promise(function(resolve, reject) {
+  var shopItemsArrStr = fs.readFileSync(
+    './public/import_foto/shopItemsArrFile.txt',
+    {
+      encoding: 'UTF-8'
+    }
+  );
+  var shopItemsArr = JSON.parse(shopItemsArrStr);
+
+  if (shopItemsArr) resolve(shopItemsArr);
+  else reject('Can not read ./public/import_foto/shopItemsArrFile.txt');
+});
 
 router.get('/myprofile', function(req, res) {
   if (req.session.userId && req.session.userLogin) {
@@ -256,20 +271,62 @@ router.get('/myorders', function(req, res) {
 });
 
 router.get('/mywishlist', function(req, res) {
-  if (req.session.userId && req.session.userLogin) {
-    const _id = req.session.userId;
-    const login = req.session.userLogin;
-    const path = '/mywishlist';
-    const group = req.session.userGroup;
-    let shopCart = req.session.shopCart;
-    res.render('profile/mywishlist', {
-      transData: {
-        pageTitle: 'Мой список желаний',
-        user: { _id, login, group },
-        path,
-        shopCart
+  let _id = req.session.userId;
+  let login = req.session.userLogin;
+  let path = '/mywishlist';
+  let group = req.session.userGroup;
+  let shopCart = req.session.shopCart;
+
+  function fRenderWishlist(wishlistFromDB) {
+    p_shopItemsArr.then(function(shopItemsArr) {
+      let wishlist = [];
+
+      for (let i = 0; i < wishlistFromDB.length; i++) {
+        let markerUsed = false;
+        for (let k = 0; k < shopItemsArr.length; k++) {
+          if (wishlistFromDB[i].vendorCode == shopItemsArr[k].vendorCode) {
+            if (!markerUsed) {
+              wishlist.push(shopItemsArr[k]);
+              markerUsed = true;
+            }
+          }
+        }
       }
+
+      res.render('profile/mywishlist', {
+        transData: {
+          wishlist,
+          pageTitle: 'Мой список желаний',
+          user: { _id, login, group },
+          path,
+          shopCart
+        }
+      });
     });
+  }
+
+  if (req.session.userId && req.session.userLogin) {
+    _id = req.session.userId;
+    login = req.session.userLogin;
+    path = '/mywishlist';
+    group = req.session.userGroup;
+    shopCart = req.session.shopCart;
+
+    wishlist
+      .findOne({ userLogin: login })
+      .then(wishlistFromDB => {
+        if (!wishlistFromDB) wishlistFromDB = { wishlist: [{}] };
+        fRenderWishlist(wishlistFromDB.wishlist);
+      })
+      .catch(err => {
+        res.render('error', {
+          transData: {
+            user: { _id, login }
+          },
+          message: err,
+          error: {}
+        });
+      });
   } else console.log('юзер незалогинен!');
   //console.dir(req);
 });

@@ -1326,4 +1326,64 @@ $(window).on('load', function() {
       });
     });
   }
+
+  
+
+
+  $('[name="add-item-to-wishlist-button"]').click(function() {
+    var itemVendorCode = this.id;
+   
+    var data = { itemVendorCode };
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/shop/additemtowishlist'
+    }).done(function(data) {
+      console.log(data);
+      if (data.ok) {
+        $('#additemtowishlistModal').modal();
+      }
+    });
+  });
+
+
+
+// User Dell One Item from Wishlist
+
+$("[name='dell-item-from-wishlist-button']").on('click', function(e) {
+  e.preventDefault();
+
+  
+  let delWishListItemVendorCode = this.id;
+
+  let confirmed = confirm(
+    'Вы точно хотите удалить товар из списка желаний?'
+  );
+  if (confirmed) {
+    let data = {
+      delWishListItemVendorCode
+    };
+    $.ajax({
+      type: 'DELETE',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/shop/deleteitemfromwishlist'
+    }).done(function(data) {
+      if (!data.ok) {
+        alert(data.error);
+      } else {
+        $('#loading-overlay').show();
+        setTimeout(function() {
+          window.location.reload(true);
+        }, 1500);
+      }
+    });
+  } else return;
+
+  
+});
+
+
+
 });
