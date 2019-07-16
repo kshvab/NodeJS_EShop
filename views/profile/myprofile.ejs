@@ -100,6 +100,15 @@
                             </button>
                           </td>
                         </tr>
+                        <%if (transData.user.discount) {%>
+                        <tr>
+                          <th scope="row">Скидка</th>
+                          <td><%= transData.user.discount %>%</td>
+                          <td>
+                            
+                          </td>
+                        </tr>
+                        <%}%>
                         <tr>
                           <th scope="row">Дата регистрации</th>
                           <td><%= transData.user.createdAt %></td>
@@ -128,6 +137,9 @@
           <br />
         </div>
       </div>
+            <!-- Footer -->
+            <% include ../layout/lay_site_5_footer.ejs %>
+            <!-- Footer -->
     </div>
     <!-- /CONTAINER: -->
     <% include lay_myprofile_modals.ejs %> <% include

@@ -1,4 +1,5 @@
 <nav class="navbarTopk8 navbar-expand-lg navbar-dark bg-primary-topk8">
+
   <div class="container">
     <div class="navbar-topk8-tel">
       <div
@@ -6,7 +7,7 @@
         data-toggle="modal"
         data-target="#headerContactsModal"
       >
-        <span class="fas fa-phone avesomePaddingRight"></span> (067) 32-67-467
+        <span class="fas fa-phone avesomePaddingRight"></span> + 38 067 326 7467
       </div>
     </div>
     <div class="navbar-topk8-usermenu">
@@ -30,7 +31,7 @@
 <nav class="navbar sticky-top  navbar-expand-lg navbar-dark bg-primary">
   <div class="container">
     <a class="navbar-brand" href="/">
-      <img src="/images/logo.png" alt="BOHMANN" />
+      <img src="/pictures/logo.png" class="" alt="">
     </a>
 
     <button
@@ -56,9 +57,15 @@
         <li class="nav-item">
           <a class="nav-link" href="/publications">Публикации</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/contacts">Контакты</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/partners">Партнерам</a>
+      </li>
       </ul>
       <form action="/shopcart">
-        <button type="submit" class="btn btn-success btn-shopcart-header">
+        <button type="submit" class="btn btn-success btn-shopcart-header btn-sm">
           <span class="fas fa-shopping-cart avesomePaddingRight"></span>Корзина
 
           <span class="badge badge-pill badge-shop-k8 badge-warning">
@@ -71,13 +78,13 @@
       </form>
       <% if ((typeof(transData) != 'undefined') && transData.user.login &&
       transData.user._id) { %>
-      <a href="/profile/mywishlist" class="btn btn-warning btn-wishlist-header"><span class="fas fa-heart"></span></a>
+      <a href="/profile/mywishlist" class="btn btn-warning btn-wishlist-header btn-sm"><span class="fas fa-heart"></span></a>
       <% } %>
       <% if ((typeof(transData) != 'undefined') &&
       transData.showDiscountChooser) { %>
       <form>
         <select
-          class="custom-select select-discount-header"
+          class="custom-select select-discount-header btn-sm"
           id="select-discount-header"
           disabled=""
         >

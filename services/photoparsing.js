@@ -4,7 +4,7 @@ var Jimp = require('jimp');
 
 let p_shopItemsArr = new Promise(function(resolve, reject) {
   var shopItemsArrStr = fs.readFileSync(
-    './public/import_foto/shopItemsArrFile.txt',
+    './public/datafiles/shopItemsArrFile.txt',
     {
       encoding: 'UTF-8'
     }
@@ -12,7 +12,7 @@ let p_shopItemsArr = new Promise(function(resolve, reject) {
   var shopItemsArr = JSON.parse(shopItemsArrStr);
 
   if (shopItemsArr) resolve(shopItemsArr);
-  else reject('Can not read ./public/import_foto/shopItemsArrFile.txt');
+  else reject('Can not read ./public/datafiles/shopItemsArrFile.txt');
 });
 
 function fsavePictures(itemsArr) {

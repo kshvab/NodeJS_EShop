@@ -2,17 +2,22 @@ const nodemailer = require('nodemailer');
 //const ejs = require('ejs');
 //const fs = require('fs');
 
+const config = require('../../config');
+
 var transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  service: config.MAILING_SERVISE,
   auth: {
-    user: 'hoztovarinfo@gmail.com',
-    pass: 'bereza1530'
+    user: config.MAILING_USER,
+    pass: config.MAILING_PASS
+  },
+  tls: {
+    secureProtocol: 'TLSv1_method'
   }
 });
 
 function sendOrderMail(orderId, recipientEmail) {
   let mailOptions = {
-    from: 'hoztovarinfo@gmail.com',
+    from: 'svarkaclubinfo@gmail.com',
     to: recipientEmail,
     subject: 'Вы оформили новый заказ',
     html:

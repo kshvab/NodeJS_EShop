@@ -197,7 +197,7 @@ function runCategoriesParsing() {
     let shopCategoriesArrStr = JSON.stringify(catArr);
 
     fs.writeFile(
-      './public/import_foto/shopCategoriesArrFile.txt',
+      './public/datafiles/shopCategoriesArrFile.txt',
       shopCategoriesArrStr,
       function(err) {
         if (err) console.log('ERROR Saving!');

@@ -681,7 +681,7 @@ $(window).on('load', function() {
 
       $('#newItemPicture').html(
         '<img src="' +
-          data.shopCart[0].picture_220x220 +
+          data.shopCart[0].picture +
           '"class="cart-list-itempicture"/>'
       );
       $('#newItemName').text(data.shopCart[0].name);
@@ -1327,12 +1327,9 @@ $(window).on('load', function() {
     });
   }
 
-  
-
-
   $('[name="add-item-to-wishlist-button"]').click(function() {
     var itemVendorCode = this.id;
-   
+
     var data = { itemVendorCode };
     $.ajax({
       type: 'POST',
@@ -1347,31 +1344,75 @@ $(window).on('load', function() {
     });
   });
 
+  // User Dell One Item from Wishlist
 
+  $("[name='dell-item-from-wishlist-button']").on('click', function(e) {
+    e.preventDefault();
 
-// User Dell One Item from Wishlist
+    let delWishListItemVendorCode = this.id;
+    let confirmed = confirm('Вы точно хотите удалить товар из списка желаний?');
+    if (confirmed) {
+      let data = {
+        delWishListItemVendorCode
+      };
+      $.ajax({
+        type: 'DELETE',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/shop/deleteitemfromwishlist'
+      }).done(function(data) {
+        if (!data.ok) {
+          alert(data.error);
+        } else {
+          $('#loading-overlay').show();
+          setTimeout(function() {
+            window.location.reload(true);
+          }, 1500);
+        }
+      });
+    } else return;
+  });
 
-$("[name='dell-item-from-wishlist-button']").on('click', function(e) {
-  e.preventDefault();
 
   
-  let delWishListItemVendorCode = this.id;
+  $("#manual-import-start-button").on('click', function(e) {
+    e.preventDefault();
+      $.ajax({
+        type: 'POST',
+        data: '',
+        contentType: 'application/json',
+        url: '/administrator/shop/import1s'
+      }).done(function(data) {
+        if (!data.ok) {
+          alert(data.error);
+        } else {
+          alert('Задание на ручной импорт запущено!')
+          $('#loading-overlay').show();
+          setTimeout(function() {
+            window.location.reload(true);
+          }, 1500);
+        }
+      });
 
-  let confirmed = confirm(
-    'Вы точно хотите удалить товар из списка желаний?'
-  );
-  if (confirmed) {
-    let data = {
-      delWishListItemVendorCode
+  });
+
+
+
+  $('#shop-settings-automatic-import-status').on('change', function(e) {
+    e.preventDefault();
+    var data = {
+      isAutomaticImportOn: this.value
     };
+    
+
     $.ajax({
-      type: 'DELETE',
+      type: 'POST',
       data: JSON.stringify(data),
       contentType: 'application/json',
-      url: '/shop/deleteitemfromwishlist'
+      url: '/administrator/shop/changeautomaticimport'
     }).done(function(data) {
       if (!data.ok) {
-        alert(data.error);
+        console.log('Error changing automatic import!');
       } else {
         $('#loading-overlay').show();
         setTimeout(function() {
@@ -1379,10 +1420,249 @@ $("[name='dell-item-from-wishlist-button']").on('click', function(e) {
         }, 1500);
       }
     });
-  } else return;
 
-  
+
+
+  });
+
+
+
+  // Message from Contacts Page
+  $('#contacts-mainform-submit').on('click', function(e) {
+    e.preventDefault();
+
+    var data = {
+      name: $('#contacts-mainform-name').val(),
+      email: $('#contacts-mainform-email').val(),
+      phonenumber: $('#contacts-mainform-phonenumber').val(),
+      message: $('#contacts-mainform-message').val(),
+    };
+
+    $.ajax({
+      type: 'POST',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/messages/maincontactsform'
+    }).done(function(data) {
+      $('.form-control').removeClass('is-invalid');
+      $('.form-control').addClass('is-valid');
+
+
+      if (!data.ok) {
+        $('#contactsform-error-msg').html(
+          '<p class="text-danger">' + data.error + '</p>'
+        );
+        if (data.fields) {
+          data.fields.forEach(function(id) {
+            $('#' + id).removeClass('is-valid');
+            $('#' + id).addClass('is-invalid');
+          });
+        }
+      } else {
+        $('#contactsMessageModal').modal();
+        //$('#register-error-msg').html('<p class="text-success">Отлично!</p>');
+       // $(location).attr('href', '/');
+      }
+    });
+  });
+  $('#contacts-mainform-message').keypress(function(e) {
+    if (e.which == 13) {
+      jQuery(this).blur();
+      jQuery('#contacts-mainform-submit')
+        .focus()
+        .click();
+      return false;
+    }
+  });
+
+  $('#contactsMessageModal').on('hidden.bs.modal', function() {
+
+    //$(location).attr('href', '/contacts');
+    $('#loading-overlay').show();
+    setTimeout(function() {
+      window.location.reload(true);
+    }, 1000);
+
+  });
+
+
+
+
+
+ // callmebackform from Main Page
+ $('#callmebackform-button').on('click', function(e) {
+  e.preventDefault();
+
+  var data = {
+    name: $('#callmebackform-name').val(),
+    phonenumber: $('#callmebackform-phonenumber').val(),
+  };
+
+  $.ajax({
+    type: 'POST',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    url: '/messages/callmebackform'
+  }).done(function(data) {
+    $('.form-control').removeClass('is-invalid');
+    $('.form-control').addClass('is-valid');
+
+
+    if (!data.ok) {
+      $('#callmebackform-error-msg').html(
+        '<p class="text-danger">' + data.error + '</p>'
+      );
+      if (data.fields) {
+        data.fields.forEach(function(id) {
+          $('#' + id).removeClass('is-valid');
+          $('#' + id).addClass('is-invalid');
+        });
+      }
+    } else {
+      $('#callmebackformMessageModal').modal();
+      //$('#register-error-msg').html('<p class="text-success">Отлично!</p>');
+     // $(location).attr('href', '/');
+    }
+  });
 });
+
+$('#callmebackform-phonenumber').keypress(function(e) {
+  if (e.which == 13) {
+    jQuery(this).blur();
+    jQuery('#callmebackform-button')
+      .focus()
+      .click();
+    return false;
+  }
+});
+
+$('#callmebackformMessageModal').on('hidden.bs.modal', function() {
+  //$(location).attr('href', '/');
+  $('#loading-overlay').show();
+  setTimeout(function() {
+    window.location.reload(true);
+  }, 1000);
+});
+
+
+ // defaultsubscriptionform from Ышвуифк
+ $('#defaultSubscriptionFormSubmit').on('click', function(e) {
+  e.preventDefault();
+
+  var data = {
+    name: $('#defaultSubscriptionFormName').val(),
+    email: $('#defaultSubscriptionFormEmail').val(),
+  };
+
+  $.ajax({
+    type: 'POST',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    url: '/messages/defaultsubscriptionform'
+  }).done(function(data) {
+    $('.form-control').removeClass('is-invalid');
+    $('.form-control').addClass('is-valid');
+
+
+    if (!data.ok) {
+      $('#defaultSubscriptionForm-error-msg').html(
+        '<p class="text-danger">' + data.error + '</p>'
+      );
+      if (data.fields) {
+        data.fields.forEach(function(id) {
+          $('#' + id).removeClass('is-valid');
+          $('#' + id).addClass('is-invalid');
+        });
+      }
+    } else {
+      $('#defaultSubscriptionFormMessageModal').modal();
+      //$('#register-error-msg').html('<p class="text-success">Отлично!</p>');
+     // $(location).attr('href', '/');
+    }
+  });
+});
+
+$('#defaultSubscriptionFormEmail').keypress(function(e) {
+  if (e.which == 13) {
+    jQuery(this).blur();
+    jQuery('#defaultSubscriptionFormSubmit')
+      .focus()
+      .click();
+    return false;
+  }
+});
+
+$('#defaultSubscriptionFormMessageModal').on('hidden.bs.modal', function() {
+  //$(location).attr('href', '/');
+  $('#loading-overlay').show();
+  setTimeout(function() {
+    window.location.reload(true);
+  }, 1000);
+});
+
+
+
+// Message from Partners Page
+$('#partners-mainform-submit').on('click', function(e) {
+  e.preventDefault();
+
+  var data = {
+    name: $('#partners-mainform-name').val(),
+    companyname: $('#partners-mainform-companyname').val(),
+    email: $('#partners-mainform-email').val(),
+    phonenumber: $('#partners-mainform-phonenumber').val(),
+    address: $('#partners-mainform-address').val(),
+    message: $('#partners-mainform-message').val(),
+  };
+
+  $.ajax({
+    type: 'POST',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    url: '/messages/partnersform'
+  }).done(function(data) {
+    $('.form-control').removeClass('is-invalid');
+    $('.form-control').addClass('is-valid');
+
+
+    if (!data.ok) {
+      $('#partnersform-error-msg').html(
+        '<p class="text-danger">' + data.error + '</p>'
+      );
+      if (data.fields) {
+        data.fields.forEach(function(id) {
+          $('#' + id).removeClass('is-valid');
+          $('#' + id).addClass('is-invalid');
+        });
+      }
+    } else {
+      $('#partnersMessageModal').modal();
+      //$('#register-error-msg').html('<p class="text-success">Отлично!</p>');
+     // $(location).attr('href', '/');
+    }
+  });
+});
+$('#partners-mainform-message').keypress(function(e) {
+  if (e.which == 13) {
+    jQuery(this).blur();
+    jQuery('#partners-mainform-submit')
+      .focus()
+      .click();
+    return false;
+  }
+});
+
+$('#partnersMessageModal').on('hidden.bs.modal', function() {
+
+  //$(location).attr('href', '/partners');
+  $('#loading-overlay').show();
+  setTimeout(function() {
+    window.location.reload(true);
+  }, 1000);
+
+});
+
+
 
 
 

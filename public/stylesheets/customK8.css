@@ -1076,6 +1076,10 @@ div.telefon-topk8:hover {
 
 .btn-shop-categories-nav {
   text-align: left !important;
+  min-height: 3.4em;
+  font-size: 0.96rem;
+  line-height: 1.2;
+  margin-bottom: 0.5em;
 }
 
 .breadcrumb-K8-adapted {
@@ -1255,6 +1259,11 @@ div.telefon-topk8:hover {
 .tile-subcategory-bloc {
   text-align: center;
   padding-bottom: 20px;
+}
+
+.tile-subcategory-bloc-xs {
+  text-align: center;
+  padding-bottom: 5px;
 }
 
 .items-pagination {
@@ -2147,4 +2156,15 @@ div.telefon-topk8:hover {
 
 .k8-cats-toggler-btn {
   margin-bottom: 15px;
+}
+
+.card-item-name-k8 {
+  min-height: 4.6rem;
+}
+.card-item-name-k8-xs {
+  /*min-height: 4.6rem;*/
+  padding: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 400;
+  line-height: 1.2;
 }

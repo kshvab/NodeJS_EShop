@@ -94,6 +94,7 @@ router.post('/register', (req, res) => {
               req.session.userId = userToDB._id;
               req.session.userLogin = userToDB.login;
               req.session.userGroup = 'Registered';
+              req.session.email = userToDB.email;
               res.json({
                 ok: true
               });
@@ -157,6 +158,7 @@ router.post('/login', (req, res) => {
               req.session.userId = userFromDB._id;
               req.session.userLogin = userFromDB.login;
               req.session.userGroup = userFromDB.group;
+              req.session.email = userFromDB.email;
               res.json({
                 ok: true
               });

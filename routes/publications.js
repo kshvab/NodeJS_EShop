@@ -81,12 +81,38 @@ router.get('/:targetPublAlias', function(req, res) {
     });
   });
 
-  p_publToShow
-    .then(function(publToShow) {
+  let p_publArr = new Promise(function(resolve, reject) {
+    publication
+      .find({ status: 'Опубликовано' })
+      .sort({ $natural: -1 })
+      .limit(5)
+      .then(publicationsObj => {
+        //publication.find({ status: 'Опубликовано' }).then(publicationsObj => {
+        for (let i = 0; i < publicationsObj.length; i++) {
+          publicationsObj[i].formatedTime = moment(
+            publicationsObj[i].createdAt
+          ).format('DD.MM.YYYY, HH:mm');
+        }
+
+        if (publicationsObj) resolve(publicationsObj);
+        else reject('Can not read the publications DB');
+      });
+  });
+
+  Promise.all([p_publToShow, p_publArr])
+    .then(function(values) {
+      let publToShow = values[0];
+      let publicationsObj = values[1];
+
       let pageTitle = publToShow.title,
         description = publToShow.description,
         keywords = publToShow.keywords;
 
+      for (let i = 0; i < publicationsObj.length; i++) {
+        publicationsObj[i].formatedTime = moment(
+          publicationsObj[i].createdAt
+        ).format('DD/MM/YYYY');
+      }
       res.render('publications/publ_show_one', {
         transData: {
           publToShow,
@@ -95,7 +121,8 @@ router.get('/:targetPublAlias', function(req, res) {
           description,
           keywords,
           user: { _id, login, group },
-          shopCart
+          shopCart,
+          publicationsObj
         }
       });
     })

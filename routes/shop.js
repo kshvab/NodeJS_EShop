@@ -24,7 +24,7 @@ let p_itemsViewSettings = new Promise(function(resolve, reject) {
 
 let p_shopItemsArr = new Promise(function(resolve, reject) {
   var shopItemsArrStr = fs.readFileSync(
-    './public/import_foto/shopItemsArrFile.txt',
+    './public/datafiles/shopItemsArrFile.txt',
     {
       encoding: 'UTF-8'
     }
@@ -32,19 +32,32 @@ let p_shopItemsArr = new Promise(function(resolve, reject) {
   var shopItemsArr = JSON.parse(shopItemsArrStr);
 
   if (shopItemsArr) resolve(shopItemsArr);
-  else reject('Can not read ./public/import_foto/shopItemsArrFile.txt');
+  else reject('Can not read ./public/datafiles/shopItemsArrFile.txt');
 });
 
 let p_shopCategoriesArr = new Promise(function(resolve, reject) {
   var shopCategoriesArrStr = fs.readFileSync(
-    './public/import_foto/shopCategoriesArrFile.txt',
+    './public/datafiles/shopCategoriesArrFile.txt',
     {
       encoding: 'UTF-8'
     }
   );
   var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
   if (shopCategoriesArr) resolve(shopCategoriesArr);
-  else reject('Can not read ./public/import_foto/shopCategoriesArrFile.txt');
+  else reject('Can not read ./public/datafiles/shopCategoriesArrFile.txt');
+});
+
+let p_shopUsersArr = new Promise(function(resolve, reject) {
+  let shopUsersArrStr = fs.readFileSync(
+    './public/datafiles/shopUsersArrFile.txt',
+    {
+      encoding: 'UTF-8'
+    }
+  );
+  let shopUsersArr = JSON.parse(shopUsersArrStr);
+
+  if (shopUsersArr) resolve(shopUsersArr);
+  else reject('Can not read ./public/datafiles/shopUsersArrFile.txt');
 });
 
 let p_priceSettings = new Promise(function(resolve, reject) {
@@ -59,6 +72,7 @@ let p_priceSettings = new Promise(function(resolve, reject) {
 
 router.get(
   '(?:/:pathPart0)(?:/:pathPart1)?(?:/:pathPart2)?(?:/:pathPart3)?(?:/:pathPart4)?(?:/:pathPart5)?(?:/:pathPart6)?',
+
   function(req, res) {
     let _id;
     let login;
@@ -88,16 +102,26 @@ router.get(
       p_shopCategoriesArr,
       p_shopItemsArr,
       p_itemsViewSettings,
-      p_priceSettings
+      p_priceSettings,
+      p_shopUsersArr
     ]).then(function(values) {
       let shopCategoriesArr = values[0];
       let shopItemsArr = values[1];
       let itemsViewSettings = values[2];
       let priceSettings = values[3];
+      let shopUsersArr = values[4];
 
       let itemsPerPage = itemsViewSettings.shopCategorieItemsPerPage;
 
-      let priceKoef = fpriceKoefDef(priceSettings, discount);
+      let userFrom1S = shopUsersArr.find(x => x.email === req.session.email);
+
+      let priceKoef;
+      if (userFrom1S != undefined && userFrom1S.discount) {
+        discount = userFrom1S.discount;
+        priceKoef = 1 - userFrom1S.discount / 100;
+      } else {
+        priceKoef = fpriceKoefDef(priceSettings, discount);
+      }
 
       shopItemsArr = fItemsArrRecalc(
         shopItemsArr,
@@ -272,6 +296,7 @@ router.get(
           .find({ shopitemid: shownItem.vendorCode, approved: true })
           .then(testimonialArr => {
             testimonialArr.reverse();
+            console.log(shownItem);
             res.render(viewsView, {
               transData: {
                 shopItemsArr,
@@ -334,16 +359,26 @@ router.get('/', function(req, res) {
     p_shopCategoriesArr,
     p_shopItemsArr,
     p_itemsViewSettings,
-    p_priceSettings
+    p_priceSettings,
+    p_shopUsersArr
   ]).then(function(values) {
     let shopCategoriesArr = values[0];
     let shopItemsArr = values[1];
     let itemsViewSettings = values[2];
     let priceSettings = values[3];
+    let shopUsersArr = values[4];
 
     let itemsPerPage = itemsViewSettings.shopMainPageItemsPerPage;
 
-    let priceKoef = fpriceKoefDef(priceSettings, discount);
+    let userFrom1S = shopUsersArr.find(x => x.email === req.session.email);
+
+    let priceKoef;
+    if (userFrom1S != undefined && userFrom1S.discount) {
+      discount = userFrom1S.discount;
+      priceKoef = 1 - userFrom1S.discount / 100;
+    } else {
+      priceKoef = fpriceKoefDef(priceSettings, discount);
+    }
 
     shopItemsArr = fItemsArrRecalc(
       shopItemsArr,
@@ -685,13 +720,10 @@ function fpriceKoefDef(priceSettings, discount) {
 
 function fItemsArrRecalc(arr, kurs, nacenka, priceKoef) {
   for (let i = 0; i < arr.length; i++) {
-    arr[i].basePrice = +(
-      arr[i].inputPriceUsd *
-      kurs *
-      (1 + nacenka / 100)
-    ).toFixed(2);
+    arr[i].basePrice = +(arr[i].price * (1 + nacenka / 100)).toFixed(2);
     arr[i].price = +(arr[i].basePrice * priceKoef).toFixed(2);
   }
+
   return arr;
 }
 

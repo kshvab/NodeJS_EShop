@@ -51,56 +51,59 @@
 
     <% } else if (!item.catFatherId && item.catHasChildren) {%>
 
-    <div
-      class="btn-group btn-block "
-      role="group"
-      aria-label="Button group with nested dropdown"
-    >
-      <a
-        role="button"
-        class="btn btn-primary btn-sm btn-block btn-shop-categories-nav"
-        href="/shop/<%= item.catAlias %>"
+    <div class="d-none d-md-block">
+      <div
+        class="btn-group btn-block "
+        role="group"
+        aria-label="Button group with nested dropdown"
       >
-        <%= item.catName %>
-      </a>
-      <div class="btn-group" role="group">
-        <button
-          id="btnGroupDrop1"
-          type="button"
-          class="btn btn-primary dropdown-toggle  btn-sm"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        ></button>
-        <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-          <% transData.shopCategoriesArr.forEach(function(subItem){ %> <% if
-          (subItem.catFatherId == item.catId) { %>
+        <a
+          role="button"
+          class="btn btn-primary btn-sm btn-block btn-shop-categories-nav"
+          href="/shop/<%= item.catAlias %>"
+        >
+          <%= item.catName %>
+        </a>
 
-          <a
-            class="dropdown-item"
-            href="/shop/<%= item.catAlias %>/<%= subItem.catAlias %>"
-            ><%= subItem.catName %></a
-          >
-          <% }}) %>
+        <div class="btn-group" role="group">
+          <button
+            id="btnGroupDrop1"
+            type="button"
+            class="btn btn-primary dropdown-toggle  btn-sm btn-shop-categories-nav"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+          ></button>
+
+          <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
+            <% transData.shopCategoriesArr.forEach(function(subItem){ %> <% if
+            (subItem.catFatherId == item.catId) { %>
+
+            <a
+              class="dropdown-item"
+              href="/shop/<%= item.catAlias %>/<%= subItem.catAlias %>"
+              ><%= subItem.catName %></a
+            >
+            <% }}) %>
+          </div>
         </div>
       </div>
     </div>
+    <div class="d-md-none">
+      <a
+        class="btn btn-primary btn-sm btn-block btn-shop-categories-nav"
+        href="/shop/<%= item.catAlias %>"
+        role="button"
+      >
+        <%= item.catName %>
+      </a>
+    </div>
 
-    <% } %> <% }); %> <% transData.shopCategoriesArr.forEach(function(item){ %>
-    <% if (item.catName == "Покрышки и камеры для тачки") { %>
-
-    <a
-      class="btn btn-primary btn-sm btn-block btn-shop-categories-nav"
-      href="/shop/<%= item.catAlias %>"
-      role="button"
-    >
-      <%= item.catName %>
-    </a>
-
-    <% } %><% }) %>
+    <% } %> <% }); %>
 
     <!-- ******************************************* -->
   </div>
 </div>
+
 <!-- ******************************************* -->
 <% include lay_shop_cart_modal_window.ejs %>

@@ -30,7 +30,7 @@
             <div class="row">
               <div class="col-lg-3">
                 <div class="border-primary">
-                  <img style="display: block; width: 100px" src="<%=transData.wishlist[i].picture_220x220 %>"
+                  <img style="display: block; width: 100px" src="<%=transData.wishlist[i].picture %>"
                     alt="<%= transData.wishlist[i].name %>" onerror="this.style.display = 'none'" />
                 </div>
               </div>
@@ -60,6 +60,9 @@
           <!-- /MAIN CONTENT HERE: -->
         </div>
       </div>
+            <!-- Footer -->
+            <% include ../layout/lay_site_5_footer.ejs %>
+            <!-- Footer -->
     </div>
     <!-- /CONTAINER: -->
 

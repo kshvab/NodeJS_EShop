@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <% include layout/lay_site_1_head.ejs %>
+
+  <body>
+    <% include layout/lay_site_2_navigation.ejs %>
+
+    <!-- CONTAINER: -->
+    <div class="container">
+      <br /><br />
+
+      <div class="row">
+        <div class="col-md-6">
+          <h2 class="pb-3">
+            Приглашаем к сотрудничеству!
+          </h2>
+
+          <ul>
+            <li>Персональная скидка</li>
+            <li>Удобная доставка</li>
+            <li>Индивидуальный подход</li>
+          </ul>
+          <p>
+            Если Вы производитель и работаете с металлом или у Вас есть торговые
+            точки, где вы могли бы представить наш товар, регистрируйтесь как
+            партнер и получите персональную скидку!
+          </p>
+        </div>
+        <div class="col-md-6">
+          <h2 class="pb-3">
+            Регистрация партнера
+          </h2>
+          <div data-form-type="formoid">
+            <form role="form" method="post" class="partners-form">
+              <fieldset>
+                <div id="partnersform-error-msg"></div>
+                <div class="row">
+                  <div class="col-md-6 multi-horizontal" data-for="name">
+                    <div class="form-group" id="div_partners-mainform-name">
+                      <input
+                        class="form-control"
+                        placeholder="Контактное лицо"
+                        name="name"
+                        type="name"
+                        id="partners-mainform-name"
+                        autofocus
+                      />
+                    </div>
+                    <div class="form-group" id="div_partners-mainform-name">
+                      <input
+                        class="form-control"
+                        placeholder="Предприятие"
+                        name="companyname"
+                        type="name"
+                        id="partners-mainform-companyname"
+                        autofocus
+                      />
+                    </div>
+                  </div>
+
+                  <div class="col-md-6 multi-horizontal" data-for="phone">
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">+38</span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="0671234567   Телефон"
+                          name="phonenumber"
+                          id="partners-mainform-phonenumber"
+                        />
+                      </div>
+                    </div>
+                    <div class="form-group" id="div_partners-mainform-email">
+                      <input
+                        class="form-control"
+                        placeholder="E-mail"
+                        name="email"
+                        type="email"
+                        id="partners-mainform-email"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-12 form-group" data-for="address">
+                    <textarea
+                      class="form-control input"
+                      name="address"
+                      rows="1"
+                      data-form-field="Address"
+                      placeholder="Адрес"
+                      style="resize:none"
+                      id="partners-mainform-address"
+                    ></textarea>
+                  </div>
+                  <div class="col-md-12" data-for="message">
+                    <textarea
+                      class="form-control input"
+                      name="message"
+                      rows="3"
+                      data-form-field="Message"
+                      placeholder="Сообщение"
+                      style="resize:none"
+                      id="partners-mainform-message"
+                    ></textarea>
+                  </div>
+
+                  <div
+                    class="input-group-btn col-md-12"
+                    style="margin-top: 10px;"
+                  >
+                    <button
+                      type="submit"
+                      class="btn btn-primary btn-form display-4"
+                      id="partners-mainform-submit"
+                    >
+                      ОТПРАВИТЬ СООБЩЕНИЕ
+                    </button>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+      <br /><br /><br />
+      <!-- Footer -->
+      <% include layout/lay_site_5_footer.ejs %>
+      <!-- Footer -->
+    </div>
+
+    <!-- /CONTAINER: -->
+
+    <% include layout/lay_site_4_bottomscripts.ejs %>
+  </body>
+</html>
+
+<div
+  class="modal fade"
+  id="partnersMessageModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Ваше сообщение отправлено!
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p>Спасибо,<br />наши менеджеры свяжутся с Вами в ближайшее время!</p>
+      </div>
+
+      <div class="modal-footer">
+        <button data-dismiss="modal" class="btn btn-success btn-lg">Ок</button>
+      </div>
+    </div>
+  </div>
+</div>

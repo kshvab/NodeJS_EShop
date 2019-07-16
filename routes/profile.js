@@ -11,7 +11,7 @@ const fs = require('fs');
 
 let p_shopItemsArr = new Promise(function(resolve, reject) {
   var shopItemsArrStr = fs.readFileSync(
-    './public/import_foto/shopItemsArrFile.txt',
+    './public/datafiles/shopItemsArrFile.txt',
     {
       encoding: 'UTF-8'
     }
@@ -19,7 +19,20 @@ let p_shopItemsArr = new Promise(function(resolve, reject) {
   var shopItemsArr = JSON.parse(shopItemsArrStr);
 
   if (shopItemsArr) resolve(shopItemsArr);
-  else reject('Can not read ./public/import_foto/shopItemsArrFile.txt');
+  else reject('Can not read ./public/datafiles/shopItemsArrFile.txt');
+});
+
+let p_shopUsersArr = new Promise(function(resolve, reject) {
+  let shopUsersArrStr = fs.readFileSync(
+    './public/datafiles/shopUsersArrFile.txt',
+    {
+      encoding: 'UTF-8'
+    }
+  );
+  let shopUsersArr = JSON.parse(shopUsersArrStr);
+
+  if (shopUsersArr) resolve(shopUsersArr);
+  else reject('Can not read ./public/datafiles/shopUsersArrFile.txt');
 });
 
 router.get('/myprofile', function(req, res) {
@@ -31,24 +44,35 @@ router.get('/myprofile', function(req, res) {
       //console.log(userFromDB);
 
       if (userFromDB) {
-        let transData = {
-          pageTitle: 'Мой профиль',
-          path,
-          user: {
-            group: userFromDB.group,
-            _id: userFromDB._id,
-            name: userFromDB.name,
-            email: userFromDB.email,
-            phonenumber: userFromDB.phonenumber,
-            login: userFromDB.login,
-            password: userFromDB.password,
-            createdAt: moment(userFromDB.createdAt).format('DD.MM.YYYY, HH:mm'),
-            updatedAt: moment(userFromDB.updatedAt).format('DD.MM.YYYY, HH:mm')
-          },
-          shopCart
-        };
-        res.render('profile/myprofile', {
-          transData: transData
+        p_shopUsersArr.then(shopUsersArr => {
+          let userFrom1S = shopUsersArr.find(x => x.email === userFromDB.email);
+          //console.log(userFrom1S);
+          let discount = 0;
+          if (userFrom1S) discount = userFrom1S.discount;
+          let transData = {
+            pageTitle: 'Мой профиль',
+            path,
+            user: {
+              group: userFromDB.group,
+              _id: userFromDB._id,
+              name: userFromDB.name,
+              email: userFromDB.email,
+              phonenumber: userFromDB.phonenumber,
+              login: userFromDB.login,
+              password: userFromDB.password,
+              createdAt: moment(userFromDB.createdAt).format(
+                'DD.MM.YYYY, HH:mm'
+              ),
+              updatedAt: moment(userFromDB.updatedAt).format(
+                'DD.MM.YYYY, HH:mm'
+              ),
+              discount
+            },
+            shopCart
+          };
+          res.render('profile/myprofile', {
+            transData: transData
+          });
         });
       } else {
         console.error('Профиль пользователя в базе не найден!');

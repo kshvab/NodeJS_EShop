@@ -3,6 +3,7 @@
 <html lang="en">
 <% include ../layout/lay_site_1_head.ejs %>
 
+
 <body>
   <% include ../layout/lay_site_2_navigation.ejs %>
   <!-- CONTAINER: -->
@@ -33,7 +34,7 @@
           <div class="row">
             <div class="col-lg-5">
               <div class="border-primary">
-                <img style="display: block;" src="<%=transData.shopItemsArr[i].picture_220x220 %>"
+                <img style="display: block; width: 220px" src="<%=transData.shopItemsArr[i].picture %>"
                   alt="<%= transData.shopItemsArr[i].name %>" onerror="this.style.display = 'none'" />
               </div>
             </div>

@@ -10,6 +10,11 @@ router.get('/', function(req, res) {
   let _id;
   let login;
   const path = '/publications';
+  let page;
+  let itemsPerPage = 15;
+  if (req.query.hasOwnProperty('page') && req.query.page) page = req.query.page;
+  else page = 1;
+
   if (req.session.userId && req.session.userLogin) {
     _id = req.session.userId;
     login = req.session.userLogin;
@@ -31,7 +36,9 @@ router.get('/', function(req, res) {
               pageTitle: 'Управление публикациями',
               publicationsObj,
               path,
-              user: { _id, login }
+              user: { _id, login },
+              page,
+              itemsPerPage
             }
           });
         });

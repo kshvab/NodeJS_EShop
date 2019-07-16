@@ -6,7 +6,9 @@ const models = require('../models');
 const user = models.user;
 const order = models.order;
 const testimonial = models.testimonial;
+const services = require('../services');
 const moment = require('moment');
+
 var fs = require('fs');
 
 router.get('/', function(req, res) {
@@ -32,6 +34,15 @@ router.get('/', function(req, res) {
     );
     let itemsViewSettings = JSON.parse(itemsViewSettingsStr);
 
+    let importSettingsStr = fs.readFileSync('./settings/importsettings.json', {
+      encoding: 'UTF-8'
+    });
+
+    let importSettings = JSON.parse(importSettingsStr);
+    importSettings.updateTime = moment(importSettings.updateTime).format(
+      'DD.MM.YYYY, HH:mm:ss'
+    );
+
     //console.log(priceSettings);
     user.findOne({ login }).then(userFromDB => {
       if (
@@ -44,7 +55,8 @@ router.get('/', function(req, res) {
             pageTitle: 'Магазин - настройки',
             user: { _id, login, group },
             priceSettings,
-            itemsViewSettings
+            itemsViewSettings,
+            importSettings
           }
         });
       } else {
@@ -75,6 +87,10 @@ router.get('/orders', function(req, res) {
   let _id;
   let login;
   let group;
+  let page;
+  let itemsPerPage = 15;
+  if (req.query.hasOwnProperty('page') && req.query.page) page = req.query.page;
+  else page = 1;
 
   if (req.session.userId && req.session.userLogin) {
     _id = req.session.userId;
@@ -99,7 +115,9 @@ router.get('/orders', function(req, res) {
             transData: {
               pageTitle: 'Заказы пользователей',
               user: { _id, login, group },
-              ordersArr
+              ordersArr,
+              page,
+              itemsPerPage
             }
           });
         });
@@ -262,6 +280,10 @@ router.get('/testimonials', function(req, res) {
   let _id;
   let login;
   let group;
+  let page;
+  let itemsPerPage = 15;
+  if (req.query.hasOwnProperty('page') && req.query.page) page = req.query.page;
+  else page = 1;
 
   if (req.session.userId && req.session.userLogin) {
     _id = req.session.userId;
@@ -286,7 +308,9 @@ router.get('/testimonials', function(req, res) {
             transData: {
               pageTitle: 'Отзывы пользователей',
               user: { _id, login, group },
-              testimonialsArr
+              testimonialsArr,
+              page,
+              itemsPerPage
             }
           });
         });
@@ -312,6 +336,46 @@ router.get('/testimonials', function(req, res) {
       }
     });
   }
+});
+
+// POST Admin Shop pricesettings
+router.post('/import1s', (req, res) => {
+  services.shopxmlparsing.runXmlParsing();
+  //Цю функцію треба переробити на промісі і показати клієнту результат оновлення.
+  res.json({
+    ok: true,
+    error: '',
+    fields: ''
+  });
+});
+
+// POST Admin Shop Automatic Import settings
+router.post('/changeautomaticimport', (req, res) => {
+  const isAutomaticImportOn = req.body.isAutomaticImportOn;
+
+  let importSettingsStr = fs.readFileSync('./settings/importsettings.json', {
+    encoding: 'UTF-8'
+  });
+
+  let importSettings = JSON.parse(importSettingsStr);
+
+  importSettings.autoImport = isAutomaticImportOn;
+
+  importSettingsStr = JSON.stringify(importSettings);
+  fs.writeFile('./settings/importsettings.json', importSettingsStr, function(
+    err
+  ) {
+    if (err) {
+      console.log('ERROR Saving!');
+    } else {
+      if (importSettings.autoImport == 'true')
+        services.cronautoimport.runCronAutoImport();
+
+      res.json({
+        ok: true
+      });
+    }
+  });
 });
 
 module.exports = router;

@@ -31,6 +31,43 @@
               <div class="panel-heading">Список публикаций</div>
 
               <div class="panel-body">
+                <!-- PAGINATION -->
+                <%var len = transData.publicationsObj.length; var rest =
+                len%transData.itemsPerPage; var fullPages =
+                (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
+                <%if (len>transData.itemsPerPage) { %>
+
+                <div class="items-pagination">
+                  <ul class="pagination">
+                    <li
+                      class="page-item <%if (transData.page == 1) { %> disabled <%}%>"
+                    >
+                      <a class="page-link" href="?page=1">&laquo;</a>
+                    </li>
+
+                    <% for (var i = 1; i<=pages; i++) { %> <% var lWide = 3; var
+                    rWide = 3; %> <% if (transData.page == 1) rWide = 5; if
+                    (transData.page == 2) rWide = 4;%> <% if (transData.page ==
+                    +pages) lWide = 5; if (transData.page == +pages-1) lWide =
+                    4;%> <% if ( ( i > (+transData.page-lWide) ) && ( i <
+                    (+transData.page+rWide) ) ){ %>
+                    <li
+                      class=" page-item <%if (transData.page == i) { %> active <%}%>"
+                    >
+                      <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+                    </li>
+                    <%}%> <%}%>
+
+                    <li
+                      class="page-item <%if (transData.page == pages) { %> disabled <%}%>"
+                    >
+                      <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
+                    </li>
+                  </ul>
+                </div>
+                <%}%>
+                <!-- /PAGINATION -->
+
                 <table class="table table-hover">
                   <thead>
                     <tr>
@@ -41,22 +78,26 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% transData.publicationsObj.forEach(function(publ){ %>
+
+                    <% for (var i = transData.page*transData.itemsPerPage-transData.itemsPerPage; i<transData.publicationsObj.length; i++ ) {%>
+                    <%if (i<transData.page*transData.itemsPerPage) {%>
+
+
                     <tr>
                       <th scope="row">
-                        <% if (publ.status == "Опубликовано") { %>
+                        <% if (transData.publicationsObj[i].status == "Опубликовано") { %>
                         <i class="fa fa-eye fa-fw"></i> <% } else if
-                        (publ.status == "Неопубликовано") { %>
+                        (transData.publicationsObj[i].status == "Неопубликовано") { %>
                         <i class="fa fa-eye-slash fa-fw"></i> <% } else { %>
                         <i class="fa fa-trash-o fa-fw"></i> <% } %>
                       </th>
-                      <td><%= publ.title %></td>
-                      <td><%= publ.formatedTime %></td>
+                      <td><%= transData.publicationsObj[i].title %></td>
+                      <td><%= transData.publicationsObj[i].formatedTime %></td>
 
                       <td>
                         <button
                           name="admin-publications-list-edit-one"
-                          value="<%= publ.alias %>"
+                          value="<%= transData.publicationsObj[i].alias %>"
                           type="button"
                           class="btn btn-primary btn-xs"
                         >
@@ -65,7 +106,7 @@
 
                         <button
                           name="admin-publications-list-del-one"
-                          value="<%= publ.alias %>"
+                          value="<%= transData.publicationsObj[i].alias %>"
                           type="button"
                           class="btn btn-danger btn-xs"
                         >
@@ -74,9 +115,49 @@
                       </td>
                     </tr>
 
-                    <% }); %>
+                    <% } %>
+                    <% }; %>
+
+
+
                   </tbody>
                 </table>
+                <!-- PAGINATION -->
+                <%var len = transData.publicationsObj.length; var rest =
+                len%transData.itemsPerPage; var fullPages =
+                (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
+                <%if (len>transData.itemsPerPage) { %>
+
+                <div class="items-pagination">
+                  <ul class="pagination">
+                    <li
+                      class="page-item <%if (transData.page == 1) { %> disabled <%}%>"
+                    >
+                      <a class="page-link" href="?page=1">&laquo;</a>
+                    </li>
+
+                    <% for (var i = 1; i<=pages; i++) { %> <% var lWide = 3; var
+                    rWide = 3; %> <% if (transData.page == 1) rWide = 5; if
+                    (transData.page == 2) rWide = 4;%> <% if (transData.page ==
+                    +pages) lWide = 5; if (transData.page == +pages-1) lWide =
+                    4;%> <% if ( ( i > (+transData.page-lWide) ) && ( i <
+                    (+transData.page+rWide) ) ){ %>
+                    <li
+                      class=" page-item <%if (transData.page == i) { %> active <%}%>"
+                    >
+                      <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+                    </li>
+                    <%}%> <%}%>
+
+                    <li
+                      class="page-item <%if (transData.page == pages) { %> disabled <%}%>"
+                    >
+                      <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
+                    </li>
+                  </ul>
+                </div>
+                <%}%>
+                <!-- /PAGINATION -->
               </div>
             </div>
           </div>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <% include layout/lay_site_1_head.ejs %>
+
+  <body>
+    <% include layout/lay_site_2_navigation.ejs %>
+
+    <!-- CONTAINER: -->
+    <div class="container">
+      <br /><br />
+
+      <h1>Контакты</h1>
+      <div class="row">
+        <div class="col-md-6">
+          <p>
+            <span class="fas fa-map px-3 py-2"></span>Житомир, Киевская, 77
+            <br />
+            <span class="fas fa-phone px-3 py-2"></span>+ 38 067 326 7467
+          </p>
+
+          <iframe
+            src="https://www.google.com/maps/d/embed?mid=1RXUr0LH_b_mYjohSDJFvZtrAmvGleFoA"
+            width="100%"
+            height="400"
+          ></iframe>
+        </div>
+        <div class="col-md-6">
+          <h2 class="pb-3 align-left mbr-fonts-style display-2">
+            Напишите строчку
+          </h2>
+          <div>
+            <div class="icon-contacts pb-3">
+              <h5 class="align-left mbr-fonts-style display-7">
+                <span class="fas fa-envelope avesomePaddingRight"></span>
+                Открыты для предложений и сотрудничества
+              </h5>
+              <p class="mbr-text align-left mbr-fonts-style display-7">
+                Email: youremail@mail.com
+              </p>
+            </div>
+          </div>
+          <div data-form-type="formoid">
+            <form role="form" method="post" class="contacts-form">
+              <fieldset>
+                <div id="contactsform-error-msg"></div>
+                <div class="row">
+                  <div class="col-md-6 multi-horizontal" data-for="name">
+                    <div class="form-group" id="div_contacts-mainform-name">
+                      <input
+                        class="form-control"
+                        placeholder="Имя"
+                        name="name"
+                        type="name"
+                        id="contacts-mainform-name"
+                        autofocus
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-6 multi-horizontal" data-for="phone">
+                    <div class="form-group">
+                      <div class="input-group mb-3">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">+38</span>
+                        </div>
+                        <input
+                          type="text"
+                          class="form-control"
+                          placeholder="0671234567   Телефон"
+                          name="phonenumber"
+                          id="contacts-mainform-phonenumber"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-12" data-for="email">
+                    <div class="form-group" id="div_contacts-mainform-email">
+                      <input
+                        class="form-control"
+                        placeholder="E-mail"
+                        name="email"
+                        type="email"
+                        id="contacts-mainform-email"
+                      />
+                    </div>
+                  </div>
+                  <div class="col-md-12" data-for="message">
+                    <textarea
+                      class="form-control input"
+                      name="message"
+                      rows="3"
+                      data-form-field="Message"
+                      placeholder="Сообщение"
+                      style="resize:none"
+                      id="contacts-mainform-message"
+                    ></textarea>
+                  </div>
+
+                  <div
+                    class="input-group-btn col-md-12"
+                    style="margin-top: 10px;"
+                  >
+                    <button
+                      type="submit"
+                      class="btn btn-primary btn-form display-4"
+                      id="contacts-mainform-submit"
+                    >
+                      ОТПРАВИТЬ СООБЩЕНИЕ
+                    </button>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+        </div>
+      </div>
+      <br /><br /><br />
+      <!-- Footer -->
+      <% include layout/lay_site_5_footer.ejs %>
+      <!-- Footer -->
+    </div>
+
+    <!-- /CONTAINER: -->
+
+    <% include layout/lay_site_4_bottomscripts.ejs %>
+  </body>
+</html>
+
+<div
+  class="modal fade"
+  id="contactsMessageModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Ваше сообщение отправлено!
+        </h4>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <p>Спасибо,<br />наши менеджеры свяжутся с Вами в ближайшее время!</p>
+      </div>
+
+      <div class="modal-footer">
+        <button data-dismiss="modal" class="btn btn-success btn-lg">Ок</button>
+      </div>
+    </div>
+  </div>
+</div>

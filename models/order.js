@@ -39,7 +39,7 @@ const orderSchema = mongoose.Schema(
         },
         inputPriceUsd: {
           type: String,
-          required: true
+          required: false
         },
         basePrice: {
           type: String,

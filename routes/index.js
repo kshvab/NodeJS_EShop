@@ -10,7 +10,8 @@ const search = require('./search');
 const shop = require('./shop');
 const shopcart = require('./shopcart');
 const upload = require('./upload');
-
+const messages = require('./messages');
+const sitemap = require('./sitemap');
 module.exports = {
   administrator,
   adminpublications,
@@ -23,5 +24,7 @@ module.exports = {
   search,
   shop,
   shopcart,
-  upload
+  upload,
+  messages,
+  sitemap
 };

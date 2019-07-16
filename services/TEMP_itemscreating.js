@@ -13,7 +13,7 @@ function fPriceNorm(price) {
 
 function runItemsParsing() {
   var catArrJson = fs.readFileSync(
-    './public/import_foto/shopCategoriesArrFile.txt',
+    './public/datafiles/shopCategoriesArrFile.txt',
     {
       encoding: 'UTF-8'
     }
@@ -54,7 +54,7 @@ function saveItemsArr(itemsArr) {
   let shopItemsArrStr = JSON.stringify(itemsArr);
 
   fs.writeFile(
-    './public/import_foto/shopItemsArrFile.txt',
+    './public/datafiles/shopItemsArrFile.txt',
     shopItemsArrStr,
     function(err) {
       if (err) console.log('ERROR Saving!');

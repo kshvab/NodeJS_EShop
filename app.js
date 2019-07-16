@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-
+let fs = require('fs');
 const mongoose = require('mongoose');
 const config = require('./config');
 const routes = require('./routes');
@@ -52,6 +52,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 app.use(bodyParser.json()); // for parsing application/json
 app.use(express.static(path.join(__dirname, 'public'))); //Щоб експрес віддавав статичні файли з папки public, скрипти будуть доступні просто через слеш
+app.use(express.static(path.join(__dirname, 'ftpshared')));
 app.use(
   '/javascripts',
   express.static(path.join(__dirname, 'node_modules', 'jquery', 'dist'))
@@ -70,7 +71,8 @@ app.use('/upload', routes.upload);
 app.use('/search', routes.search);
 app.use('/shop', routes.shop);
 app.use('/shopcart', routes.shopcart);
-
+app.use('/messages', routes.messages);
+app.use('/sitemap', routes.sitemap);
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');
@@ -90,10 +92,22 @@ app.use((error, req, res, next) => {
 
 //  --- SERVICES ---
 //const services = require('./services');
+//services.cronautoimport.runCronAutoImport();
+//services.shopxmlparsing.runXmlParsing();
 //services.novaposhta.updateDeliveryServiceCitiesList();
 //services.catscreating.runCategoriesParsing();
 //services.itemscreating.runItemsParsing();
 //services.photoparsing.runPhotoParsing();
-//services.mailsending.sendOrderMail(514, 'kshvab@gmail.com');
+//services.mailorderconfirmtouser.sendOrderMail(87, 'kshvab@gmail.com');
+
+//Сброс настроек автоимпорта
+let importSettings = {
+  autoImport: 'false',
+  updateTime: ''
+};
+fs.writeFileSync(
+  './settings/importsettings.json',
+  JSON.stringify(importSettings)
+);
 
 module.exports = app;

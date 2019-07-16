@@ -31,7 +31,7 @@
                     <div class="form-group pricesettings" id="div_usd-kurs">
                       <label class="col-form-label" for="usd-kurs-settings"
                         >Курc доллара для входящей цены</label
-                      >
+                      >Использовался для товаров с ценой в уе.
                       <div class="input-group mb-3">
                         <input
                           type="text"
@@ -39,6 +39,7 @@
                           id="usd-kurs-settings"
                           name="kursdolara"
                           value="<%= transData.priceSettings.kursDolara %>"
+                          disabled=""
                         />
                         <span class="input-group-addon">грн/$</span>
                       </div>
@@ -46,7 +47,7 @@
 
                     <div class="form-group pricesettings" id="div_base-nacenka">
                       <label class="col-form-label" for="base-nacenka-settings"
-                        >Базовая наценка на в ходящую цену</label
+                        >Базовая наценка на входящую цену</label
                       >
                       <div class="input-group mb-3">
                         <input
@@ -188,10 +189,10 @@
                   <fieldset>
                     <button
                       type="button"
-                      class="btn btn-danger btn-block manual-import-start"
+                      class="btn btn-warning btn-block manual-import-start"
                       id="manual-import-start-button"
                     >
-                      Ручной запуск импорта базы товаров
+                      Ручной импорт базы товаров<br />и пользователей
                     </button>
 
                     <hr />
@@ -205,15 +206,20 @@
                         >Автоматический импорт по расписанию</label
                       >
                       <select
-                        class="form-control"
+                        class="form-control <% if (transData.importSettings.autoImport == 'true') { %> btn-success <%} else {%> btn-danger <%}%>"
                         id="shop-settings-automatic-import-status"
                       >
-                        <option>Включено</option>
-                        <option>Выключено</option>
+                        <option <% if (transData.importSettings.autoImport == 'true') {%>
+                          selected="" <%}%> value="true">Включено</option
+                        >
+                        <option <% if (transData.importSettings.autoImport == 'false') {%>
+                          selected="" <%}%> value="false">Выключено</option
+                        >
                       </select>
                     </div>
 
-                    !!! расписание автоматического импорта
+                    База сайта обновлена: <%=
+                    transData.importSettings.updateTime %>
                   </fieldset>
                 </form>
               </div>

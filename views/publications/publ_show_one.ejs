@@ -8,49 +8,112 @@
 
     <!-- CONTAINER: -->
     <div class="container">
-      <div class="row">
-        <div class="col-lg-4">
-          <br />
-          <% include ../layout/lay_site_3_sidebar.ejs %>
-        </div>
+      <div class="container">
+        <!-- Grid row -->
+        <div class="row mt-0">
+          <!-- Grid column -->
+          <div class="col-md-8 mb-4">
+            <!-- breadcrumb: -->
+            <ol class="breadcrumb breadcrumb-K8-adapted">
+              <li class="breadcrumb-item">
+                <a href="/">
+                  Главная
+                </a>
+              </li>
+              <li class="breadcrumb-item">
+                <a href="/publications">
+                  Публикации
+                </a>
+              </li>
+              <li class="breadcrumb-item">
+                <%= transData.publToShow.title %>
+              </li>
+            </ol>
+            <!-- /breadcrumb: -->
+            <h3><%= transData.publToShow.title %></h3>
 
-        <div class="col-lg-8">
-          <!-- MAIN CONTENT HERE: -->
+            <div class="card my-4">
+              <img
+                src="<%=transData.publToShow.picture %>"
+                class="img-fluid"
+                alt="<%= transData.publToShow.title %>"
+              />
+            </div>
 
-          <!-- breadcrumb: -->
-          <ol class="breadcrumb breadcrumb-K8-adapted">
-            <li class="breadcrumb-item">
-              <a href="/">
-                Главная
-              </a>
-            </li>
-            <li class="breadcrumb-item">
-              <a href="/publications">
-                Публикации
-              </a>
-            </li>
-            <li class="breadcrumb-item">
-              <%= transData.publToShow.title %>
-            </li>
-          </ol>
-          <!-- /breadcrumb: -->
+            <div class="my-4">
+              <%- transData.publToShow.fulltext%>
+            </div>
 
-          <H2><%= transData.publToShow.title %></H2>
-          <hr class="my-4" />
-          <div class="border-primary">
-            <img
-              style="display: block;"
-              src="<%=transData.publToShow.picture %>"
-              alt="<%= transData.publToShow.title %>"
-              onerror="this.style.display = 'none'"
-            />
+            <h4 class="text-center my-3">Поделитесь этой публикацией</h4>
+            <ul class="list-unstyled list-inline text-center">
+              <li class="list-inline-item">
+                <a><i class="fab fa-facebook-f fa-lg px-2 text-primary"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a><i class="fab fa-twitter fa-lg px-2 text-info"></i></a>
+              </li>
+              <li class="list-inline-item">
+                <a><i class="far fa-envelope fa-lg px-2 text-default"></i></a>
+              </li>
+            </ul>
           </div>
-          <div>
-            <%- transData.publToShow.fulltext%>
+          <!-- Grid column -->
+
+          <!-- Grid column -->
+          <div class="col-md-4 mb-4 mt-5">
+            <section class="magazine-section mb-5">
+              <h3 class="text-center mb-4 pb-2">Свежие публикации</h3>
+
+              <% transData.publicationsObj.forEach(function(publication) { %>
+
+              <!-- Small news -->
+              <div class="single-news mb-4">
+                <!-- Grid row -->
+                <div class="row">
+                  <!-- Grid column -->
+                  <div class="col-md-4">
+                    <!--Image-->
+                    <div class="view overlay rounded z-depth-1 mb-4">
+                      <img class="img-fluid" src=<%=publication.picture%>
+                      alt="<%=publication.title%>" />
+                      <a>
+                        <div class="mask rgba-white-slight"></div>
+                      </a>
+                    </div>
+                  </div>
+                  <!-- Grid column -->
+
+                  <!-- Grid column -->
+                  <div class="col-md-8">
+                    <!-- Excerpt -->
+                    <p class="font-weight-bold dark-grey-text"><%=publication.formatedTime%></p>
+                    <div class="d-flex justify-content-between">
+                      <div class="col-11 text-truncate pl-0 mb-3">
+                        <a href=<%= "/publications/" + publication.alias %> class="dark-grey-text"
+                          ><%=publication.title%></a
+                        >
+                      </div>
+                      <a><i class="fas fa-angle-right"></i></a>
+                    </div>
+                  </div>
+                  <!-- Grid column -->
+                </div>
+                <!-- Grid row -->
+              </div>
+              <!-- Small news -->
+
+              <%})%>
+            </section>
+
+            <% include ../layout/lay_section_subscriptionform.ejs %>
           </div>
-          <!-- /MAIN CONTENT HERE: -->
+          <!-- Grid column -->
         </div>
+        <!-- Grid row -->
       </div>
+      <!-- Footer -->
+      <% include ../layout/lay_site_5_footer.ejs %>
+      <!-- Footer -->
     </div>
     <!-- /CONTAINER: -->
 

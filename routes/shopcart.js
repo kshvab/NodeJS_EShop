@@ -48,7 +48,7 @@ router.post('/additem', (req, res) => {
   if (!req.session.shopCart) req.session.shopCart = [];
 
   var shopItemsArrStr = fs.readFileSync(
-    './public/import_foto/shopItemsArrFile.txt',
+    './public/datafiles/shopItemsArrFile.txt',
     {
       encoding: 'UTF-8'
     }
@@ -248,7 +248,7 @@ router.post('/neworder', (req, res) => {
           ) {
             fOrderOnload(orderToDB);
             services.order2xls.order2XLS(orderToDB);
-            services.mailsending.sendOrderMail(
+            services.mailorderconfirmtouser.sendOrderMail(
               orderToDB._id,
               orderToDB.user.email
             );

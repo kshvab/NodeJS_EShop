@@ -23,6 +23,44 @@
               <div class="panel-heading">Список заказов</div>
 
               <div class="panel-body">
+                <!-- PAGINATION -->
+                <%var len = transData.ordersArr.length; var rest =
+                len%transData.itemsPerPage; var fullPages =
+                (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
+                <%if (len>transData.itemsPerPage) { %>
+
+                <div class="items-pagination">
+                  <ul class="pagination">
+                    <li
+                      class="page-item <%if (transData.page == 1) { %> disabled <%}%>"
+                    >
+                      <a class="page-link" href="?page=1">&laquo;</a>
+                    </li>
+
+                    <% for (var i = 1; i<=pages; i++) { %> <% var lWide = 3; var
+                    rWide = 3; %> <% if (transData.page == 1) rWide = 5; if
+                    (transData.page == 2) rWide = 4;%> <% if (transData.page ==
+                    +pages) lWide = 5; if (transData.page == +pages-1) lWide =
+                    4;%> <% if ( ( i > (+transData.page-lWide) ) && ( i <
+                    (+transData.page+rWide) ) ){ %>
+                    <li
+                      class=" page-item <%if (transData.page == i) { %> active <%}%>"
+                    >
+                      <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+                    </li>
+                    <%}%> <%}%>
+
+                    <li
+                      class="page-item <%if (transData.page == pages) { %> disabled <%}%>"
+                    >
+                      <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
+                    </li>
+                  </ul>
+                </div>
+                <%}%>
+                <!-- /PAGINATION -->
+
+                <!-- TABLE Content -->
                 <table class="table table-hover">
                   <thead>
                     <tr>
@@ -35,11 +73,12 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% transData.ordersArr.forEach(function(order){ %>
+                    <% for (var i = transData.page*transData.itemsPerPage-transData.itemsPerPage; i<transData.ordersArr.length; i++ ) {%>
+                    <%if (i<transData.page*transData.itemsPerPage) {%>
                     <tr>
-                      <th scope="row"><%= order._id %></th>
+                      <th scope="row"><%= transData.ordersArr[i]._id %></th>
                       <td>
-                        <% if (order.unloaded) { %>
+                        <% if (transData.ordersArr[i].unloaded) { %>
                         <span class="badge timeline-badge success"
                           >Выгружен</span
                         >
@@ -49,22 +88,22 @@
                         >
                         <% } %>
                       </td>
-                      <td><%= order.user.name %></td>
-                      <td><%= order.user.group %></td>
-                      <td><%= order.formatedTime %></td>
+                      <td><%= transData.ordersArr[i].user.name %></td>
+                      <td><%= transData.ordersArr[i].user.group %></td>
+                      <td><%= transData.ordersArr[i].formatedTime %></td>
                       <td>
                         <button
                           name="orders-list-del-one"
-                          value="<%=order._id%>"
+                          value="<%=transData.ordersArr[i]._id%>"
                           type="button"
                           class="btn btn-danger btn-xs"
                         >
                           <i class="fa fa-times fa-fw"></i> Удалить
                         </button>
-                        <% if (!order.unloaded) { %>
+                        <% if (!transData.ordersArr[i].unloaded) { %>
                         <button
                           name="orders-list-unload-one"
-                          value="<%=order._id%>"
+                          value="<%=transData.ordersArr[i]._id%>"
                           type="button"
                           class="btn btn-success btn-xs"
                         >
@@ -74,9 +113,50 @@
                       </td>
                     </tr>
 
-                    <% }); %>
+                    <% } %>
+                    <% }; %>
                   </tbody>
                 </table>
+                <!-- /TABLE Content -->
+<!-- PAGINATION -->
+<%var len = transData.ordersArr.length; var rest =
+len%transData.itemsPerPage; var fullPages =
+(len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
+<%if (len>transData.itemsPerPage) { %>
+
+<div class="items-pagination">
+  <ul class="pagination">
+    <li
+      class="page-item <%if (transData.page == 1) { %> disabled <%}%>"
+    >
+      <a class="page-link" href="?page=1">&laquo;</a>
+    </li>
+
+    <% for (var i = 1; i<=pages; i++) { %> <% var lWide = 3; var
+    rWide = 3; %> <% if (transData.page == 1) rWide = 5; if
+    (transData.page == 2) rWide = 4;%> <% if (transData.page ==
+    +pages) lWide = 5; if (transData.page == +pages-1) lWide =
+    4;%> <% if ( ( i > (+transData.page-lWide) ) && ( i <
+    (+transData.page+rWide) ) ){ %>
+    <li
+      class=" page-item <%if (transData.page == i) { %> active <%}%>"
+    >
+      <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+    </li>
+    <%}%> <%}%>
+
+    <li
+      class="page-item <%if (transData.page == pages) { %> disabled <%}%>"
+    >
+      <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
+    </li>
+  </ul>
+</div>
+<%}%>
+<!-- /PAGINATION -->
+
+
+
               </div>
             </div>
           </div>

@@ -18,7 +18,7 @@
 
           <br />
           <H1>Мои заказы</H1>
-          
+
           <% if (!transData.ordersArr.length) { %>
           <!--Empty order list: -->
           <H3>У Вас нет заказов</H3>
@@ -35,7 +35,7 @@
           <!-- ******************************************************************************** -->
 
           <%transData.ordersArr.forEach(function(order){ %>
-            <br>
+          <br />
           <div class="accordion" id="orderAccordion">
             <div class="card border-success mb-3">
               <div class="card-header" id="heading<%=order._id%>">
@@ -81,13 +81,13 @@
                     <!--Order ShopCart List -->
                     <% let totalSumm = 0; order.shopcart.forEach(function(item){
                     %>
-                    <hr>
+                    <hr />
                     <div class="row shopcart-one-item-row">
                       <div class="col-lg-3">
                         <div class="border-primary">
                           <img
                             style="width: 100%; max-width: 200px; display: block;"
-                            src="<%= item.picture_220x220 %>"
+                            src="<%= item.picture %>"
                             alt="<%= item.name %>"
                             onerror="this.style.display = 'none'"
                           />
@@ -139,53 +139,67 @@
                       </div>
                       <% totalSumm += item.quantity*item.price %>
                     </div>
-                    
+
                     <% }); %>
-                    <hr>
-                  </div>
-                </div>
-              
-            </div>
-            <div class="card-footer order-item-footer">
-              <!-- Summ: -->
-              <div class="row">
-                <div class="col-lg-7">
-                  <p>Позиций в заказе: <%= order.shopcart.length %></p>
-                  <% if(transData.user.group == 'Administrator' || transData.user.group == 'Manager' || transData.user.group == 'Agent') { %>
-                    <% if (!order.unloaded) { %>
-                    <button name="orders-list-unload-one" value="<%=order._id%>" type="button" class="btn btn-success btn-sm">
-                      <i class="fa fa-share-square fa-fw"></i> Отправить
-                    </button>
-
-                    <button name="orders-list-edit-one" value="<%=order._id%>" type="button" class="btn btn-warning btn-sm">
-                      <i class="fa fa-edit fa-fw"></i> Редактировать
-                    </button>
-
-                    <button name="orders-list-del-one" value="<%=order._id%>" type="button" class="btn btn-danger btn-sm">
-                      <i class="fa fa-times fa-fw"></i> Удалить
-                    </button>
-                    <% } else { %>
-                      <span class="badge badge-success">Заказ выгружен!</span>
-                    <% } %> 
-                  <%}%>
-
-                </div>
-                <div class="col-lg-5">
-                  <div class="cart-total-label">
-                    <div class="cart-total-sum" name="total">
-                      <span class="cart-total-title">Итого:</span>
-
-                      <span class="cart-total-uah">
-                        <span name="cost" id="cart-total"
-                          ><%= totalSumm.toFixed(2) %></span
-                        >
-                        &nbsp; <span class="cart-total-uah-sign">грн</span>
-                      </span>
-                    </div>
+                    <hr />
                   </div>
                 </div>
               </div>
-              <!-- /Summ: -->
+              <div class="card-footer order-item-footer">
+                <!-- Summ: -->
+                <div class="row">
+                  <div class="col-lg-7">
+                    <p>Позиций в заказе: <%= order.shopcart.length %></p>
+                    <% if(transData.user.group == 'Administrator' ||
+                    transData.user.group == 'Manager' || transData.user.group ==
+                    'Agent') { %> <% if (!order.unloaded) { %>
+                    <button
+                      name="orders-list-unload-one"
+                      value="<%=order._id%>"
+                      type="button"
+                      class="btn btn-success btn-sm"
+                    >
+                      <i class="fa fa-share-square fa-fw"></i> Отправить
+                    </button>
+
+                    <button
+                      name="orders-list-edit-one"
+                      value="<%=order._id%>"
+                      type="button"
+                      class="btn btn-warning btn-sm"
+                    >
+                      <i class="fa fa-edit fa-fw"></i> Редактировать
+                    </button>
+
+                    <button
+                      name="orders-list-del-one"
+                      value="<%=order._id%>"
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                    >
+                      <i class="fa fa-times fa-fw"></i> Удалить
+                    </button>
+                    <% } else { %>
+                    <span class="badge badge-success">Заказ выгружен!</span>
+                    <% } %> <%}%>
+                  </div>
+                  <div class="col-lg-5">
+                    <div class="cart-total-label">
+                      <div class="cart-total-sum" name="total">
+                        <span class="cart-total-title">Итого:</span>
+
+                        <span class="cart-total-uah">
+                          <span name="cost" id="cart-total"
+                            ><%= totalSumm.toFixed(2) %></span
+                          >
+                          &nbsp; <span class="cart-total-uah-sign">грн</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!-- /Summ: -->
+              </div>
             </div>
           </div>
           <%})%>
@@ -195,6 +209,9 @@
           <!-- /MAIN CONTENT -->
         </div>
       </div>
+      <!-- Footer -->
+      <% include ../layout/lay_site_5_footer.ejs %>
+      <!-- Footer -->
     </div>
     <!-- /CONTAINER: -->
 

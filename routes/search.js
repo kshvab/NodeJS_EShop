@@ -21,7 +21,7 @@ let p_itemsViewSettings = new Promise(function(resolve, reject) {
 
 let p_shopItemsArr = new Promise(function(resolve, reject) {
   var shopItemsArrStr = fs.readFileSync(
-    './public/import_foto/shopItemsArrFile.txt',
+    './public/datafiles/shopItemsArrFile.txt',
     {
       encoding: 'UTF-8'
     }
@@ -29,19 +29,19 @@ let p_shopItemsArr = new Promise(function(resolve, reject) {
   var shopItemsArr = JSON.parse(shopItemsArrStr);
 
   if (shopItemsArr) resolve(shopItemsArr);
-  else reject('Can not read ./public/import_foto/shopItemsArrFile.txt');
+  else reject('Can not read ./public/datafiles/shopItemsArrFile.txt');
 });
 
 let p_shopCategoriesArr = new Promise(function(resolve, reject) {
   var shopCategoriesArrStr = fs.readFileSync(
-    './public/import_foto/shopCategoriesArrFile.txt',
+    './public/datafiles/shopCategoriesArrFile.txt',
     {
       encoding: 'UTF-8'
     }
   );
   var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
   if (shopCategoriesArr) resolve(shopCategoriesArr);
-  else reject('Can not read ./public/import_foto/shopCategoriesArrFile.txt');
+  else reject('Can not read ./public/datafiles/shopCategoriesArrFile.txt');
 });
 
 let p_priceSettings = new Promise(function(resolve, reject) {
@@ -106,6 +106,7 @@ router.get('/shopsearch', function(req, res) {
           newshopItemsArr.push(shopItemsArr[i]);
         }
       }
+
       shopItemsArr = newshopItemsArr;
       shopItemsArr = fItemsArrRecalc(
         shopItemsArr,
@@ -142,7 +143,7 @@ router.get('/shopsearch', function(req, res) {
     });
   }
 
-  console.log(searchQuery);
+  //console.log(searchQuery);
 });
 
 //************* FUNCTIONS ****** */
@@ -157,13 +158,10 @@ function fpriceKoefDef(priceSettings, discount) {
 
 function fItemsArrRecalc(arr, kurs, nacenka, priceKoef) {
   for (let i = 0; i < arr.length; i++) {
-    arr[i].basePrice = +(
-      arr[i].inputPriceUsd *
-      kurs *
-      (1 + nacenka / 100)
-    ).toFixed(2);
+    arr[i].basePrice = +(arr[i].price * (1 + nacenka / 100)).toFixed(2);
     arr[i].price = +(arr[i].basePrice * priceKoef).toFixed(2);
   }
+
   return arr;
 }
 

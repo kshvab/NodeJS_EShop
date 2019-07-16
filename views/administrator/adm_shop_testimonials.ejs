@@ -23,6 +23,42 @@
               <div class="panel-heading">Список отзывов</div>
 
               <div class="panel-body">
+                <!-- PAGINATION -->
+                <%var len = transData.testimonialsArr.length; var rest =
+                len%transData.itemsPerPage; var fullPages =
+                (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
+                <%if (len>transData.itemsPerPage) { %>
+
+                <div class="items-pagination">
+                  <ul class="pagination">
+                    <li
+                      class="page-item <%if (transData.page == 1) { %> disabled <%}%>"
+                    >
+                      <a class="page-link" href="?page=1">&laquo;</a>
+                    </li>
+
+                    <% for (var i = 1; i<=pages; i++) { %> <% var lWide = 3; var
+                    rWide = 3; %> <% if (transData.page == 1) rWide = 5; if
+                    (transData.page == 2) rWide = 4;%> <% if (transData.page ==
+                    +pages) lWide = 5; if (transData.page == +pages-1) lWide =
+                    4;%> <% if ( ( i > (+transData.page-lWide) ) && ( i <
+                    (+transData.page+rWide) ) ){ %>
+                    <li
+                      class=" page-item <%if (transData.page == i) { %> active <%}%>"
+                    >
+                      <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+                    </li>
+                    <%}%> <%}%>
+
+                    <li
+                      class="page-item <%if (transData.page == pages) { %> disabled <%}%>"
+                    >
+                      <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
+                    </li>
+                  </ul>
+                </div>
+                <%}%>
+                <!-- /PAGINATION -->
                 <table class="table table-hover">
                   <thead>
                     <tr>
@@ -35,12 +71,15 @@
                     </tr>
                   </thead>
                   <tbody>
-                    <% transData.testimonialsArr.forEach(function(testimonial){
-                    %>
+
+
+
+                      <% for (var i = transData.page*transData.itemsPerPage-transData.itemsPerPage; i<transData.testimonialsArr.length; i++ ) {%>
+                      <%if (i<transData.page*transData.itemsPerPage) {%>
                     <tr>
-                      <th scope="row"><%= testimonial.shopitemid %></th>
+                      <th scope="row"><%= transData.testimonialsArr[i].shopitemid %></th>
                       <td>
-                        <% if (testimonial.approved) { %>
+                        <% if (transData.testimonialsArr[i].approved) { %>
                         <span class="badge timeline-badge success"
                           >Одобрен</span
                         >
@@ -50,22 +89,22 @@
                         >
                         <% } %>
                       </td>
-                      <td><%= testimonial.authorname %></td>
-                      <td><%= testimonial.content %></td>
-                      <td><%= testimonial.formatedTime %></td>
+                      <td><%= transData.testimonialsArr[i].authorname %></td>
+                      <td><%= transData.testimonialsArr[i].content %></td>
+                      <td><%= transData.testimonialsArr[i].formatedTime %></td>
                       <td>
                         <button
                           name="testimonial-list-del-one"
-                          value="<%=testimonial._id%>"
+                          value="<%=transData.testimonialsArr[i]._id%>"
                           type="button"
                           class="btn btn-danger btn-xs"
                         >
                           <i class="fa fa-times fa-fw"></i> Удалить
                         </button>
-                        <% if (!testimonial.approved) { %>
+                        <% if (!transData.testimonialsArr[i].approved) { %>
                         <button
                           name="testimonial-list-approve-one"
-                          value="<%=testimonial._id%>"
+                          value="<%=transData.testimonialsArr[i]._id%>"
                           type="button"
                           class="btn btn-success btn-xs"
                         >
@@ -75,9 +114,50 @@
                       </td>
                     </tr>
 
-                    <% }); %>
+
+
+
+
+                    <% } %>
+                    <% }; %>
                   </tbody>
                 </table>
+                <!-- PAGINATION -->
+                <%var len = transData.testimonialsArr.length; var rest =
+                len%transData.itemsPerPage; var fullPages =
+                (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
+                <%if (len>transData.itemsPerPage) { %>
+
+                <div class="items-pagination">
+                  <ul class="pagination">
+                    <li
+                      class="page-item <%if (transData.page == 1) { %> disabled <%}%>"
+                    >
+                      <a class="page-link" href="?page=1">&laquo;</a>
+                    </li>
+
+                    <% for (var i = 1; i<=pages; i++) { %> <% var lWide = 3; var
+                    rWide = 3; %> <% if (transData.page == 1) rWide = 5; if
+                    (transData.page == 2) rWide = 4;%> <% if (transData.page ==
+                    +pages) lWide = 5; if (transData.page == +pages-1) lWide =
+                    4;%> <% if ( ( i > (+transData.page-lWide) ) && ( i <
+                    (+transData.page+rWide) ) ){ %>
+                    <li
+                      class=" page-item <%if (transData.page == i) { %> active <%}%>"
+                    >
+                      <a class="page-link" href="?page=<%=i%>"><%=i%></a>
+                    </li>
+                    <%}%> <%}%>
+
+                    <li
+                      class="page-item <%if (transData.page == pages) { %> disabled <%}%>"
+                    >
+                      <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
+                    </li>
+                  </ul>
+                </div>
+                <%}%>
+                <!-- /PAGINATION -->
               </div>
             </div>
           </div>

@@ -16,16 +16,202 @@
       <div class="col-lg-9">
         <!-- MAIN CONTENT HERE: -->
 
+        <!-- /Sub cats -->
         <br />
+        <H1>Все для сварки и ковки</H1>
+        <br />
+        <H4>Категории магазина:</H4>
+        <br>
+        <% var subCatsArr = [];
+        transData.shopCategoriesArr.forEach(function(item){
+        if (!item.catFatherId) { subCatsArr.push(item); } }); %>
 
-        <H1>Каталог товаров</H1>
 
-        <!-- PAGINATION: -->
-        <%var len = transData.shopItemsArr.length; var rest = len%transData.itemsPerPage; var fullPages = (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
 
-        <div class="items-pagination">
-          <ul class="pagination">
-            <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
+
+
+        <!-- Sub cats XS -->
+        <div class="d-md-none">
+          <% let nXS=subCatsArr.length; let restXS = nXS%2; let rowsXS = (nXS-restXS)/2; %>
+          <% for (i=0; i<rowsXS; i++) { %>
+          <div class="row">
+
+            <div class="col tile-subcategory-bloc-xs">
+              <div class="card border-secondary mb-3">
+                <a href="/shop/<%= subCatsArr[i*2+0].catAlias %>">
+                  <img style="display: block; width: 100%"
+                    src=<%= subCatsArr[i*2+0].catPicture.replace('import_files', '/import_foto')  %>
+                    alt=<%= subCatsArr[i*2+0].catName %> onerror="this.style.display = 'none'">
+                </a>
+                <div class="card-header card-item-name-k8-xs">
+                  <a href="/shop/<%= subCatsArr[i*2+0].catAlias %>">
+                    <%= subCatsArr[i*2+0].catName %>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col tile-subcategory-bloc-xs">
+              <div class="card border-secondary mb-3">
+                <a href="/shop/<%= subCatsArr[i*2+1].catAlias %>">
+                  <img style="display: block; width: 100%"
+                    src=<%= subCatsArr[i*2+1].catPicture.replace('import_files', '/import_foto')  %>
+                    alt=<%= subCatsArr[i*2+1].catName %> onerror="this.style.display = 'none'">
+                </a>
+                <div class="card-header card-item-name-k8-xs">
+                  <a href="/shop/<%= subCatsArr[i*2+1].catAlias %>">
+                    <%= subCatsArr[i*2+1].catName %>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+          <%}%>
+          <% if (restXS > 0) { %>
+          <div class="row">
+
+            <div class="col tile-subcategory-bloc-xs">
+
+              <div class="card border-secondary mb-3">
+                <a href="/shop/<%= subCatsArr[rowsXS*2+0].catAlias %>">
+                  <img style="display: block; width: 100%"
+                    src=<%= subCatsArr[rowsXS*2+0].catPicture.replace('import_files', '/import_foto')  %>
+                    alt=<%= subCatsArr[rowsXS*2+0].catName %> onerror="this.style.display = 'none'">
+                </a>
+                <div class="card-header card-item-name-k8-xs">
+                  <a href="/shop/<%= subCatsArr[rowsXS*2+0].catAlias %>">
+                    <%= subCatsArr[rowsXS*2+0].catName %>
+                  </a>
+                </div>
+              </div>
+            </div>
+
+            <div class="col tile-subcategory-bloc-xs">
+
+            </div>
+          </div>
+
+          <%}%>
+        
+        </div>
+      <!-- /Sub cats XS -->
+
+
+
+
+
+      <!-- Sub cats MD -->
+      <div class="d-none d-md-block">
+        <% var n=subCatsArr.length; var rest = n%3; var rows = (n-rest)/3; %>
+
+        <% for (i=0; i<rows; i++) { %>
+        <div class="row">
+
+          <div class="col-lg-4 tile-subcategory-bloc">
+            <div class="card border-secondary mb-3">
+              <a href="/shop/<%= subCatsArr[i*3+0].catAlias %>">
+                <img style="display: block; width: 100%"
+                  src=<%= subCatsArr[i*3+0].catPicture.replace('import_files', '/import_foto')  %>
+                  alt=<%= subCatsArr[i*3+0].catName %> onerror="this.style.display = 'none'">
+              </a>
+              <div class="card-header card-item-name-k8">
+                <a href="/shop/<%= subCatsArr[i*3+0].catAlias %>">
+                  <%= subCatsArr[i*3+0].catName %>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 tile-subcategory-bloc">
+            <div class="card border-secondary mb-3">
+              <a href="/shop/<%= subCatsArr[i*3+1].catAlias %>">
+                <img style="display: block; width: 100%"
+                  src=<%= subCatsArr[i*3+1].catPicture.replace('import_files', '/import_foto')  %>
+                  alt=<%= subCatsArr[i*3+1].catName %> onerror="this.style.display = 'none'">
+              </a>
+              <div class="card-header card-item-name-k8">
+                <a href="/shop/<%= subCatsArr[i*3+1].catAlias %>">
+                  <%= subCatsArr[i*3+1].catName %>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-4 tile-subcategory-bloc">
+            <div class="card border-secondary mb-3">
+              <a href="/shop/<%= subCatsArr[i*3+2].catAlias %>">
+                <img style="display: block; width: 100%"
+                  src=<%= subCatsArr[i*3+2].catPicture.replace('import_files', '/import_foto')  %>
+                  alt=<%= subCatsArr[i*3+2].catName %> onerror="this.style.display = 'none'">
+              </a>
+              <div class="card-header card-item-name-k8">
+                <a href="/shop/<%= subCatsArr[i*3+2].catAlias %>">
+                  <%= subCatsArr[i*3+2].catName %>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <%}%>
+
+            <div class="row">
+              <div class="col-lg-4 tile-subcategory-bloc">
+              
+                  
+                <% if (rest > 0) { %>
+        <div class="card border-secondary mb-3">
+          <a href="/shop/<%= subCatsArr[(rows)*3+0].catAlias %>">
+            <img style="display: block; width: 100%"
+              src=<%= subCatsArr[(rows)*3+0].catPicture.replace('import_files', '/import_foto')  %>
+              alt=<%= subCatsArr[(rows)*3+0].catName %> onerror="this.style.display = 'none'">
+          </a>
+          <div class="card-header card-item-name-k8">
+            <a href="/shop/<%= subCatsArr[(rows)*3+0].catAlias %>">
+              <%= subCatsArr[(rows)*3+0].catName %>
+            </a>
+          </div>
+        </div>
+        <% } %>
+
+
+
+      </div>
+      <div class="col-lg-4 tile-subcategory-bloc">
+        <% if (rest > 1) { %>
+        <div class="card border-secondary mb-3">
+          <a href="/shop/<%= subCatsArr[(rows)*3+1].catAlias %>">
+            <img style="display: block; width: 100%"
+              src=<%= subCatsArr[(rows)*3+1].catPicture.replace('import_files', '/import_foto')  %>
+              alt=<%= subCatsArr[(rows)*3+1].catName %> onerror="this.style.display = 'none'">
+          </a>
+          <div class="card-header card-item-name-k8">
+            <a href="/shop/<%= subCatsArr[(rows)*3+1].catAlias %>">
+              <%= subCatsArr[(rows)*3+1].catName %>
+            </a>
+          </div>
+        </div>
+        <% } %>
+      </div>
+      <div class="col-lg-4 tile-subcategory-bloc"></div>
+    </div>
+
+
+  </div>
+  <!-- /Sub cats MD -->
+  <hr>
+
+
+
+
+
+  <!-- PAGINATION: -->
+  <%var len = transData.shopItemsArr.length; var rest = len%transData.itemsPerPage; var fullPages = (len-rest)/transData.itemsPerPage; var pages = fullPages+1; %>
+
+  <div class="items-pagination">
+    <ul class="pagination">
+      <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
             <a class="page-link" href="?page=1">&laquo;</a>
           </li>
 
@@ -36,111 +222,108 @@
           <% if ( ( i > (+transData.page-lWide) ) && ( i < (+transData.page+rWide) ) ){ %>
           <li class=" page-item <%if (transData.page == i) { %> active <%}%>">
             <a class="page-link" href="?page=<%=i%>"><%=i%></a>
-            </li>
-            <%}%>
+      </li>
+      <%}%>
         <%}%>
 
-            <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
+      <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
           <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
-            </li>
-          </ul>
+      </li>
+    </ul>
+  </div>
+  <!-- /PAGINATION -->
+
+
+  <% for (var i = transData.page*transData.itemsPerPage-transData.itemsPerPage; i<transData.shopItemsArr.length; i++ ) {%>
+
+  <%if (i<transData.page*transData.itemsPerPage) {%>
+
+  <div class="card-body">
+    <div class="row">
+      <div class="col-lg-5">
+        <div class="border-primary">
+          <img style="display: block; width: 220px" src="<%=transData.shopItemsArr[i].picture %>"
+            alt="<%= transData.shopItemsArr[i].name %>" onerror="this.style.display = 'none'" />
         </div>
-        <!-- /PAGINATION -->
+      </div>
 
+      <div class="col-lg-7">
+        <a href="/shop/<%= transData.shopItemsArr[i].vendorCode %>">
+          <h5 class="card-title"><%= transData.shopItemsArr[i].name %></h5>
+        </a>
 
-        <% for (var i = transData.page*transData.itemsPerPage-transData.itemsPerPage; i<transData.shopItemsArr.length; i++ ) {%>
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="cart-uah"><span
+                id="price<%= transData.shopItemsArr[i].vendorCode %>"><%= transData.shopItemsArr[i].price.toFixed(2) %></span>
+              грн</div>
 
-        <%if (i<transData.page*transData.itemsPerPage) {%>
-
-        <div class="card-body">
-          <div class="row">
-            <div class="col-lg-5">
-              <div class="border-primary">
-                <img style="display: block;" src="<%=transData.shopItemsArr[i].picture_220x220 %>"
-                  alt="<%= transData.shopItemsArr[i].name %>" onerror="this.style.display = 'none'" />
-              </div>
+            <div class="cart-uah-base-line-through" <% if (+transData.discount == 0) { %> style="display: none" <% } %>>
+              <span id="basePrice<%= transData.shopItemsArr[i].vendorCode %>">
+                <%= transData.shopItemsArr[i].basePrice.toFixed(2) %>
+              </span>
+              грн
             </div>
 
-            <div class="col-lg-7">
-              <a href="/shop/<%= transData.shopItemsArr[i].vendorCode %>">
-                <h5 class="card-title"><%= transData.shopItemsArr[i].name %></h5>
-              </a>
+          </div>
 
-              <div class="row">
-                <div class="col-lg-4">
-                  <div class="cart-uah"><span
-                      id="price<%= transData.shopItemsArr[i].vendorCode %>"><%= transData.shopItemsArr[i].price.toFixed(2) %></span>
-                    грн</div>
-
-                  <div class="cart-uah-base-line-through" <% if (+transData.discount == 0) { %> style="display: none"
-                    <% } %>>
-                    <span id="basePrice<%= transData.shopItemsArr[i].vendorCode %>">
-                      <%= transData.shopItemsArr[i].basePrice.toFixed(2) %>
-                    </span>
-                    грн
-                  </div>
-
-                </div>
-
-                <div class="col-lg-4">
-                  <h6 class="text-muted">Артикул: <%= transData.shopItemsArr[i].vendorCode %></h6>
-                </div>
-                <% if (transData.user.group == "Administrator" ||
+          <div class="col-lg-4">
+            <h6 class="text-muted">Артикул: <%= transData.shopItemsArr[i].vendorCode %></h6>
+          </div>
+          <% if (transData.user.group == "Administrator" ||
                     transData.user.group == "Manager" || transData.user.group ==
                     "Agent") { %>
-                <div class="col-lg-4">
-                  <h6 class="text-muted jq-stock-<%= transData.shopItemsArr[i].vendorCode %>"
-                    value="<%= transData.shopItemsArr[i].stock %>">
-                    Остаток: <%= transData.shopItemsArr[i].stock %>
-                  </h6>
-                </div>
-                <% } %>
-              </div>
-
-              <div class="shopcart-and-wishlist-buttons">
-                <div class="cart-amount btn-group">
-                  <button name="cart-amount-minus" type="button"
-                    class="btn btn-secondary btn-sm jq-btn-minus-<%= transData.shopItemsArr[i].vendorCode %>"
-                    id="<%= transData.shopItemsArr[i].vendorCode %>">
-                    <span class="fas fa-minus"></span>
-                  </button>
-
-                  <input type="number" min="1" max="<%= transData.shopItemsArr[i].stock %>" step="1"
-                    name="<%= transData.shopItemsArr[i].vendorCode %>" id="555" class="cart-amount-input" value="1" />
-
-                  <button name="cart-amount-plus" type="button"
-                    class="btn btn-secondary btn-sm jq-btn-plus-<%= transData.shopItemsArr[i].vendorCode %>"
-                    id="<%= transData.shopItemsArr[i].vendorCode %>">
-                    <span class="fas fa-plus"></span>
-                  </button>
-                </div>
-
-                <button name="add-item-to-shopcart-button" type="button"
-                  class="btn btn-success btn-sm item-add-to-shopcart-button"
-                  id="<%= transData.shopItemsArr[i].vendorCode %>">
-                  В Корзину
-                </button>
-
-
-                <% if ((typeof(transData) != 'undefined') && transData.user.login &&
-                transData.user._id) { %>
-                <button name="add-item-to-wishlist-button" type="button"
-                  class="btn btn-warning btn-sm item-add-to-wishlist-button"
-                  id="<%= transData.shopItemsArr[i].vendorCode %>">
-                  <span class="fas fa-heart"></span>
-                </button>
-                <% } %>
-
-              </div>
-            </div>
+          <div class="col-lg-4">
+            <h6 class="text-muted jq-stock-<%= transData.shopItemsArr[i].vendorCode %>"
+              value="<%= transData.shopItemsArr[i].stock %>">
+              Остаток: <%= transData.shopItemsArr[i].stock %>
+            </h6>
           </div>
+          <% } %>
         </div>
-        <% } %>
-        <% }; %>
 
-        <div class="items-pagination">
-          <ul class="pagination">
-            <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
+        <div class="shopcart-and-wishlist-buttons">
+          <div class="cart-amount btn-group">
+            <button name="cart-amount-minus" type="button"
+              class="btn btn-secondary btn-sm jq-btn-minus-<%= transData.shopItemsArr[i].vendorCode %>"
+              id="<%= transData.shopItemsArr[i].vendorCode %>">
+              <span class="fas fa-minus"></span>
+            </button>
+
+            <input type="number" min="1" max="<%= transData.shopItemsArr[i].stock %>" step="1"
+              name="<%= transData.shopItemsArr[i].vendorCode %>" id="555" class="cart-amount-input" value="1" />
+
+            <button name="cart-amount-plus" type="button"
+              class="btn btn-secondary btn-sm jq-btn-plus-<%= transData.shopItemsArr[i].vendorCode %>"
+              id="<%= transData.shopItemsArr[i].vendorCode %>">
+              <span class="fas fa-plus"></span>
+            </button>
+          </div>
+
+          <button name="add-item-to-shopcart-button" type="button"
+            class="btn btn-success btn-sm item-add-to-shopcart-button" id="<%= transData.shopItemsArr[i].vendorCode %>">
+            В Корзину
+          </button>
+
+
+          <% if ((typeof(transData) != 'undefined') && transData.user.login &&
+                transData.user._id) { %>
+          <button name="add-item-to-wishlist-button" type="button"
+            class="btn btn-warning btn-sm item-add-to-wishlist-button" id="<%= transData.shopItemsArr[i].vendorCode %>">
+            <span class="fas fa-heart"></span>
+          </button>
+          <% } %>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <% } %>
+  <% }; %>
+
+  <div class="items-pagination">
+    <ul class="pagination">
+      <li class="page-item <%if (transData.page == 1) { %> disabled <%}%>">
               <a class="page-link" href="?page=1">&laquo;</a>
             </li>
   
@@ -151,21 +334,24 @@
             <% if ( ( i > (+transData.page-lWide) ) && ( i < (+transData.page+rWide) ) ){ %>
             <li class=" page-item <%if (transData.page == i) { %> active <%}%>">
               <a class="page-link" href="?page=<%=i%>"><%=i%></a>
-            </li>
-            <%}%>
+      </li>
+      <%}%>
           <%}%>
 
-            <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
+      <li class="page-item <%if (transData.page == pages) { %> disabled <%}%>">
             <a class="page-link" href="?page=<%=pages%>">&raquo;</a>
-            </li>
-          </ul>
-        </div>
+      </li>
+    </ul>
+  </div>
 
 
 
-        <!-- /MAIN CONTENT HERE: -->
-      </div>
-    </div>
+  <!-- /MAIN CONTENT HERE: -->
+  </div>
+  </div>
+  <!-- Footer -->
+  <% include ../layout/lay_site_5_footer.ejs %>
+  <!-- Footer -->
   </div>
   <!-- /CONTAINER: -->
 

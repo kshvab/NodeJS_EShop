@@ -2,18 +2,23 @@
 const excel = require('excel4node');
 const nodemailer = require('nodemailer');
 
+const config = require('../config');
+
 var transporter = nodemailer.createTransport({
-  service: 'Gmail',
+  service: config.MAILING_SERVISE,
   auth: {
-    user: 'hoztovarinfo@gmail.com',
-    pass: 'bereza1530'
+    user: config.MAILING_USER,
+    pass: config.MAILING_PASS
+  },
+  tls: {
+    secureProtocol: 'TLSv1_method'
   }
 });
 
 function sendOrderMailXLSX(orderId, filename, path) {
   let mailOptions = {
-    from: 'hoztovarinfo@gmail.com',
-    to: 'maziar@ukr.net',
+    from: 'svarkaclubinfo@gmail.com',
+    to: config.MAILING_ADMINS,
     subject: 'Оформлен новыйзаказ №' + orderId,
     html: '<b>Оформлен новыйзаказ</b><br>Номер заказа: ' + orderId,
     attachments: [
@@ -213,7 +218,7 @@ function order2XLS(order) {
 
     worksheet.cell(17 + 1 + i, 2).string(shopcart[i].vendorCode);
 
-    worksheet.cell(17 + 1 + i, 3).number(+shopcart[i].inputPriceUsd);
+    //worksheet.cell(17 + 1 + i, 3).number(+shopcart[i].inputPriceUsd);
 
     worksheet.cell(17 + 1 + i, 4).number(+shopcart[i].price);
 

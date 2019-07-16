@@ -402,7 +402,7 @@ h6, .h6 {
 }
 
 .display-2 {
-  font-size: 5.5rem;
+  font-size: 4rem;
   font-weight: 300;
   line-height: 1.2;
 }
@@ -3274,7 +3274,7 @@ input[type="button"].btn-block {
   position: absolute;
   top: 100%;
   left: 0;
-  z-index: 1000;
+  z-index: 1060;
   display: none;
   float: left;
   min-width: 10rem;
@@ -4464,6 +4464,8 @@ input[type="button"].btn-block {
   font-size: 1.25rem;
   line-height: inherit;
   white-space: nowrap;
+  margin-bottom: -8px;
+  margin-top: -8px;
 }
 
 .navbar-brand:hover, .navbar-brand:focus {
