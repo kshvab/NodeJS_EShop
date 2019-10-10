@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <% include ../layout/lay_site_1_head.ejs %>
+  <body>
+    <% include ../layout/lay_site_2_navigation.ejs %>
+    <!-- CONTAINER: -->
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-2">
+          <div class="input-group input-group-sm mt-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="canvas-size-w">W:</span>
+            </div>
+            <input
+              type="number"
+              class="form-control"
+              aria-label="Small"
+              aria-describedby="inputGroup-sizing-sm"
+              id="canvas-size-input-w"
+              onChange="changeCanvasSizeW(this.value)"
+            />
+          </div>
+          <div class="input-group input-group-sm mt-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="canvas-size-h">H:</span>
+            </div>
+            <input
+              type="number"
+              class="form-control"
+              aria-label="Small"
+              aria-describedby="inputGroup-sizing-sm"
+              id="canvas-size-input-h"
+              onChange="changeCanvasSizeH(this.value)"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="input-group input-group-sm mt-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm-x"
+                >X:</span
+              >
+            </div>
+            <input
+              type="number"
+              class="form-control"
+              aria-label="Small"
+              aria-describedby="inputGroup-sizing-sm"
+              id="active-item-input-pozition-x"
+              onChange="moveActiveItemX(this.value)"
+            />
+          </div>
+          <div class="input-group input-group-sm mt-1">
+            <div class="input-group-prepend">
+              <span class="input-group-text" id="inputGroup-sizing-sm-y"
+                >Y:</span
+              >
+            </div>
+            <input
+              type="number"
+              class="form-control"
+              aria-label="Small"
+              aria-describedby="inputGroup-sizing-sm"
+              id="active-item-input-pozition-y"
+              onChange="moveActiveItemY(this.value)"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-2">
+          <div class="form-group">
+            <input
+              class="form-control form-control-sm mt-1"
+              type="number"
+              placeholder="Угол поворота"
+              id="input-number-rotation-angle"
+              onChange="rotateActiveItem(this.value)"
+              min="0"
+              max="360"
+            />
+            <input
+              class="form-control form-control-sm mt-1"
+              type="range"
+              placeholder="Угол поворота"
+              id="input-range-rotation-angle"
+              onInput="rotateActiveItem(this.value)"
+              name="points"
+              min="0"
+              max="360"
+            />
+          </div>
+        </div>
+
+        <div class="col-md-1">
+          <button
+            class="btn btn-warning btn-sm btn-block mt-1"
+            onclick="reflectionActiveItemX()"
+          >
+            <span class="fas fa-arrows-alt-h"></span>
+          </button>
+          <button
+            class="btn btn-warning btn-sm btn-block mt-1"
+            onclick="reflectionActiveItemY()"
+          >
+            <span class="fas fa-arrows-alt-v"></span>
+          </button>
+        </div>
+
+        <div class="col-md-1">
+          <button
+            class="btn btn-success btn-sm btn-block mt-1"
+            onclick="cloneActiveItem()"
+          >
+            <span class="fas fa-clone"></span>
+          </button>
+          <button
+            class="btn btn-danger btn-sm btn-block mt-1"
+            onclick="deleteActiveItem()"
+          >
+            <span class="fas fa-trash"></span>
+          </button>
+        </div>
+
+        <div class="col-md-1">
+          <button
+            class="btn btn-info btn-sm  btn-block mt-1"
+            onclick="scaleCanvasUp()"
+          >
+            <span class="fas fa-search-plus"></span>
+          </button>
+          <button
+            class="btn btn-info btn-sm  btn-block mt-1"
+            onclick="scaleCanvasDown()"
+          >
+            <span class="fas fa-search-minus"></span>
+          </button>
+        </div>
+        <div class="col-md-2">
+
+          <button
+            class="btn btn-secondary btn-sm  btn-block mt-1"
+            onclick="fExportShopItems()"
+          >
+            Экспорт в корзину
+          </button>
+
+
+
+          <button
+            class="btn btn-info btn-sm  btn-block mt-1"
+            onclick="fAddLineal()"
+          >
+          <span class="fas fa-ruler-horizontal avesomePaddingRight"></span>
+          Линейка
+          </button>
+
+
+
+
+          
+
+        </div>
+      </div>
+
+      <!-- ==================================================================================== -->
+      <div id="canvas_container">
+        <canvas id="my_canvas"></canvas>
+      </div>
+      <!-- ==================================================================================== -->
+
+      <hr />
+      <br />
+      <div class="row">
+        <div class="col-md-6">
+          <%
+          for (let i = 0; i<transData.mainSourceImagesArr.length; i++) {%>
+
+            <button
+              class="btn btn-warning btn-block mt-1"
+              data-toggle="collapse"
+              data-target="#colapse_style_<%=transData.mainSourceImagesArr[i].style%>"><%=transData.mainSourceImagesArr[i].style%>
+            </button>
+
+            <div id="colapse_style_<%=transData.mainSourceImagesArr[i].style%>" class="collapse">`
+
+
+                <% let styleItems = transData.mainSourceImagesArr[i].styleItems; %>
+                
+                <% for (let k = 0; k < styleItems.length; k++) { %>
+                  
+                  <% let pictureUrl = transData.imagesMap[styleItems[k].type]; %>
+
+                  
+                  
+                  <div class="card-body">
+                  <div class="row">
+              
+                    <div class="col-lg-4">
+                      <div class="border-primary">
+              
+                        <img style="display: block; max-width: 100px; max-height: 100px" src="<%=pictureUrl%>" alt="" onerror="this.style.display = 'none'">
+                      </div>
+              
+                    </div>
+              
+                    <div class="col-lg-8">
+                   <%= styleItems[k].type %><br>
+
+                   <% let itemsArr = styleItems[k].items %>
+                   <% for (let i = 0; i < itemsArr.length; i++) { %>
+                      <div>
+                        <button
+                        class="btn btn-success btn-sm btn-block mt-1"
+                        onclick="addFromTeka(event)"
+                        value="<%= itemsArr[i].vendorId %>"
+                        id="<%= itemsArr[i].vendorId %>" price="<%= itemsArr[i].price %>" basePrice="<%= itemsArr[i].basePrice %>">
+                        
+                          <%= itemsArr[i].width %> x <%= itemsArr[i].height %> (<%= itemsArr[i].vendorId %>)
+                        </button>
+                      </div>
+                    <% } %>
+                    
+              
+                    </div>
+                  </div>
+                </div>
+                
+                <% } %>
+
+            </div>
+
+          <%}%>
+
+
+
+
+        </div>
+        <div class="col-md-6">
+            <button
+              class="btn btn-warning btn-block mt-1"
+              data-toggle="collapse"
+              data-target="#colapse_style_figures"
+              aria-expanded="true"
+            >
+              Геометрические фигуры
+            </button>
+            <div id="colapse_style_figures" class="collapse">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="card-body">
+                    <h5>Прямоугольник</h5>
+                    <input
+                      class="form-control form-control-sm mt-1"
+                      type="number"
+                      placeholder="Ширина"
+                      id="new-rect-input-width"
+                      min="0"
+                      max="6000"
+                    />
+                    <input
+                      class="form-control form-control-sm mt-1"
+                      type="number"
+                      placeholder="Высота"
+                      id="new-rect-input-height"
+                      min="0"
+                      max="6000"
+                    />
+                    <button
+                      class="btn btn-info btn-sm mt-1 btn-block"
+                      onclick="addNewRect()"
+                    >
+                      <span class="fas fa-plus-square avesomePaddingRight"></span>
+                      Создать прямоугольник
+                    </button>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="card-body">
+                    <h5>Рамка</h5>
+                    <input
+                      class="form-control form-control-sm mt-1"
+                      type="number"
+                      placeholder="Толщина линии"
+                      id="new-ramka-input-border"
+                      min="0"
+                      max="150"
+                    />
+                    <input
+                      class="form-control form-control-sm mt-1"
+                      type="number"
+                      placeholder="Ширина"
+                      id="new-ramka-input-width"
+                      min="0"
+                      max="6000"
+                    />
+                    <input
+                      class="form-control form-control-sm mt-1"
+                      type="number"
+                      placeholder="Высота"
+                      id="new-ramka-input-height"
+                      min="0"
+                      max="6000"
+                    />
+                    <button
+                      class="btn btn-info btn-sm mt-1 btn-block"
+                      onclick="addNewRamka()"
+                    >
+                      <span class="fas fa-plus-square avesomePaddingRight"></span>
+                      Создать рамку
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+      </div>
+      <br />
+      <hr />
+
+      <!-- ==================================================================================== -->
+      <script src="/javascripts/forgedDrawScript/mainSourceImagesArr.js"></script>
+
+      <script src="/javascripts/forgedDrawScript/index.js"></script>
+
+      <!-- ==================================================================================== -->
+    </div>
+    <!-- /CONTAINER: -->
+    <% include
+    ../layout/lay_site_4_bottomscripts.ejs %>
+    
+  </body>
+</html>

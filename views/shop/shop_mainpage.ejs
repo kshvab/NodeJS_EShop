@@ -24,7 +24,11 @@
         <br>
         <% var subCatsArr = [];
         transData.shopCategoriesArr.forEach(function(item){
-        if (!item.catFatherId) { subCatsArr.push(item); } }); %>
+        if (!item.catFatherId) { subCatsArr.push(item); } }); 
+        subCatsArr.sort(function(a, b){
+          return a.catSort == +b.catSort ? 0 : +(+a.catSort > +b.catSort) || -1;
+        });
+        %>
 
 
 

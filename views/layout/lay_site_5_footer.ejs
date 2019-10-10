@@ -1,4 +1,5 @@
 <footer class="page-footer font-small blue-grey lighten-5 mt-5">
+  <!-- SOCIALS -->
   <div style="background-color: #e4e4e4; border: 1px solid #2FA4E7;">
     <div class="container">
       <!-- Grid row-->
@@ -37,6 +38,8 @@
       <!-- Grid row-->
     </div>
   </div>
+  <!-- /SOCIALS -->
+
   <!-- Footer Links -->
   <div class="container text-center text-md-left mt-5">
     <!-- Grid row -->
@@ -68,16 +71,28 @@
           style="width: 60px;"
         />
         <p>
-          <a class="dark-grey-text" href="#!">Оборудование</a>
+          <a
+            class="dark-grey-text"
+            href="/shop/instrument/slesarnyy-instrument-nozhi-napilniki"
+            >Оборудование</a
+          >
         </p>
         <p>
-          <a class="dark-grey-text" href="#!">Расходники</a>
+          <a
+            class="dark-grey-text"
+            href="/shop/instrument/sverlilnye-i-shlifovalnye-rashodniki"
+            >Расходники</a
+          >
         </p>
         <p>
-          <a class="dark-grey-text" href="#!">Средства защиты</a>
+          <a
+            class="dark-grey-text"
+            href="/shop/instrument/perchatki-ochki-respiratory-i-dr"
+            >Средства защиты</a
+          >
         </p>
         <p>
-          <a class="dark-grey-text" href="#!">Кованые элементы</a>
+          <a class="dark-grey-text" href="/shop/kovka">Кованые элементы</a>
         </p>
       </div>
       <!-- Grid column -->
@@ -91,16 +106,16 @@
           style="width: 60px;"
         />
         <p>
-          <a class="dark-grey-text" href="#!">Каталог товаров</a>
+          <a class="dark-grey-text" href="/shop">Каталог товаров</a>
         </p>
         <p>
-          <a class="dark-grey-text" href="#!">Публикации</a>
+          <a class="dark-grey-text" href="/publications">Публикации</a>
         </p>
         <p>
-          <a class="dark-grey-text" href="#!">Контакты</a>
+          <a class="dark-grey-text" href="/contacts">Контакты</a>
         </p>
         <p>
-          <a class="dark-grey-text" href="#!">Партнерам</a>
+          <a class="dark-grey-text" href="/partners">Партнерам</a>
         </p>
       </div>
       <!-- Grid column -->
@@ -113,9 +128,18 @@
           class="teal accent-3 mb-4 mt-0 d-inline-block mx-auto"
           style="width: 60px;"
         />
-        <p><i class="fas fa-home mr-3"></i> Житомир, Киевская 77</p>
-        <p><i class="fas fa-envelope mr-3"></i> info@example.com</p>
-        <p><i class="fas fa-phone mr-3"></i> + 38 067 326 7467</p>
+        <p><i class="fas fa-home mr-3"></i> Житомир, Параджанова, 77</p>
+        <p><i class="fas fa-envelope mr-3"></i> svarkaclubinfo@gmail.com</p>
+        <p><i class="fas fa-phone mr-3"></i> + 38 097 494 63 32</p>
+
+        <% if ((typeof(transData) != 'undefined') && (transData.user.group ==
+        'Administrator' || transData.user.group == 'Manager')) { %>
+        <form action="/administrator">
+          <button type="submit" class="btn btn-danger btn-sm mr-3">
+            <span class="fas fa-tools avesomePaddingRight"></span> Admin
+          </button>
+        </form>
+        <% }; %>
       </div>
       <!-- Grid column -->
     </div>

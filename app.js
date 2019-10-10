@@ -17,9 +17,7 @@ mongoose.connection
     let info = mongoose.connections;
     if (info)
       console.log(
-        `Connected to MongoDB\nhost: ${info[0].host}\nport: ${
-          info[0].port
-        }\nuser: ${info[0].user}\n`
+        `Connected to MongoDB\nhost: ${info[0].host}\nport: ${info[0].port}\nuser: ${info[0].user}\n`
       );
   });
 
@@ -29,9 +27,7 @@ mongoose.connect(config.MONGO_URL, { useNewUrlParser: true });
 const app = express();
 app.listen(config.PORT, () =>
   console.log(
-    `\n-----------------------------------------------------\nExample app listening on port ${
-      config.PORT
-    }!\n`
+    `\n-----------------------------------------------------\nExample app listening on port ${config.PORT}!\n`
   )
 );
 
@@ -63,6 +59,7 @@ app.use('/administrator', routes.administrator);
 app.use('/administrator/users', routes.adminusers);
 app.use('/administrator/publications', routes.adminpublications);
 app.use('/administrator/shop', routes.adminshop);
+app.use('/administrator/gps', routes.gps);
 
 app.use('/api/auth', routes.auth);
 app.use('/profile', routes.profile);
@@ -73,6 +70,8 @@ app.use('/shop', routes.shop);
 app.use('/shopcart', routes.shopcart);
 app.use('/messages', routes.messages);
 app.use('/sitemap', routes.sitemap);
+app.use('/forum', routes.forum);
+
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   const err = new Error('Not Found');
@@ -91,12 +90,10 @@ app.use((error, req, res, next) => {
 });
 
 //  --- SERVICES ---
-//const services = require('./services');
+const services = require('./services');
 //services.cronautoimport.runCronAutoImport();
 //services.shopxmlparsing.runXmlParsing();
 //services.novaposhta.updateDeliveryServiceCitiesList();
-//services.catscreating.runCategoriesParsing();
-//services.itemscreating.runItemsParsing();
 //services.photoparsing.runPhotoParsing();
 //services.mailorderconfirmtouser.sendOrderMail(87, 'kshvab@gmail.com');
 

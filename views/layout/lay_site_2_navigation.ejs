@@ -7,7 +7,7 @@
         data-toggle="modal"
         data-target="#headerContactsModal"
       >
-        <span class="fas fa-phone avesomePaddingRight"></span> + 38 067 326 7467
+        <span class="fas fa-phone avesomePaddingRight"></span> + 38 097 494 63 32
       </div>
     </div>
     <div class="navbar-topk8-usermenu">
@@ -54,16 +54,25 @@
         <li class="nav-item">
           <a class="nav-link" href="/shop">Каталог товаров</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/publications">Публикации</a>
-        </li>
+
         <li class="nav-item">
             <a class="nav-link" href="/contacts">Контакты</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="/partners">Партнерам</a>
       </li>
+      <li class="nav-item">
+          <a class="nav-link" href="/forgeddraw"><span class="fas fa-pencil-ruler avesomePaddingRight"></span>Конструктор</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/forum">Форум</a>
+    </li>
       </ul>
+
+      
+
+
+
       <form action="/shopcart">
         <button type="submit" class="btn btn-success btn-shopcart-header btn-sm">
           <span class="fas fa-shopping-cart avesomePaddingRight"></span>Корзина
@@ -76,10 +85,13 @@
           </span>
         </button>
       </form>
+
+
       <% if ((typeof(transData) != 'undefined') && transData.user.login &&
       transData.user._id) { %>
       <a href="/profile/mywishlist" class="btn btn-warning btn-wishlist-header btn-sm"><span class="fas fa-heart"></span></a>
       <% } %>
+
       <% if ((typeof(transData) != 'undefined') &&
       transData.showDiscountChooser) { %>
       <form>
@@ -95,6 +107,7 @@
         </select>
       </form>
       <% } %>
+
     </div>
   </div>
 </nav>
@@ -121,8 +134,13 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body">...Текст гоус хіре</div>
-      <div class="modal-footer">somthing in footer</div>
+      <div class="modal-body"><p><i class="fas fa-home mr-3"></i> Житомир, Параджанова, 77</p>
+        <p><i class="fas fa-envelope mr-3"></i> svarkaclubinfo@gmail.com</p>
+        <p><i class="fas fa-phone mr-3"></i> + 38 097 494 63 32</p></div>
+      <div class="modal-footer">
+        <a href="/contacts">
+        <span class="fas fa-newspaper px-3"></span> Форма обратной связи
+      </a></div>
     </div>
   </div>
 </div>

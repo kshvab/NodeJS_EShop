@@ -1663,6 +1663,134 @@ $('#partnersMessageModal').on('hidden.bs.modal', function() {
 });
 
 
+$('#gps-filter-date-input').on('change', function(e) {
+  e.preventDefault();
+  $('#loading-overlay').show();
+
+  let gpsAgent = $('#gps-filter-agent-select').val();
+  if (gpsAgent == null)gpsAgent = '0';
+  let startTime = $('#gps-filter-starttime-select').val();
+  let endTime = $('#gps-filter-endtime-select').val();
+
+  window.location.href = `?gpsDate=${e.target.value}&gpsAgent=${gpsAgent}&startTime=${startTime}&endTime=${endTime}`
+})
+
+$('#gps-filter-agent-select').on('change', function(e) {
+  e.preventDefault();
+  $('#loading-overlay').show();
+
+  let gpsDate = $('#gps-filter-date-input').val();
+  let startTime = $('#gps-filter-starttime-select').val();
+  let endTime = $('#gps-filter-endtime-select').val();
+
+  window.location.href = `?gpsDate=${gpsDate}&gpsAgent=${e.target.value}&startTime=${startTime}&endTime=${endTime}`
+
+  
+})
+
+$('#gps-filter-starttime-select').on('change', function(e) {
+  e.preventDefault();
+  $('#loading-overlay').show();
+  let gpsDate = $('#gps-filter-date-input').val();
+  let gpsAgent = $('#gps-filter-agent-select').val();
+  if (gpsAgent == null)gpsAgent = '0';
+  let endTime = $('#gps-filter-endtime-select').val();
+  window.location.href = `?gpsDate=${gpsDate}&gpsAgent=${gpsAgent}&startTime=${e.target.value}&endTime=${endTime}`
+})
+
+$('#gps-filter-endtime-select').on('change', function(e) {
+  e.preventDefault();
+  $('#loading-overlay').show();
+  let gpsDate = $('#gps-filter-date-input').val();
+  let gpsAgent = $('#gps-filter-agent-select').val();
+  if (gpsAgent == null)gpsAgent = '0';
+  let startTime = $('#gps-filter-starttime-select').val();
+  window.location.href = `?gpsDate=${gpsDate}&gpsAgent=${gpsAgent}&startTime=${startTime}&endTime=${e.target.value}`
+})
+
+
+
+
+$('#convertShopCartInXLSButton').on('click', function(e) {
+  e.preventDefault();
+  $('#loading-overlay').show();
+  var data = { isTrue: true };
+  $.ajax({
+    type: 'POST',
+    data: JSON.stringify(data),
+    url: '/shop/shopcarttoxls'
+  }).done(function(data) {
+
+    if (!data.ok) {
+      $('#loading-overlay').hide();
+      alert ('Server error, Повідомте Колі:)')
+    } else {
+      $('#convertShopCartInXLSButton').hide();
+      let link = data.link
+      $('#shopcartxlsdownload').html(`<a href="${link}" class = "btn btn-success btn-sm"> <span class="fas fa-file-download avesomePaddingRight"></span>Скачать</a>`)
+      console.log(link)
+      $('#loading-overlay').hide();
+    }
+  });
+
+})
+
+
+
+
+$('#forumAddNewSectionModalInit').on('click', function(e) {
+  e.preventDefault();
+  $('#forumAddNewSectionModal').modal();
+  //$('#forumAddNewSectionModal').modal('hide');
+
+});
+
+$('#forumAddNewSectionButton').on('click', function(e) {
+  e.preventDefault();
+
+  let data = {
+    title: $('#forumNewSectionTitle').val(),
+    description: $('#forumNewSectionDescription').val(),
+  };
+
+  if (data.title.length <5) {
+    alert('Введите корректное название для раздела!');
+    return null;
+  }
+
+  if (data.title.length >60) {
+    alert('Введите название для раздела покороче!');
+    return null;
+  }
+  
+
+  $.ajax({
+    type: 'POST',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    url: '/forum/addnewsection'
+  }).done(function(data) {
+
+    if (!data.ok) {
+      alert(data.error)
+    } else {
+      $('#loading-overlay').show();
+      setTimeout(function() {
+        window.location.reload(true);
+      }, 1000);
+
+    }
+  
+
+  })
+
+
+
+
+
+});
+
+
 
 
 

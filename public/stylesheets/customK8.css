@@ -2168,3 +2168,183 @@ div.telefon-topk8:hover {
   font-weight: 400;
   line-height: 1.2;
 }
+
+#map {
+  height: 100%;
+}
+
+.map-container {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+#canvas_container {
+  width: 100%;
+  height: 500px;
+  display: inline-block;
+  overflow: scroll;
+  canvas {
+    display: inline-block;
+    background-color: #fff;
+  }
+}
+
+
+
+/* ===== forum Start ===== */
+
+/* General forum Table View */
+.gTable {background:#d3d5c6}
+.gTableTop {padding:2px;padding-left:30px;font-size:12pt;font-weight:bold;background:url('/.s/t/823/11.gif') repeat-x #F8702A; color:#FFFFFF;height:35px;}
+.gTableSubTop {padding:2px;background: #444444;color:#FFFFFF;height:20px;font-size:12px;}
+.gTableBody {padding:2px;background:#f1f3e2;}
+.gTableBody1 {padding:2px;background:#FFFFFF;}
+.gTableBottom {padding:2px;background:#f1f3e2;}
+.gTableLeft {padding:2px;background:#f1f3e2;font-weight:bold;color:#F65400}
+.gTableRight {padding:2px;background:#f1f3e2}
+.gTableError {padding:2px;background:#f1f3e2;color:#FF0000;}
+/* ------------------------ */
+
+/* Forums Styles */
+.forumNameTd,.forumLastPostTd {padding:2px;background:#FFFFFF}
+.forumIcoTd,.forumThreadTd,.forumPostTd {padding:2px;background:#f1f3e2}
+.forumLastPostTd,.forumArchive {padding:2px;font-size:9pt;}
+
+a.catLink:link {text-decoration:none; color:#FFFFFF;}
+a.catLink:visited {text-decoration:none; color:#FFFFFF;}
+a.catLink:hover {text-decoration:underline; color:#000000;}
+a.catLink:active {text-decoration:underline; color:#FFFFFF;}
+
+.lastPostGuest,.lastPostUser,.threadAuthor {font-weight:bold}
+.archivedForum{font-size:9pt;color:#FF0000;font-weight:bold;}
+/* ------------- */
+
+/* forum Titles & other */
+.forum {font-weight:bold;font-size:11pt;}
+.forumDescr,.forumModer {color:#858585;font-size:9pt;}
+.forumViewed {font-size:11px;}
+a.forum:link, a.lastPostUserLink:link, a.forumLastPostLink:link, a.threadAuthorLink:link {text-decoration:none; }
+a.forum:visited, a.lastPostUserLink:visited, a.forumLastPostLink:visited, a.threadAuthorLink:visited {text-decoration:none; }
+a.forum:hover, a.lastPostUserLink:hover, a.forumLastPostLink:hover, a.threadAuthorLink:hover {text-decoration:underline;}
+a.forum:active, a.lastPostUserLink:active, a.forumLastPostLink:active, a.threadAuthorLink:active {text-decoration:underline;}
+/* -------------------- */
+
+/* forum Navigation Bar */
+.forumNamesBar {font-weight:bold;font-size:9pt;}
+.forumBarKw {font-weight:normal;}
+/* -------------------- */
+
+/* forum Fast Navigation Blocks */
+.fastNav,.fastSearch,.fastLoginForm {font-size:9pt;}
+/* ---------------------------- */
+
+/* forum Fast Navigation Menu */
+.fastNavMain {background:#F0C6C6;}
+.fastNavCat {background:#F9E6E6;}
+.fastNavCatA {background:#F9E6E6;color:#0000FF}
+.fastNavForumA {color:#0000FF}
+/* -------------------------- */
+
+/* forum Page switches */
+.switches {background:#FFFFFF;}
+.pagesInfo {background:#FFFFFF;padding-right:10px;font-size:7pt;}
+.switch {background:#FFFFFF;width:15px;font-size:7pt;}
+.switchActive {background: #F65400;font-weight:bold;color:#FFFFFF;width:15px}
+a.switchDigit:link,a.switchBack:link,a.switchNext:link {text-decoration:none; color:#000000;}
+a.switchDigit:visited,a.switchBack:visited,a.switchNext:visited {text-decoration:none; color:#000000;}
+a.switchDigit:hover,a.switchBack:hover,a.switchNext:hover {text-decoration:underline; color:#FF0000;}
+a.switchDigit:active,a.switchBack:active,a.switchNext:active {text-decoration:underline; color:#FF0000;}
+/* ------------------- */
+
+/* forum Threads Style */
+.threadNametd,.threadAuthTd,.threadLastPostTd {padding:2px;padding:2px;background:#FFFFFF}
+.threadIcoTd,.threadPostTd,.threadViewTd {padding:2px;background:#f1f3e2}
+.threadLastPostTd {padding:2px;font-size:9pt;}
+.threadDescr {color:#858585;font-size:9pt;}
+.threadNoticeLink {font-weight:bold;}
+.threadsType {padding:2px;background:#d1d3c4;height:20px;font-weight:bold;font-size:9pt;color:#EC0301;padding-left:40px; }
+.threadsDetails {padding:2px;background:#d1d3c4;height:20px;color:#000000;}
+.forumOnlineBar {padding:2px;background: #d1d3c4;color:#000000;height:20px;font-size:10px;}
+
+a.threadPinnedLink:link {text-decoration:none; color:#0000FF;}
+a.threadPinnedLink:visited {text-decoration:none; color:#0000FF;}
+a.threadPinnedLink:hover {text-decoration:none; color:#FF0000;}
+a.threadPinnedLink:active {text-decoration:underline; color:#FF0000;}
+
+a.threadLink:link {text-decoration:none; }
+a.threadLink:visited {text-decoration:none; }
+a.threadLink:hover {text-decoration:underline; color:#000000;}
+a.threadLink:active {text-decoration:underline; color:#000000;}
+
+.postpSwithces {font-size:7pt;}
+.thDescr {font-weight:normal;}
+.threadFrmBlock {font-size:7pt;text-align:right;}
+/* ------------------- */
+
+/* forum Posts View */
+.postTable {background:#FFFFFF;}
+.postPoll {background:#FFFFFF;text-align:center;}
+.postFirst {background:#FDF4F4;border-bottom:3px solid #282F39;}
+.postRest1 {background:#F7EEEE;}
+.postRest2 {background:#FDF4F4;}
+.postSeparator {height:3px;background:#F65400;}
+
+.postTdTop {background: #444444;color:#FFFFFF;height:20px;color:#FFFFFF;}
+.postBottom {background: #f1f3e2;height:20px}
+.postUser {font-weight:bold;}
+.postTdInfo {text-align:center;padding:5px;background:#f1f3e2}
+.postRankName {margin-top:5px;}
+.postRankIco {margin-bottom:5px;margin-bottom:5px;}
+.reputation {margin-top:5px;}
+.signatureHr {margin-top:20px;color:#A82F38;}
+.posttdMessage {padding:5px;background:#FFFFFF}
+
+.pollQuestion {text-align:center;font-weight:bold;} 
+.pollButtons,.pollTotal {text-align:center;}
+.pollSubmitBut,.pollreSultsBut {width:140px;font-size:7pt;}
+.pollSubmit {font-weight:bold;}
+.pollEnd {text-align:center;height:30px;}
+
+.codeMessage {background:#FFFFFF;font-size:9px;}
+.quoteMessage {background:#FFFFFF;font-size:9px;}
+
+.signatureView {font-size:7pt;} 
+.edited {padding-top:30px;font-size:7pt;text-align:right;color:gray;}
+.editedBy {font-weight:bold;font-size:8pt;}
+
+.statusBlock {padding-top:3px;}
+.statusOnline {color:#0000FF;}
+.statusOffline {color:#FF0000;}
+/* ------------------ */
+
+/* forum AllInOne Fast Add */
+.newThreadBlock {background: #F9F9F9;border: 1px solid #B2B2B2;}
+.newPollBlock {background: #F9F9F9;border: 1px solid #B2B2B2;}
+.newThreadItem {padding: 0 0 0 8px; background: url('/.s/t/823/12.gif') no-repeat 0px 4px;}
+.newPollItem {padding: 0 0 0 8px; background: url('/.s/t/823/12.gif') no-repeat 0px 4px;}
+/* ----------------------- */
+
+/* forum Post Form */
+.pollBut, .loginButton, .searchSbmFl, .commSbmFl, .signButton {font-size:7pt;background: #F65400;color:#FFFFFF;border:1px outset #FFFFFF;}
+
+.codeButtons {font-size:7pt;background: #F65400;color:#FFFFFF;border:1px outset #FFFFFF;}
+.codeCloseAll font-size:7pt;background: #F65400;color:#FFFFFF;border:1px outset #FFFFFF;font-weight:bold;}
+.postNameFl,.postDescrFl {width:400px}
+.postPollFl,.postQuestionFl {width:400px}
+.postResultFl {width:50px}
+.postAnswerFl {width:300px}
+.postTextFl {width:550px;height:150px}
+.postUserFl {width:300px}
+
+.pollHelp {font-weight:normal;font-size:7pt;padding-top:3px;}
+.smilesPart {padding-top:5px;text-align:center}
+/* ----------------- */
+
+
+
+.forum-top-buttons {
+  text-align: right;
+}
+/* ====== forum End ====== */

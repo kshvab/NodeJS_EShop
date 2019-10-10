@@ -12,6 +12,8 @@ const shopcart = require('./shopcart');
 const upload = require('./upload');
 const messages = require('./messages');
 const sitemap = require('./sitemap');
+const gps = require('./gps');
+const forum = require('./forum');
 module.exports = {
   administrator,
   adminpublications,
@@ -26,5 +28,7 @@ module.exports = {
   shopcart,
   upload,
   messages,
-  sitemap
+  sitemap,
+  gps,
+  forum
 };

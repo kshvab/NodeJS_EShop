@@ -34,8 +34,7 @@
           <%= transData.shownCat.catName %>
         </H2>
         <br />
-        <H4>Категории магазина:</H4>
-        <br>
+
 
 
 
@@ -43,7 +42,11 @@
         <% if (transData.shownCat.catHasChildren) {%>
         <% var subCatsArr = [];
           transData.shopCategoriesArr.forEach(function(item){
-            if (item.catFatherId == transData.shownCat.catId) { subCatsArr.push(item); } }); %>
+            if (item.catFatherId == transData.shownCat.catId) { subCatsArr.push(item); } }); 
+            subCatsArr.sort(function(a, b){
+              return a.catSort == +b.catSort ? 0 : +(+a.catSort > +b.catSort) || -1;
+            });
+            %>
 
        <!-- Sub cats XS -->
        <div class="d-md-none">
@@ -404,6 +407,13 @@
         <!-- /MAIN CONTENT HERE: -->
       </div>
     </div>
+    
+    <%if (transData.shownCat.catFulltext) {%>
+    <br>
+    <p style="text-align: justify">
+      <%= transData.shownCat.catFulltext%>
+    </p>
+    <%}%>
               <!-- Footer -->
               <% include ../layout/lay_site_5_footer.ejs %>
               <!-- Footer -->

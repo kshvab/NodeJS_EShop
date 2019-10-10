@@ -1,14 +1,29 @@
 <head>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script
+    async
+    src="https://www.googletagmanager.com/gtag/js?id=UA-148453986-2"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-148453986-2');
+  </script>
+
   <meta charset="UTF-8" />
   <% if ((typeof(transData) != 'undefined') && transData.pageTitle) { %>
-  <title><%= transData.pageTitle %></title>
+  <title><%= transData.pageTitle %> - Svarka Club</title>
   <% } else { %>
-  <title>E-Shop</title>
+  <title>Svarka Club</title>
   <% }; %> <% if ((typeof(transData) != 'undefined') && transData.description)
   {%>
   <meta name="description" content="<%= transData.description %>" />
   <% } %> <% if ((typeof(transData) != 'undefined') && transData.keywords) { %>
-  <meta name="description" content="<%= transData.keywords %>" />
+  <meta name="keywords" content="<%= transData.keywords %>" />
   <% } %>
 
   <meta
@@ -16,8 +31,6 @@
     content="width=device-width, initial-scale=1, shrink-to-fit=no"
   />
 
-  <meta name="description" content=" " />
-  <meta name="keywords" content=" " />
   <link rel="shortcut icon" href="/pictures/favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="/stylesheets/bootstrap.css" />
   <link rel="stylesheet" href="/stylesheets/customK8.css" />

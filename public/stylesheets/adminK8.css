@@ -1,0 +1,23 @@
+#map {
+  height: 500px;
+}
+
+.map-container {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.gps-filter-group {
+  padding-top: 30px;
+}
+.gps-filter-button {
+  padding-bottom: 20px;
+}
+
+.gps-filter-date {
+  padding: 0px 12px !important;
+}
+
+.gps-map-head {
+  padding-top: 6px;
+}

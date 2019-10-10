@@ -8,72 +8,73 @@ const wishlist = models.wishlist;
 const testimonial = models.testimonial;
 const xml2js = require('xml2js');
 const services = require('../services');
+const excel = require('excel4node');
 //********* Promises ***************/
-
-let p_itemsViewSettings = new Promise(function(resolve, reject) {
-  let itemsViewSettingsStr = fs.readFileSync(
-    './settings/itemsviewsettings.json',
-    {
-      encoding: 'UTF-8'
-    }
-  );
-  let itemsViewSettings = JSON.parse(itemsViewSettingsStr);
-  if (itemsViewSettings) resolve(itemsViewSettings);
-  else reject('Can not read ./settings/itemsviewsettings.json');
-});
-
-let p_shopItemsArr = new Promise(function(resolve, reject) {
-  var shopItemsArrStr = fs.readFileSync(
-    './public/datafiles/shopItemsArrFile.txt',
-    {
-      encoding: 'UTF-8'
-    }
-  );
-  var shopItemsArr = JSON.parse(shopItemsArrStr);
-
-  if (shopItemsArr) resolve(shopItemsArr);
-  else reject('Can not read ./public/datafiles/shopItemsArrFile.txt');
-});
-
-let p_shopCategoriesArr = new Promise(function(resolve, reject) {
-  var shopCategoriesArrStr = fs.readFileSync(
-    './public/datafiles/shopCategoriesArrFile.txt',
-    {
-      encoding: 'UTF-8'
-    }
-  );
-  var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
-  if (shopCategoriesArr) resolve(shopCategoriesArr);
-  else reject('Can not read ./public/datafiles/shopCategoriesArrFile.txt');
-});
-
-let p_shopUsersArr = new Promise(function(resolve, reject) {
-  let shopUsersArrStr = fs.readFileSync(
-    './public/datafiles/shopUsersArrFile.txt',
-    {
-      encoding: 'UTF-8'
-    }
-  );
-  let shopUsersArr = JSON.parse(shopUsersArrStr);
-
-  if (shopUsersArr) resolve(shopUsersArr);
-  else reject('Can not read ./public/datafiles/shopUsersArrFile.txt');
-});
-
-let p_priceSettings = new Promise(function(resolve, reject) {
-  let priceSettingsStr = fs.readFileSync('./settings/pricesettings.json', {
-    encoding: 'UTF-8'
-  });
-  let priceSettings = JSON.parse(priceSettingsStr);
-
-  if (priceSettings) resolve(priceSettings);
-  else reject('Can not read ./settings/pricesettings.json');
-});
 
 router.get(
   '(?:/:pathPart0)(?:/:pathPart1)?(?:/:pathPart2)?(?:/:pathPart3)?(?:/:pathPart4)?(?:/:pathPart5)?(?:/:pathPart6)?',
 
   function(req, res) {
+    let p_itemsViewSettings = new Promise(function(resolve, reject) {
+      let itemsViewSettingsStr = fs.readFileSync(
+        './settings/itemsviewsettings.json',
+        {
+          encoding: 'UTF-8'
+        }
+      );
+      let itemsViewSettings = JSON.parse(itemsViewSettingsStr);
+      if (itemsViewSettings) resolve(itemsViewSettings);
+      else reject('Can not read ./settings/itemsviewsettings.json');
+    });
+
+    let p_shopItemsArr = new Promise(function(resolve, reject) {
+      var shopItemsArrStr = fs.readFileSync(
+        './public/datafiles/shopItemsArrFile.txt',
+        {
+          encoding: 'UTF-8'
+        }
+      );
+      var shopItemsArr = JSON.parse(shopItemsArrStr);
+
+      if (shopItemsArr) resolve(shopItemsArr);
+      else reject('Can not read ./public/datafiles/shopItemsArrFile.txt');
+    });
+
+    let p_shopCategoriesArr = new Promise(function(resolve, reject) {
+      var shopCategoriesArrStr = fs.readFileSync(
+        './public/datafiles/shopCategoriesArrFile.txt',
+        {
+          encoding: 'UTF-8'
+        }
+      );
+      var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
+      if (shopCategoriesArr) resolve(shopCategoriesArr);
+      else reject('Can not read ./public/datafiles/shopCategoriesArrFile.txt');
+    });
+
+    let p_shopUsersArr = new Promise(function(resolve, reject) {
+      let shopUsersArrStr = fs.readFileSync(
+        './public/datafiles/shopUsersArrFile.txt',
+        {
+          encoding: 'UTF-8'
+        }
+      );
+      let shopUsersArr = JSON.parse(shopUsersArrStr);
+
+      if (shopUsersArr) resolve(shopUsersArr);
+      else reject('Can not read ./public/datafiles/shopUsersArrFile.txt');
+    });
+
+    let p_priceSettings = new Promise(function(resolve, reject) {
+      let priceSettingsStr = fs.readFileSync('./settings/pricesettings.json', {
+        encoding: 'UTF-8'
+      });
+      let priceSettings = JSON.parse(priceSettingsStr);
+
+      if (priceSettings) resolve(priceSettings);
+      else reject('Can not read ./settings/pricesettings.json');
+    });
+
     let _id;
     let login;
     let group;
@@ -116,6 +117,7 @@ router.get(
       let userFrom1S = shopUsersArr.find(x => x.email === req.session.email);
 
       let priceKoef;
+
       if (userFrom1S != undefined && userFrom1S.discount) {
         discount = userFrom1S.discount;
         priceKoef = 1 - userFrom1S.discount / 100;
@@ -217,6 +219,9 @@ router.get(
           }
         }
 
+        //console.log(shownCatItems[0]);
+        //console.log(shopCategoriesArr);
+        //console.log(discount);
         res.render(viewsView, {
           transData: {
             shopItemsArr,
@@ -230,7 +235,10 @@ router.get(
             itemsPerPage,
             showDiscountChooser,
             discount,
-            priceSettings
+            priceSettings,
+            pageTitle: shownCat.catTitle,
+            description: shownCat.catDescription,
+            keywords: shownCat.catKeywords
           }
         });
         //console.log(shownCat);
@@ -296,7 +304,7 @@ router.get(
           .find({ shopitemid: shownItem.vendorCode, approved: true })
           .then(testimonialArr => {
             testimonialArr.reverse();
-            console.log(shownItem);
+            //console.log(shownItem);
             res.render(viewsView, {
               transData: {
                 shopItemsArr,
@@ -330,6 +338,65 @@ router.get(
 );
 
 router.get('/', function(req, res) {
+  let p_itemsViewSettings = new Promise(function(resolve, reject) {
+    let itemsViewSettingsStr = fs.readFileSync(
+      './settings/itemsviewsettings.json',
+      {
+        encoding: 'UTF-8'
+      }
+    );
+    let itemsViewSettings = JSON.parse(itemsViewSettingsStr);
+    if (itemsViewSettings) resolve(itemsViewSettings);
+    else reject('Can not read ./settings/itemsviewsettings.json');
+  });
+
+  let p_shopItemsArr = new Promise(function(resolve, reject) {
+    var shopItemsArrStr = fs.readFileSync(
+      './public/datafiles/shopItemsArrFile.txt',
+      {
+        encoding: 'UTF-8'
+      }
+    );
+    var shopItemsArr = JSON.parse(shopItemsArrStr);
+    if (shopItemsArr) resolve(shopItemsArr);
+    else reject('Can not read ./public/datafiles/shopItemsArrFile.txt');
+  });
+
+  let p_shopCategoriesArr = new Promise(function(resolve, reject) {
+    var shopCategoriesArrStr = fs.readFileSync(
+      './public/datafiles/shopCategoriesArrFile.txt',
+      {
+        encoding: 'UTF-8'
+      }
+    );
+    var shopCategoriesArr = JSON.parse(shopCategoriesArrStr);
+    if (shopCategoriesArr) resolve(shopCategoriesArr);
+    else reject('Can not read ./public/datafiles/shopCategoriesArrFile.txt');
+  });
+
+  let p_shopUsersArr = new Promise(function(resolve, reject) {
+    let shopUsersArrStr = fs.readFileSync(
+      './public/datafiles/shopUsersArrFile.txt',
+      {
+        encoding: 'UTF-8'
+      }
+    );
+    let shopUsersArr = JSON.parse(shopUsersArrStr);
+
+    if (shopUsersArr) resolve(shopUsersArr);
+    else reject('Can not read ./public/datafiles/shopUsersArrFile.txt');
+  });
+
+  let p_priceSettings = new Promise(function(resolve, reject) {
+    let priceSettingsStr = fs.readFileSync('./settings/pricesettings.json', {
+      encoding: 'UTF-8'
+    });
+    let priceSettings = JSON.parse(priceSettingsStr);
+
+    if (priceSettings) resolve(priceSettings);
+    else reject('Can not read ./settings/pricesettings.json');
+  });
+
   let _id;
   let login;
   let group;
@@ -437,7 +504,6 @@ router.post('/editorder', (req, res) => {
   order
     .findOne({ _id })
     .then(orderFromDB => {
-      console.log();
       req.session.shopCart = orderFromDB.shopcart;
       req.session.discount = +orderFromDB.discount;
       req.session.editedOrder_id = +orderFromDB._id;
@@ -465,7 +531,7 @@ router.post('/unloadorder', (req, res) => {
       let order = JSON.parse(orderStr);
       var myXmlBuilder = new xml2js.Builder();
       var orderXml = myXmlBuilder.buildObject(order);
-      console.log(orderXml);
+      //console.log(orderXml);
 
       fs.writeFile(
         './ftpshared/orders/order_' + orderFromDB._id + '.xml',
@@ -727,4 +793,145 @@ function fItemsArrRecalc(arr, kurs, nacenka, priceKoef) {
   return arr;
 }
 
+router.post('/shopcarttoxls', (req, res) => {
+  let shopCart = req.session.shopCart;
+  fCreateXLSFromShopCart(shopCart)
+    .then(result => {
+      //console.log('result ' + result);
+      if (result) {
+        res.json({
+          ok: true,
+          link: result
+        });
+      } else {
+        res.json({
+          ok: false
+        });
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      res.json({
+        ok: false,
+        error
+      });
+    });
+});
+
+function fCreateXLSFromShopCart(shopCart) {
+  return new Promise((resolve, reject) => {
+    //console.log('shopCart \n' + shopCart);
+
+    // Create a new instance of a Workbook class
+    var workbook = new excel.Workbook();
+
+    // Add Worksheets to the workbook
+    var worksheet = workbook.addWorksheet('Sheet 1');
+    worksheet.column(1).setWidth(30);
+    worksheet.column(2).setWidth(12);
+    worksheet.column(3).setWidth(15);
+    worksheet.column(4).setWidth(15);
+    worksheet.column(5).setWidth(15);
+    worksheet.column(6).setWidth(12);
+    worksheet.column(7).setWidth(12);
+    worksheet.column(8).setWidth(12);
+
+    //worksheet.row(1).setHeight(20);
+
+    // Create a reusable style
+    var userStyle = workbook.createStyle({
+      font: {
+        bold: true,
+        color: '#FF0800',
+        size: 12
+      },
+      numberFormat: '$#,##0.00; ($#,##0.00); -'
+    });
+
+    var shopcartStyle = workbook.createStyle({
+      font: {
+        bold: true,
+        color: '#001684',
+        size: 12
+      },
+      numberFormat: '$#,##0.00; ($#,##0.00); -'
+    });
+
+    var summStyle = workbook.createStyle({
+      font: {
+        bold: true
+      },
+      numberFormat: '#,##0.00; (#,##0.00); -'
+    });
+
+    worksheet
+      .cell(1, 1)
+      .string('КОРЗИНА ТОВАРОВ')
+      .style(shopcartStyle);
+
+    worksheet
+      .cell(2, 1)
+      .string('Наименование')
+      .style(shopcartStyle);
+
+    worksheet
+      .cell(2, 2)
+      .string('vendorCode')
+      .style(shopcartStyle);
+
+    worksheet
+      .cell(2, 3)
+      .string('Цена, грн')
+      .style(shopcartStyle);
+
+    worksheet
+      .cell(2, 4)
+      .string('Количество')
+      .style(shopcartStyle);
+
+    worksheet
+      .cell(2, 5)
+      .string('Сумма')
+      .style(shopcartStyle);
+
+    let totalUah = 0;
+    for (let i = 0; i < shopCart.length; i++) {
+      worksheet.cell(2 + 1 + i, 1).string(shopCart[i].name);
+
+      worksheet.cell(2 + 1 + i, 2).string(shopCart[i].vendorCode);
+
+      worksheet.cell(2 + 1 + i, 3).number(+shopCart[i].price);
+
+      worksheet.cell(2 + 1 + i, 4).number(+shopCart[i].quantity);
+
+      worksheet
+        .cell(2 + 1 + i, 5)
+        .number(shopCart[i].quantity * shopCart[i].price)
+        .style(summStyle);
+      totalUah += shopCart[i].quantity * shopCart[i].price;
+    }
+    worksheet
+      .cell(2 + 2 + shopCart.length, 4)
+      .string('ИТОГО:')
+      .style(userStyle);
+    worksheet
+      .cell(2 + 2 + shopCart.length, 5)
+      .number(totalUah)
+      .style(summStyle);
+
+    var d = new Date();
+    var t = d.getTime();
+    let savePath = './ftpshared/xls_shopcarts/' + t + '.xlsx';
+    let downloadPath = './xls_shopcarts/' + t + '.xlsx';
+    workbook.write(savePath, function(err, stats) {
+      if (err) {
+        console.error(err);
+        reject(null);
+      } else {
+        //console.log('XLS saved (k.8)');
+        resolve(downloadPath);
+      }
+    });
+  });
+}
 module.exports = router;
