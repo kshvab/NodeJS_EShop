@@ -29,18 +29,18 @@ function pGetSectionByAliasFromDb(alias) {
   });
 }
 
-function pGetTopicsInSectionFromDb(sectionalias) {
+function pGetTopicsInSectionFromDb(sectionid) {
   return new Promise(function(resolve, reject) {
-    forumtopic.find({ sectionalias }).then(topicsFromDB => {
+    forumtopic.find({ sectionid }).then(topicsFromDB => {
       if (topicsFromDB) resolve(topicsFromDB);
       else reject('Не могу достать темы раздела из базы!');
     });
   });
 }
 
-function pGetPostsInTopicFromDb(topicalias) {
+function pGetPostsInTopicFromDb(topicid) {
   return new Promise(function(resolve, reject) {
-    forumpost.find({ topicalias }).then(postsFromDB => {
+    forumpost.find({ topicid }).then(postsFromDB => {
       if (postsFromDB) resolve(postsFromDB);
       else reject('Не могу достать посты темы из базы!');
     });
@@ -187,7 +187,7 @@ router.get('/section/:sectionalias', function(req, res) {
 
   pGetSectionByAliasFromDb(sectionAlias).then(section => {
     //console.log(section);
-    pGetTopicsInSectionFromDb(sectionAlias).then(topics => {
+    pGetTopicsInSectionFromDb(section._id).then(topics => {
       console.log(topics);
       res.render('forum/forum_section', {
         transData: {
@@ -252,11 +252,13 @@ router.get('/addnewtopic/:sectionalias', function(req, res) {
 
   pGetSectionByAliasFromDb(sectionAlias).then(section => {
     let sectionTitle = section.title;
+    let sectionId = section._id;
     res.render('forum/forum_topic_add', {
       transData: {
         user: { _id, login, group },
-        sectionAlias,
-        sectionTitle
+        //sectionAlias,
+        sectionTitle,
+        sectionId
       }
     });
   });
@@ -286,7 +288,7 @@ router.get('/topic/:topicalias', function(req, res) {
     let topicDate = moment(topic.updatedAt).format('dddd, DD.MM.YYYY, HH:mm');
     topic.date = topicDate;
 
-    pGetPostsInTopicFromDb(topic.alias).then(posts => {
+    pGetPostsInTopicFromDb(topic._id).then(posts => {
       //console.log(posts);
       //console.log(topic);
       for (let i = 0; i < posts.length; i++) {

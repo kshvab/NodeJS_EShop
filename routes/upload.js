@@ -190,8 +190,7 @@ router.post('/topic', (req, res) => {
         picture = req.file.destination.slice(6) + '/' + req.file.filename;
       else picture = '';
 
-      let sectionalias = req.body.newTopicSectionAlias;
-      let sectiontitle = req.body.newTopicSectionTitle;
+      let sectionid = req.body.newTopicSectionId;
 
       if (!fulltext || fulltext == '<p><br></p>') {
         res.json({
@@ -204,8 +203,7 @@ router.post('/topic', (req, res) => {
             forumtopic
               .create({
                 _id: new mongoose.Types.ObjectId(),
-                sectionalias,
-                sectiontitle,
+                sectionid,
                 title,
                 alias,
                 shorttext,
@@ -264,7 +262,8 @@ router.post('/post', (req, res) => {
         picture = req.file.destination.slice(6) + '/' + req.file.filename;
       else picture = '';
 
-      let topicalias = req.body.newPostTopicAlias;
+      let topicid = req.body.newPostTopicId;
+      let sectionid = req.body.newPostSectionId;
 
       if (!fulltext || fulltext == '<p><br></p>') {
         res.json({
@@ -275,7 +274,8 @@ router.post('/post', (req, res) => {
         forumpost
           .create({
             _id: new mongoose.Types.ObjectId(),
-            topicalias,
+            sectionid,
+            topicid,
             picture,
             fulltext,
             author,

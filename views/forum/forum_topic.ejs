@@ -324,11 +324,19 @@
                     превышающие по размеру 5мБ.</small
                   >
                   <input
+                  class="form-control"
+                  name="newPostSectionId"
+                  type="hidden"
+                  id="new-post-section-id"
+                  value="<%= transData.topic.sectionid %>"
+                />
+
+                  <input
                     class="form-control"
-                    name="newPostTopicAlias"
+                    name="newPostTopicId"
                     type="hidden"
-                    id="new-post-topic-alias"
-                    value="<%= transData.topic.alias %>"
+                    id="new-post-topic-id"
+                    value="<%= transData.topic._id %>"
                   />
                   <input
                     class="form-control"
