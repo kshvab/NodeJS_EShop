@@ -8,6 +8,8 @@ const mongoose = require('mongoose');
 var fs = require('fs');
 const models = require('../models');
 const publication = models.publication;
+const forumtopic = models.forumtopic;
+const forumpost = models.forumpost;
 
 const transliterationModule = require('transliteration');
 const slugify = transliterationModule.slugify;
@@ -155,6 +157,144 @@ router.post('/editimage', (req, res) => {
           });
         }
       });
+    }
+  });
+});
+
+//post new topic
+router.post('/topic', (req, res) => {
+  upload(req, res, err => {
+    if (err) {
+      let error = '';
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        error = 'Картинка не более 2mb';
+      }
+      if (err.code === 'EXTENTION') {
+        error = 'Только .jpg, .jpeg, .png';
+      }
+      res.json({
+        ok: false,
+        error
+      });
+    } else {
+      //console.log(req.body);
+
+      let title = req.body.newTopicTitle;
+      let alias = slugify(title);
+      let shorttext = req.body.newTopicShortText;
+      let fulltext = req.body.newTopicFullText;
+      let author = req.body.newTopicAuthorName;
+      let authorgroup = req.body.newTopicAuthorGroup;
+      let picture;
+      if (req.file)
+        picture = req.file.destination.slice(6) + '/' + req.file.filename;
+      else picture = '';
+
+      let sectionalias = req.body.newTopicSectionAlias;
+      let sectiontitle = req.body.newTopicSectionTitle;
+
+      if (!fulltext || fulltext == '<p><br></p>') {
+        res.json({
+          ok: false,
+          error: 'Напишите полный текст темы!'
+        });
+      } else {
+        forumtopic.findOne({ alias }).then(topicFromDB => {
+          if (!topicFromDB) {
+            forumtopic
+              .create({
+                _id: new mongoose.Types.ObjectId(),
+                sectionalias,
+                sectiontitle,
+                title,
+                alias,
+                shorttext,
+                picture,
+                fulltext,
+                author,
+                authorgroup
+              })
+              .then(topicToDB => {
+                res.json({
+                  ok: true,
+                  alias
+                });
+              })
+              .catch(err => {
+                console.log('K8 ERROR: Не получилось добавить тему в базу');
+                console.log(err);
+                res.json({
+                  ok: false,
+                  error: 'Ошибка, попробуйте позже!'
+                });
+              });
+          } else {
+            res.json({
+              ok: false,
+              error: 'Тема с таким алиасом уже существует!'
+            });
+          }
+        });
+      }
+    }
+  });
+});
+
+//post new post
+router.post('/post', (req, res) => {
+  upload(req, res, err => {
+    if (err) {
+      let error = '';
+      if (err.code === 'LIMIT_FILE_SIZE') {
+        error = 'Картинка не более 2mb';
+      }
+      if (err.code === 'EXTENTION') {
+        error = 'Только .jpg, .jpeg, .png';
+      }
+      res.json({
+        ok: false,
+        error
+      });
+    } else {
+      let fulltext = req.body.newPostFullText;
+      let author = req.body.newPostAuthorName;
+      let authorgroup = req.body.newPostAuthorGroup;
+      let picture;
+      if (req.file)
+        picture = req.file.destination.slice(6) + '/' + req.file.filename;
+      else picture = '';
+
+      let topicalias = req.body.newPostTopicAlias;
+
+      if (!fulltext || fulltext == '<p><br></p>') {
+        res.json({
+          ok: false,
+          error: 'Напишите полный текст поста!'
+        });
+      } else {
+        forumpost
+          .create({
+            _id: new mongoose.Types.ObjectId(),
+            topicalias,
+            picture,
+            fulltext,
+            author,
+            authorgroup
+          })
+          .then(postToDB => {
+            res.json({
+              ok: true
+            });
+          })
+          .catch(err => {
+            console.log('K8 ERROR: Не получилось добавить пост в базу');
+            console.log(err);
+            res.json({
+              ok: false,
+              error: 'Ошибка, попробуйте позже!'
+            });
+          });
+      }
     }
   });
 });

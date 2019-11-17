@@ -13,13 +13,13 @@
       <h1>Форум</h1>
       <% if (transData.user.group) { %>
         <div class="forum-top-buttons">
-          <button
-            id="forumAddNewTopicModalInit"
+          <a
+            id="forumAddNewTopicInit"
             class="btn btn-primary btn-sm mb-3"
-            value="<%= transData.section._id %>"
+            href="/forum/addnewtopic/<%= transData.section.alias %>"
           >
             <span class="fas fa-file-alt avesomePaddingRight"></span>Новая тема
-          </button>
+        </a>
         </div>
         <% } else { %> <br />
         <% } %>
@@ -33,535 +33,48 @@
               <%= transData.section.title %>
             </td>
           </tr>
+
+
           <tr>
             <td colspan="2" class="gTableSubTop" width="8%">&nbsp;
             </td>
             <td class="gTableSubTop" align="left">
-              <a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-1';return false;" rel="nofollow" class="topSortLink">Тема</a></td><td class="gTableSubTop" width="7%" align="center"><a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-4';return false;" rel="nofollow" class="topSortLink">Ответы</a></td><td class="gTableSubTop" width="6%" align="center"><a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-6';return false;" rel="nofollow" class="topSortLink">Просмотры</a></td><td class="gTableSubTop" width="14%" align="center"><a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-7';return false;" rel="nofollow" class="topSortLink">Автор темы</a></td><td class="gTableSubTop" width="21%" align="left"><a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-9';return false;" rel="nofollow" class="topSortLink">Обновления</a><span class="sortArrDown">↓</span></td></tr><tr id="tt138">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-138-1">Взломаем почты конкурентов! Без палева!</a>
+              <a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-1';return false;" rel="nofollow" class="topSortLink">Тема</a>
+            </td>
+            <td class="gTableSubTop" width="7%" align="center">
+              <a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-4';return false;" rel="nofollow" class="topSortLink">Ответы</a>
+            </td>
+            <td class="gTableSubTop" width="6%" align="center">
+              <a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-6';return false;" rel="nofollow" class="topSortLink">Просмотры</a>
+            </td>
+            <td class="gTableSubTop" width="14%" align="center">
+              <a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-7';return false;" rel="nofollow" class="topSortLink">Автор темы</a>
+            </td>
+            <td class="gTableSubTop" width="21%" align="left">
+              <a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-9';return false;" rel="nofollow" class="topSortLink">Обновления</a><span class="sortArrDown">↓</span>
+            </td>
+          </tr>
+              
+          <% for (let i = 0; i<transData.topics.length; i++) { %>
+          <tr id="tt138">
+            <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
+            <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
+            <td class="threadNametd">
+              <a class="threadLink" href="/forum/topic/<%=transData.topics[i].alias%>"><%=transData.topics[i].title%></a>
+              <div class="threadDescr"><%=transData.topics[i].shorttext%></div>
+            </td>
+            <td class="threadPostTd" align="center">3</td>
+            <td class="threadViewTd" align="center">336</td>
+            <td class="threadAuthTd" align="center"><span class="threadAuthor"><a class="threadAuthorLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-58', 'up58', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;"><%=transData.topics[i].author%></a></span></td>
+            <td class="threadLastPostTd">
+              <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-138-0-17">12.12.2017, 19:09</a>
+              <a href="/forum/2-138-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
+              <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-0-savich', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">savich</a></span>
+            </td>
+          </tr>
+<%}%>
           
-          
-          
-          <div class="threadDescr">корпоративные почты!  Скидки! www.pochty.com</div>
-          
-          
-        </td>
         
-        <td class="threadPostTd" align="center">3</td>
-        <td class="threadViewTd" align="center">336</td>
-        <td class="threadAuthTd" align="center"><span class="threadAuthor"><a class="threadAuthorLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-58', 'up58', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">grem</a></span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-138-0-17">12.12.2017, 19:09</a>
-          <a href="/forum/2-138-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-0-savich', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">savich</a></span>
-        </td></tr>
-        <tr id="tt132">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-132-1">Гонит масло</a>
-          
-          
-          
-          <div class="threadDescr">Джинма 244</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">2</td>
-        <td class="threadViewTd" align="center">1003</td>
-        <td class="threadAuthTd" align="center"><span class="threadAuthor"><a class="threadAuthorLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-34', 'up34', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">demon78</a></span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-132-0-17">24.04.2017, 14:47</a>
-          <a href="/forum/2-132-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-0-Ecnal', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">Ecnal</a></span>
-        </td></tr>
-        <tr id="tt33">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-33-1">Обговорення мінітрактора Донг Фенг 244</a>
-          
-          
-          
-          <div class="threadDescr">Хто що скаже про мінітрактор Донг Фенг 244?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">14</td>
-        <td class="threadViewTd" align="center">3098</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Вася</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-33-0-17">24.04.2017, 14:47</a>
-          <a href="/forum/2-33-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-0-Ecnal', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">Ecnal</a></span>
-        </td></tr>
-        <tr id="tt134">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-134-1">Досуг в москве с девушками</a>
-          
-          
-          
-          <div class="threadDescr">Индивидуалки edinros33.ru</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">1</td>
-        <td class="threadViewTd" align="center">247</td>
-        <td class="threadAuthTd" align="center"><span class="threadAuthor"><a class="threadAuthorLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-49', 'up49', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">edinros33</a></span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-134-0-17">24.04.2017, 14:46</a>
-          <a href="/forum/2-134-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-0-grem', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">grem</a></span>
-        </td></tr>
-        <tr id="tt128">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-128-1">Ременные минитрактора</a>
-          
-          
-          
-          <div class="threadDescr">Все у кого есть ременной трактор - присоединяйтесь!</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">1</td>
-        <td class="threadViewTd" align="center">1364</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Sergej1980</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-128-0-17">10.07.2014, 16:16</a>
-          <a href="/forum/2-128-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-0-AgroZone', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">AgroZone</a></span>
-        </td></tr>
-        <tr id="tt127">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-127-1">Регулировака клапанов</a>
-          
-          
-          
-          <div class="threadDescr">Как правильно регулировать клапана?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">1</td>
-        <td class="threadViewTd" align="center">1518</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Анатолий</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-127-0-17">07.05.2014, 23:29</a>
-          <a href="/forum/2-127-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-0-Vasek', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">Vasek</a></span>
-        </td></tr>
-        <tr id="tt131">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-131-1">хто знає?? підкажіть!!</a>
-          
-          
-          
-          <div class="threadDescr">посвідчення водія!</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">1</td>
-        <td class="threadViewTd" align="center">1155</td>
-        <td class="threadAuthTd" align="center"><span class="threadAuthor"><a class="threadAuthorLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-33', 'up33', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">xXx</a></span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-131-0-17">26.03.2014, 22:18</a>
-          <a href="/forum/2-131-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-0-demon78', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">demon78</a></span>
-        </td></tr>
-        <tr id="tt129">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-129-1">Минитрактор Донг Фенг 240 или Джинма 240?</a>
-          
-          
-          
-          <div class="threadDescr">Как выбрать?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">1</td>
-        <td class="threadViewTd" align="center">1655</td>
-        <td class="threadAuthTd" align="center"><span class="threadAuthor"><a class="threadAuthorLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-29', 'up29', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">Genius</a></span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-129-0-17">02.03.2014, 22:22</a>
-          <a href="/forum/2-129-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-0-%D0%9C%D1%96%D1%88%D0%B0%D0%BD%D1%8F', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">Мішаня</a></span>
-        </td></tr>
-        <tr id="tt74">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/poll.gif" title="Тема - опрос"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-74-1">трактор дтз 244.3 проблема з датчиком тиску мастила</a>
-          
-          
-          
-          <div class="threadDescr">датчик тиску мастила при незавединому моторі на максимумі</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">2</td>
-        <td class="threadViewTd" align="center">1033</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Гость</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-74-0-17">22.04.2013, 10:14</a>
-          <a href="/forum/2-74-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-0-gynma', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">gynma</a></span>
-        </td></tr>
-        <tr id="tt26">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-26-1">Чи надійні китайські міні трактори?</a>
-          
-          
-          
-          <div class="threadDescr">На скільки надійна китайська міні техніка?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">9</td>
-        <td class="threadViewTd" align="center">7093</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Buzueff</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-26-0-17">11.04.2013, 23:26</a>
-          <a href="/forum/2-26-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Гость</span>
-        </td></tr>
-        <tr id="tt12">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-12-1">Минитрактор Синтай 220</a>
-          
-          
-          
-          <div class="threadDescr">Стоит ли покупать минитрактор Синтай 220?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">13</td>
-        <td class="threadViewTd" align="center">4074</td>
-        <td class="threadAuthTd" align="center"><span class="threadAuthor"><a class="threadAuthorLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-9', 'up9', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">MasterOk</a></span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-12-0-17">08.04.2013, 20:48</a>
-          <a href="/forum/2-12-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Гость</span>
-        </td></tr>
-        <tr id="tt68">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-68-1">Стоит ли покупать ременной минитрактор Синтай 24В</a>
-          
-          
-          
-          <div class="threadDescr">Пишите кто что думает</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">0</td>
-        <td class="threadViewTd" align="center">674</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Гость</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-68-0-17">02.04.2013, 15:55</a>
-          <a href="/forum/2-68-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Гость</span>
-        </td></tr>
-        <tr id="tt66">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-66-1">Минитрактор ДВ 354</a>
-          
-          
-          
-          <div class="threadDescr">Давайте поговорим об этой моделе!</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">0</td>
-        <td class="threadViewTd" align="center">385</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Wowchik</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-66-0-17">02.04.2013, 12:45</a>
-          <a href="/forum/2-66-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Wowchik</span>
-        </td></tr>
-        <tr id="tt65">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-65-1">Пресподборщик рулонный</a>
-          
-          
-          
-          <div class="threadDescr">Насколько он хорош?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">0</td>
-        <td class="threadViewTd" align="center">367</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">LeshA1980</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-65-0-17">02.04.2013, 12:41</a>
-          <a href="/forum/2-65-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">LeshA1980</span>
-        </td></tr>
-        <tr id="tt53">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-53-1">Мінітрактор Донг Фенг 404</a>
-          
-          
-          
-          <div class="threadDescr">Відгуки про китайський трактор Донг Фенг 404</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">3</td>
-        <td class="threadViewTd" align="center">1031</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Rob1nzoN</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-53-0-17">22.03.2013, 18:44</a>
-          <a href="/forum/2-53-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Oleksa80</span>
-        </td></tr>
-        <tr id="tt57">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-57-1">міні трактор</a>
-          
-          
-          
-          <div class="threadDescr">сінтай 224</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">1</td>
-        <td class="threadViewTd" align="center">369</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Гость</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-57-0-17">18.03.2013, 10:16</a>
-          <a href="/forum/2-57-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Гость</span>
-        </td></tr>
-        <tr id="tt56">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-56-1">Отказал 4Х4</a>
-          
-          
-          
-          <div class="threadDescr">Не работает полный привод</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">2</td>
-        <td class="threadViewTd" align="center">723</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Гость</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-56-0-17">03.03.2013, 18:22</a>
-          <a href="/forum/2-56-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Гость</span>
-        </td></tr>
-        <tr id="tt13">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/closed.gif" title="Тема закрыта"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-13-1">Минитрактор ДТЗ 244.4 или минитрактор ДТЗ 244.3Е?</a>
-          
-          
-          
-          <div class="threadDescr">Кто знает в чем между ними разница?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">6</td>
-        <td class="threadViewTd" align="center">7167</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">228768</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-13-0-17">03.03.2013, 15:53</a>
-          <a href="/forum/2-13-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">юрій</span>
-        </td></tr>
-        <tr id="tt6">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-6-1">Донг Фенг 354 или Джинма 354</a>
-          
-          
-          
-          <div class="threadDescr">Како лучше? В чем разница кроме названия?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">7</td>
-        <td class="threadViewTd" align="center">2123</td>
-        <td class="threadAuthTd" align="center"><span class="threadAuthor"><a class="threadAuthorLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-7', 'up7', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">Saturn</a></span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-6-0-17">03.02.2013, 17:50</a>
-          <a href="/forum/2-6-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Гость</span>
-        </td></tr>
-        <tr id="tt3">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-3-1">Ременной мини трактор</a>
-          
-          
-          
-          <div class="threadDescr">Стоит ли покупать ременной минитрактор?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">9</td>
-        <td class="threadViewTd" align="center">3297</td>
-        <td class="threadAuthTd" align="center"><span class="threadAuthor"><a class="threadAuthorLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-3', 'up3', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">Vassilij</a></span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-3-0-17">26.01.2013, 22:01</a>
-          <a href="/forum/2-3-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Гость</span>
-        </td></tr>
-        <tr id="tt4">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-4-1">Какой мини трактор лучше Донг Фенг или Джинма?</a>
-          
-          
-          
-          <div class="threadDescr">Какая разница между трактором Донг Фенг и Джинма</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">9</td>
-        <td class="threadViewTd" align="center">8448</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Oleg85</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-4-0-17">22.12.2012, 23:08</a>
-          <a href="/forum/2-4-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Гость</span>
-        </td></tr>
-        <tr id="tt41">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-41-1">Минитрактор Синтай 180</a>
-          
-          
-          
-          <div class="threadDescr">Сколько цилиндров в двигателе Синтай 180?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">6</td>
-        <td class="threadViewTd" align="center">2645</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Profi</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-41-0-17">21.12.2012, 11:25</a>
-          <a href="/forum/2-41-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Гость</span>
-        </td></tr>
-        <tr id="tt44">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-44-1">Кабина для мини трактора</a>
-          
-          
-          
-          <div class="threadDescr">Как соорудить кабину для китайского мини трактора?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">1</td>
-        <td class="threadViewTd" align="center">2412</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Андрюха</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-44-0-17">19.12.2012, 17:25</a>
-          <a href="/forum/2-44-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Dimon</span>
-        </td></tr>
-        <tr id="tt43">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-43-1">Все о мини тракторах Джинма</a>
-          
-          
-          
-          <div class="threadDescr">Все у кого есть мини трактор Джинма - присоединяйтесь!!</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">2</td>
-        <td class="threadViewTd" align="center">1496</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Biker</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-43-0-17">19.12.2012, 17:18</a>
-          <a href="/forum/2-43-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Biker</span>
-        </td></tr>
-        <tr id="tt54">
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-        <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
-        <td class="threadNametd">
-          <a class="threadLink" href="/forum/2-54-1">Какой трактор лучше?</a>
-          
-          
-          
-          <div class="threadDescr">Какая марка китайских тракторов самая надежная?</div>
-          
-          
-        </td>
-        
-        <td class="threadPostTd" align="center">2</td>
-        <td class="threadViewTd" align="center">1629</td>
-        <td class="threadAuthTd" align="center"><span class="threadIsntAuthor">Vandam</span></td>
-        <td class="threadLastPostTd">
-          <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-54-0-17">19.12.2012, 17:15</a>
-          <a href="/forum/2-54-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-          <br>Сообщение от: <span class="lastPostGuest">Веталь1980</span>
-        </td></tr>
         <tr><td class="threadsDetails" colspan="7">В этом форуме тем: <b>52</b>. На странице показано тем: <b>25</b>.</td></tr><tr><td class="forumOnlineBar" colspan="7">Форум просматривают: <b>1</b> гостей</td></tr> </tbody></table>
 
 

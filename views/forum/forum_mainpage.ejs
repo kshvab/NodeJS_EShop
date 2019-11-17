@@ -42,6 +42,9 @@
             <td class="gTableSubTop" width="8%" align="center">Темы</td>
             <td class="gTableSubTop" width="8%" align="center">Ответы</td>
             <td class="gTableSubTop" width="30%">Обновления</td>
+            <% if (transData.user.group == "Administrator") { %>
+            <td class="gTableSubTop" width="8%">Управление</td>
+            <% } %>
           </tr>
 
 
@@ -55,7 +58,7 @@
               />
             </td>
             <td class="forumNameTd">
-                <a class="forum" href="/forum/sections/<%= transData.sections[i].alias %>"><%= transData.sections[i].title %></a>
+                <a class="forum" href="/forum/section/<%= transData.sections[i].alias %>"><%= transData.sections[i].title %></a>
   
                 <div class="forumDescr">
                   <%= transData.sections[i].description %>
@@ -91,6 +94,25 @@
                 ></span
               >
             </td>
+            <% if (transData.user.group == "Administrator") { %>
+            <td class="forumIcoTd" align="center">
+                <button
+                name="forum-admin-delete-one-section"
+                value="<%= transData.sections[i]._id %>"
+                type="button"
+                class="btn btn-danger btn-xs">
+                  <i class="fa fa-times fa-fw"></i> Del
+                </button>
+
+                <button
+                name="forum-admin-edit-one-section"
+                value="<%= transData.sections[i]._id %>"
+                type="button"
+                class="btn btn-primary btn-xs">
+                  <i class="fa fa-edit fa-fw"></i> Edit
+                </button>
+            </td>
+            <% } %>
           </tr>
           <% } %>
 

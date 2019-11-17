@@ -958,7 +958,7 @@ $(window).on('load', function() {
       url: '/shopcart/neworder',
       data: data,
       success: function(result) {
-        console.log(result);
+        
 
         if (result.ok) {
           $('#new-order-number').text(result.newOrderNumber);
@@ -1792,6 +1792,182 @@ $('#forumAddNewSectionButton').on('click', function(e) {
 
 
 
+$('#adminaddnewpublfulltext').summernote({
+  placeholder: 'Полный текст для публикации...',
+  tabsize: 2,
+  height: 200
+});
+
+$('#addnewtopicfulltext').summernote({
+  placeholder: 'Полный текст темы...',
+  tabsize: 2,
+  height: 200
+});
+
+$('#addnewpostfulltext').summernote({
+  placeholder: 'Текст поста...',
+  tabsize: 2,
+  height: 200
+});
+
+ //Upload image and fields for new topic
+ $('#addnewtopicform').on('submit', function(e) {
+  e.preventDefault();
+
+
+  $('#loading-overlay').show();
+  var formData = new FormData(this);
+  var newTopicFullText = $('#addnewtopicfulltext').summernote('code');
+  formData.append('newTopicFullText', newTopicFullText);
+  $.ajax({
+    type: 'POST',
+    url: '/upload/topic',
+    data: formData,
+    processData: false, //no dirty data to send
+    contentType: false, //no validation
+    success: function(result) {
+
+      //console.log(result);
+      
+      let topicAlias = result.alias;
+      if (!result.ok) {
+        $('#new-topic-error-msg').html(
+          '<p class="text-danger">' + result.error + '</p>'
+        );
+        $('#loading-overlay').hide();
+      } else {
+        $(location).attr('href', '/forum/topic/' + topicAlias);
+      }
+      
+    },
+    error: function(error) {
+      console.log(error);
+      $(location).attr('href', '/administrator/error');
+    }
+  });
+});
+
+
+
+
+
+ //Upload image and fields for new post
+
+ $('#addnewpostform').on('submit', function(e) {
+  e.preventDefault();
+
+  $('#loading-overlay').show();
+  var formData = new FormData(this);
+
+  var newPostFullText = $('#addnewpostfulltext').summernote('code');
+  formData.append('newPostFullText', newPostFullText);
+  $.ajax({
+    type: 'POST',
+    url: '/upload/post',
+    data: formData,
+    processData: false, //no dirty data to send
+    contentType: false, //no validation
+    success: function(result) {
+
+      
+      if (!result.ok) {
+        $('#new-post-error-msg').html(
+          '<p class="text-danger">' + result.error + '</p>'
+        );
+        $('#loading-overlay').hide();
+      } else {
+        window.location.reload(true);
+      }
+      
+    },
+    error: function(error) {
+      console.log(error);
+      $(location).attr('href', '/administrator/error');
+    }
+  });
+});
+
+  // Admin Dell One Post from forum
+  $("[name='forum-admin-delete-one-post']").on('click', function(e) {
+    e.preventDefault();
+    let _id = this.value;
+    let confirmed = confirm(
+      'Вы точно хотите удалить пост?'
+    );
+    if (confirmed) {
+      $('#loading-overlay').show();
+      let data = {
+        _id
+      };
+      $.ajax({
+        type: 'DELETE',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        url: '/forum/dellpost'
+      }).done(function(data) {
+        if (!data.ok) {
+          alert(data.error);
+        } else {
+          window.location.reload(true);
+        }
+      });
+    } else return;
+  });
+
+
+// Admin Dell One topic from forum with all the posts
+$("[name='forum-admin-delete-one-topic']").on('click', function(e) {
+  e.preventDefault();
+  let _id = this.value;
+  let confirmed = confirm(
+    'Вы точно хотите удалить тему со всеми постами?'
+  );
+  if (confirmed) {
+    let data = {
+      _id
+    };
+    $.ajax({
+      type: 'DELETE',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/forum/delltopic'
+    }).done(function(data) {
+      if (!data.ok) {
+        alert(data.error);
+      } else {
+        $(location).attr('href', '/forum');
+      }
+    });
+  } else return;
+});
+
+
+// Admin Dell One section from forum with all the topics and posts
+$("[name='forum-admin-delete-one-section']").on('click', function(e) {
+  e.preventDefault();
+
+  let _id = this.value;
+  let confirmed = confirm(
+    'Вы точно хотите удалить раздел со всеми темами и постами?'
+  );
+  if (confirmed) {
+    let data = {
+      _id
+    };
+    $.ajax({
+      type: 'DELETE',
+      data: JSON.stringify(data),
+      contentType: 'application/json',
+      url: '/forum/dellsection'
+    }).done(function(data) {
+      if (!data.ok) {
+        alert(data.error);
+      } else {
+        window.location.reload(true);
+      }
+    });
+  } else return;
+});
 
 
 });

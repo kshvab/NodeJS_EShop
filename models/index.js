@@ -5,7 +5,8 @@ const testimonial = require('./testimonial');
 const user = require('./user');
 const wishlist = require('./wishlist');
 const forumsection = require('./forumsection');
-
+const forumtopic = require('./forumtopic');
+const forumpost = require('./forumpost');
 module.exports = {
   counter,
   order,
@@ -13,5 +14,7 @@ module.exports = {
   testimonial,
   user,
   wishlist,
-  forumsection
+  forumsection,
+  forumtopic,
+  forumpost
 };

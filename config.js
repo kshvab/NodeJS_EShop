@@ -16,5 +16,6 @@ module.exports = {
   MAILING_SERVISE: process.env.MAILING_SERVISE,
   MAILING_USER: process.env.MAILING_USER,
   MAILING_PASS: process.env.MAILING_PASS,
-  MAILING_ADMINS: process.env.MAILING_ADMINS
+  MAILING_ADMINS: process.env.MAILING_ADMINS,
+  GOOGLE_MAP_API: process.env.GOOGLE_MAP_API
 };

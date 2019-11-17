@@ -1,6 +1,6 @@
 {
   "name": "svarkasite",
-  "version": "8.1.2",
+  "version": "8.1.5",
   "version-GIT-description": "",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",

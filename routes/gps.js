@@ -5,6 +5,8 @@ const user = models.user;
 const moment = require('moment');
 let fs = require('fs');
 const xml2js = require('xml2js');
+const config = require('../config');
+const googleMapApiKey = config.GOOGLE_MAP_API;
 
 function fFillTheAgentsArr(parsedArr) {
   let agentsArr = [];
@@ -285,6 +287,7 @@ router.get('/', function(req, res) {
             res.header('Pragma', 'no-cache');
             res.render('administrator/adm_gps', {
               transData: {
+                googleMapApiKey,
                 pageTitle: 'GPS',
                 user: { _id, login, group },
                 mapScript,
@@ -300,6 +303,7 @@ router.get('/', function(req, res) {
           .catch(error => {
             res.render('administrator/adm_gps', {
               transData: {
+                googleMapApiKey,
                 pageTitle: 'GPS',
                 user: { _id, login, group },
                 mapScript: null,

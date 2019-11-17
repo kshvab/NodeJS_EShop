@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <% include ../layout/lay_site_1_head.ejs %>
+
+  <body>
+    <% include ../layout/lay_site_2_navigation.ejs %>
+
+    <!-- CONTAINER: -->
+    <div class="container">
+      <br />
+
+      <h1>Форум</h1>
+      <h3><%= transData.sectionTitle %></h3>
+      <!-- MAIN CONTENT HERE: -->
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">Создание новой темы</div>
+            <div class="panel-body">
+              <div id="new-topic-error-msg"></div>
+
+              <!-- FORM FOR FILE SENDING -->
+
+              <form
+                method="POST"
+                enctype="multipart/form-data"
+                id="addnewtopicform"
+              >
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="form-group">
+                      <label for="new-topic-title">Заголовок</label>
+                      <input
+                        class="form-control"
+                        name="newTopicTitle"
+                        type="name"
+                        id="new-topic-title"
+                        required
+                      />
+                    </div>
+                    <div class="form-group">
+                      <label for="new-topic-short-text">Короткий текст</label>
+                      <textarea
+                        class="form-control"
+                        name="newTopicShortText"
+                        id="new-topic-short-text"
+                        rows="2"
+                        required
+                      ></textarea>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <label for="file">Изображение для темы</label>
+                    <input
+                      type="file"
+                      name="file"
+                      aria-describedby="fileHelp"
+                      id="file"
+                    />
+                    <small id="fileHelp" class="form-text text-muted"
+                      >Используйте изображения формата .JPG или .GIF не
+                      превышающие по размеру 5мБ.</small
+                    >
+                    <input
+                      class="form-control"
+                      name="newTopicSectionAlias"
+                      type="hidden"
+                      id="new-topic-section-alias"
+                      value="<%= transData.sectionAlias %>"
+                    />
+                    <input
+                      class="form-control"
+                      name="newTopicSectionTitle"
+                      type="hidden"
+                      id="new-topic-section-Title"
+                      value="<%= transData.sectionTitle %>"
+                    />
+                    <input
+                      class="form-control"
+                      name="newTopicAuthorName"
+                      type="hidden"
+                      id="new-topic-user"
+                      value="<%= transData.user.login %>"
+                    />
+                    <input
+                      class="form-control"
+                      name="newTopicAuthorGroup"
+                      type="hidden"
+                      id="new-topic-user-group"
+                      value="<%= transData.user.group %>"
+                    />
+                  </div>
+                </div>
+
+                <!-- adminaddnewpublfulltext -->
+                <div class="form-group">
+                  <label for="addnewtopicfulltext">Полный текст</label>
+                  <div id="addnewtopicfulltext"></div>
+                </div>
+                <!-- adminaddnewpublfulltext -->
+
+                <div class="row">
+                  <div class="col-lg-6"></div>
+                  <div class="col-lg-6">
+                    <button
+                      class="upload-button btn btn-primary btn-block"
+                      id="forumtopicaddbutton"
+                    >
+                      Создать тему
+                    </button>
+                  </div>
+                </div>
+              </form>
+
+              <!-- /FORM FOR FILE SENDING -->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /MAIN CONTENT HERE: -->
+
+      <!-- Footer -->
+      <% include ../layout/lay_site_5_footer.ejs %>
+      <!-- Footer -->
+    </div>
+
+    <!-- /CONTAINER: -->
+
+    <% include ../layout/lay_site_4_bottomscripts.ejs %>
+  </body>
+</html>
