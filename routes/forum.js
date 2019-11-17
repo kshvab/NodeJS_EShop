@@ -154,7 +154,7 @@ router.get('/', function(req, res) {
   }
 
   forumsection.find().then(sections => {
-    //console.log(sections);
+    console.log(sections);
     res.render('forum/forum_mainpage', {
       transData: {
         user: { _id, login, group },
@@ -360,4 +360,32 @@ router.delete('/dellsection', (req, res) => {
     });
 });
 
+router.put('/editsection', (req, res) => {
+  const _id = req.body._id;
+  let title = req.body.title;
+  let description = req.body.description;
+  let alias = slugify(title);
+
+  forumsection
+    .findOne({ _id })
+    .then(sectionFromDB => {
+      sectionFromDB.title = title;
+      sectionFromDB.description = description;
+      sectionFromDB.alias = alias;
+
+      sectionFromDB.save().then(() => {
+        console.log('Раздел отредактирован успешно');
+        res.json({
+          ok: true
+        });
+      });
+    })
+    .catch(err => {
+      console.log('K8 ERROR: Не получилось удалить' + err);
+      res.json({
+        ok: false,
+        error: 'K8 ERROR: Не получилось удалить' + err
+      });
+    });
+});
 module.exports = router;

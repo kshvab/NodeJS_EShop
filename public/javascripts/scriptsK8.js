@@ -1970,4 +1970,68 @@ $("[name='forum-admin-delete-one-section']").on('click', function(e) {
 });
 
 
+
+
+$('#forumEditSectionModalInit').on('click', function(e) {
+  e.preventDefault();
+  let curSectionId = this.value;
+  let curSectionTitle = $(`#sectiontitle${curSectionId}`).text();
+  let curSectionDescription = $(`#sectiondescription${curSectionId}`).text();
+  $('#forumEditSectionTitle').val(curSectionTitle);
+  $('#forumEditSectionDescription').val(curSectionDescription);
+  $('#forumEditSectionButton').val(curSectionId);
+  $('#forumEditSectionModal').modal();
+  //$('#forumEditSectionModal').modal('hide');
+
+});
+
+$('#forumEditSectionButton').on('click', function(e) {
+  e.preventDefault();
+
+  let data = {
+    _id:$('#forumEditSectionButton').val(),
+    title: $('#forumEditSectionTitle').val(),
+    description: $('#forumEditSectionDescription').val(),
+  };
+
+
+  if (data.title.length <5) {
+    alert('Введите корректное название для раздела!');
+    return null;
+  }
+
+  if (data.title.length >60) {
+    alert('Введите название для раздела покороче!');
+    return null;
+  }
+  
+
+  $.ajax({
+    type: 'PUT',
+    data: JSON.stringify(data),
+    contentType: 'application/json',
+    url: '/forum/editsection'
+  }).done(function(data) {
+
+    if (!data.ok) {
+      alert(data.error)
+    } else {
+      $('#loading-overlay').show();
+      setTimeout(function() {
+        window.location.reload(true);
+      }, 1000);
+    }
+  })
+});
+
+
+
+
+
+
+
+
+
+
+
 });

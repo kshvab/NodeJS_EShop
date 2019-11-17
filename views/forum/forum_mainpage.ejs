@@ -58,11 +58,9 @@
               />
             </td>
             <td class="forumNameTd">
-                <a class="forum" href="/forum/section/<%= transData.sections[i].alias %>"><%= transData.sections[i].title %></a>
+                <a id="sectiontitle<%= transData.sections[i]._id %>" class="forum" href="/forum/section/<%= transData.sections[i].alias %>"><%= transData.sections[i].title %></a>
   
-                <div class="forumDescr">
-                  <%= transData.sections[i].description %>
-                </div>
+                <div id="sectiondescription<%= transData.sections[i]._id %>" class="forumDescr"><%= transData.sections[i].description %></div>
               </td>
             <td class="forumThreadTd" align="center">52</td>
             <td class="forumPostTd" align="center">143</td>
@@ -106,6 +104,7 @@
 
                 <button
                 name="forum-admin-edit-one-section"
+                id="forumEditSectionModalInit"
                 value="<%= transData.sections[i]._id %>"
                 type="button"
                 class="btn btn-primary btn-xs">
@@ -180,6 +179,60 @@
           class="btn btn-primary"
         >
           Добавить
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal forumEditSection -->
+<div
+  class="modal fade"
+  id="forumEditSectionModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="forumEditSectionModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="forumEditSectionModalLabel">
+          Редактирование раздела
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-control-label">Название</label>
+          <input type="text" class="form-control" id="forumEditSectionTitle" />
+        </div>
+
+        <div class="form-group">
+          <label class="form-control-label">Короткое описание</label>
+
+          <textarea
+            class="form-control input"
+            rows="3"
+            style="resize:none"
+            id="forumEditSectionDescription"
+          ></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          id="forumEditSectionButton"
+          type="button"
+          class="btn btn-primary"
+        >
+          Сохранить
         </button>
       </div>
     </div>

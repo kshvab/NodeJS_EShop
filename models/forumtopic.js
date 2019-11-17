@@ -3,11 +3,7 @@ const mongoose = require('mongoose');
 const forumtopicSchema = mongoose.Schema(
   {
     _id: mongoose.Schema.Types.ObjectId,
-    sectionalias: {
-      type: String,
-      required: true
-    },
-    sectiontitle: {
+    sectionid: {
       type: String,
       required: true
     },
