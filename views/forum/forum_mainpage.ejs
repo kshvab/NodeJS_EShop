@@ -48,7 +48,7 @@
           </tr>
 
 
-          <% for (let i = 0; i<transData.sections.length; i++) { %>
+          <% for (let i = 0; i<transData.sectionsList.length; i++) { %>
           <tr>
             <td class="forumIcoTd" align="center">
               <img
@@ -58,28 +58,21 @@
               />
             </td>
             <td class="forumNameTd">
-                <a id="sectiontitle<%= transData.sections[i]._id %>" class="forum" href="/forum/section/<%= transData.sections[i].alias %>"><%= transData.sections[i].title %></a>
+                <a id="sectiontitle<%= transData.sectionsList[i]._id %>" class="forum" href="/forum/section/<%= transData.sectionsList[i].alias %>"><%= transData.sectionsList[i].title %></a>
   
-                <div id="sectiondescription<%= transData.sections[i]._id %>" class="forumDescr"><%= transData.sections[i].description %></div>
+                <div id="sectiondescription<%= transData.sectionsList[i]._id %>" class="forumDescr"><%= transData.sectionsList[i].description %></div>
               </td>
-            <td class="forumThreadTd" align="center">52</td>
-            <td class="forumPostTd" align="center">143</td>
+            <td class="forumThreadTd" align="center"><%= transData.sectionsList[i].topicsCount %></td>
+            <td class="forumPostTd" align="center"><%= transData.sectionsList[i].postsCount %></td>
             <td class="forumLastPostTd">
-              <a
-                title="К последнему сообщению"
-                class="forumLastPostLink"
-                href="/forum/2-138-0-17"
-                >Вторник, 12.12.2017, 19:09</a
-              >
-              <a href="/forum/2-138-0-17-1"
-                ><img
-                  alt=""
-                  title="К первому непрочитанному сообщению"
-                  src="/images/forum/template/lastpost.gif"
-              /></a>
+
+              <% if(transData.sectionsList[i].lastPost) { %>
+              <%= transData.sectionsList[i].lastPost.createdAt %>
+
+              
               <br />Тема:
-              <a class="forumLastPostLink" href="/forum/2-138-1"
-                >Услуги по сварке! ...</a
+              <a class="forumLastPostLink" href="/forum/topic/<%= transData.sectionsList[i].lastPost.topicAlias %>"
+                ><%= transData.sectionsList[i].lastPost.topicTitle %></a
               >
               <br />Сообщение от:
               <span class="lastPostUser"
@@ -88,15 +81,17 @@
                   href="javascript://"
                   rel="nofollow"
                   onclick="window.open('/index/8-0-savich', 'up67', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;"
-                  >savich</a
+                  ><%= transData.sectionsList[i].lastPost.author %></a
                 ></span
               >
+
+              <% } %>
             </td>
             <% if (transData.user.group == "Administrator") { %>
             <td class="forumIcoTd" align="center">
                 <button
                 name="forum-admin-delete-one-section"
-                value="<%= transData.sections[i]._id %>"
+                value="<%= transData.sectionsList[i]._id %>"
                 type="button"
                 class="btn btn-danger btn-xs">
                   <i class="fa fa-times fa-fw"></i> Del
@@ -105,7 +100,7 @@
                 <button
                 name="forum-admin-edit-one-section"
                 id="forumEditSectionModalInit"
-                value="<%= transData.sections[i]._id %>"
+                value="<%= transData.sectionsList[i]._id %>"
                 type="button"
                 class="btn btn-primary btn-xs">
                   <i class="fa fa-edit fa-fw"></i> Edit

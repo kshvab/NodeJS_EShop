@@ -1,7 +1,7 @@
 {
   "name": "svarkasite",
-  "version": "8.1.7",
-  "version-GIT-description": "Forum refactoring",
+  "version": "8.1.8",
+  "version-GIT-description": "Forum mainPage",
   "description": "Nick Shvab E-shop with Node JS",
   "main": "index.js",
   "scripts": {

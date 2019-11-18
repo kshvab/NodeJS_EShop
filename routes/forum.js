@@ -38,6 +38,15 @@ function pGetTopicsInSectionFromDb(sectionid) {
   });
 }
 
+function pGetPostsInSectionFromDb(sectionid) {
+  return new Promise(function(resolve, reject) {
+    forumpost.find({ sectionid }).then(postsFromDB => {
+      if (postsFromDB) resolve(postsFromDB);
+      else reject('Не могу достать посты раздела из базы!');
+    });
+  });
+}
+
 function pGetPostsInTopicFromDb(topicid) {
   return new Promise(function(resolve, reject) {
     forumpost.find({ topicid }).then(postsFromDB => {
@@ -50,6 +59,15 @@ function pGetPostsInTopicFromDb(topicid) {
 function pGetTopicByAliasFromDb(alias) {
   return new Promise(function(resolve, reject) {
     forumtopic.findOne({ alias }).then(forumTopicFromDB => {
+      if (forumTopicFromDB) resolve(forumTopicFromDB);
+      else reject('Не могу достать topic форума из базы!');
+    });
+  });
+}
+
+function pGetTopicByIdFromDb(_id) {
+  return new Promise(function(resolve, reject) {
+    forumtopic.findOne({ _id }).then(forumTopicFromDB => {
       if (forumTopicFromDB) resolve(forumTopicFromDB);
       else reject('Не могу достать topic форума из базы!');
     });
@@ -154,14 +172,69 @@ router.get('/', function(req, res) {
   }
 
   forumsection.find().then(sections => {
-    console.log(sections);
-    res.render('forum/forum_mainpage', {
-      transData: {
-        user: { _id, login, group },
-        shopCart,
-        sections
+    let sectionsList = [];
+    for (let i = 0; i < sections.length; i++) {
+      sectionsList.push({
+        _id: sections[i]._id,
+        alias: sections[i].alias,
+        title: sections[i].title,
+        description: sections[i].description,
+        createdAt: sections[i].createdAt,
+        updatedAt: sections[i].updatedAt,
+        __v: sections[i].__v
+      });
+    }
+
+    fScanTopicsInfo();
+
+    function fScanTopicsInfo() {
+      let count = 0;
+      for (let i = 0; i < sectionsList.length; i++) {
+        pGetTopicsInSectionFromDb(sectionsList[i]._id).then(cTopicsList => {
+          //console.log(cTopicsList);
+          sectionsList[i].topicsCount = cTopicsList.length;
+
+          pGetPostsInSectionFromDb(sectionsList[i]._id).then(cPostsList => {
+            sectionsList[i].postsCount = cPostsList.length;
+            cPostsList.sort(function(a, b) {
+              return b.createdAt - a.createdAt;
+            });
+            if (cPostsList.length) {
+              pGetTopicByIdFromDb(cPostsList[0].topicid).then(motherTopic => {
+                sectionsList[i].lastPost = {
+                  createdAt: moment(cPostsList[0].createdAt).format(
+                    'DD.MM.YYYY, HH:mm, dddd'
+                  ),
+                  fulltext: cPostsList[0].fulltext,
+                  author: cPostsList[0].author,
+                  topicAlias: motherTopic.alias,
+                  topicTitle: motherTopic.title
+                };
+
+                count++;
+                if (count == sectionsList.length) fRenderPage();
+              });
+            } else {
+              count++;
+
+              if (count == sectionsList.length) fRenderPage();
+            }
+          });
+        });
       }
-    });
+    }
+
+    function fRenderPage() {
+      //console.log(sectionsList);
+
+      res.render('forum/forum_mainpage', {
+        transData: {
+          user: { _id, login, group },
+          shopCart,
+          sectionsList
+        }
+      });
+    }
   });
 });
 
