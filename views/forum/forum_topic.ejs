@@ -8,20 +8,33 @@
 
   <!-- CONTAINER: -->
   <div class="container">
-    <br />
+       <!-- breadcrumb: -->
+       <ol class="breadcrumb breadcrumb-K8-adapted">
+          <li class="breadcrumb-item">
+            <a href="/">
+              Главная</a>
+          </li>
+          <li class="breadcrumb-item">
+              <a href="/forum">
+                Форум</a>
+          </li>
+          <li class="breadcrumb-item">
+              <a href="/forum/section/<%= transData.section.alias %>">
+                <%= transData.section.title %></a>
+            </li>
+          <li class="breadcrumb-item active">
+              <%= transData.topic.title %>
+          </li>
+        </ol>
+        <!-- /breadcrumb: -->
 
-    <h1>Форум</h1>
+    <h1><%= transData.topic.title %></h1>
     <h3><%= transData.topic.sectiontitle %></h3>
     <br />
     <table class="gTable" width="100%" cellspacing="1" cellpadding="0" border="0">
       <tbody>
 
-        <tr>
-          <td class="gTableTop">
-            <div style="float:right" class="gTopCornerRight"></div>
-            <%= transData.topic.title %>
-          </td>
-        </tr>
+
 
         <tr>
           <td class="postFirst">
@@ -29,7 +42,7 @@
               <tbody>
                 <tr>
                   <td class="postTdTop" width="23%" align="center"><a class="postUser" href="javascript://"
-                      rel="nofollow" onclick=""><%= transData.topic.author %></a></td>
+                      rel="nofollow" onclick="window.open('/profile/user/<%=transData.topic.author%>', 'up58', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;"><%= transData.topic.author %></a></td>
                   <td class="postTdTop">Дата: <%= transData.topic.date %> | Сообщение # 1
                   </td>
                 </tr>
@@ -158,7 +171,7 @@
               <tbody>
                 <tr>
                   <td class="postTdTop" width="23%" align="center"><a class="postUser" href="javascript://"
-                      rel="nofollow" onclick=""><%= transData.posts[i].author %></a></td>
+                      rel="nofollow" onclick="window.open('/profile/user/<%=transData.posts[i].author%>', 'up58', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;"><%= transData.posts[i].author %></a></td>
                   <td class="postTdTop">Дата: <%= transData.posts[i].date %> | Сообщение # <%= i+2 %>
                   </td>
                 </tr>

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+
 <html lang="en">
   <% include ../layout/lay_site_1_head.ejs %>
 
@@ -8,7 +9,18 @@
 
     <!-- CONTAINER: -->
     <div class="container">
-      <br />
+       <!-- breadcrumb: -->
+       <ol class="breadcrumb breadcrumb-K8-adapted">
+          <li class="breadcrumb-item">
+            <a href="/">
+              Главная</a>
+          </li>
+          <li class="breadcrumb-item active">
+              Форум
+          </li>
+        </ol>
+        <!-- /breadcrumb: -->
+
 
       <h1>Форум</h1>
 
@@ -51,11 +63,21 @@
           <% for (let i = 0; i<transData.sectionsList.length; i++) { %>
           <tr>
             <td class="forumIcoTd" align="center">
+
+              <%if (transData.sectionsList[i].isHot) { %>
               <img
                 alt=""
-                src="/images/forum/template/br_nonew.gif"
-                title="Нет новых сообщений"
+                src="/images/forum/template/br_new.gif"
+                title="Есть новые сообщения"
               />
+                <% } else {%>
+                  <img
+                  alt=""
+                  src="/images/forum/template/br_nonew.gif"
+                  title="Нет новых сообщений"
+                />
+                  <% } %>
+
             </td>
             <td class="forumNameTd">
                 <a id="sectiontitle<%= transData.sectionsList[i]._id %>" class="forum" href="/forum/section/<%= transData.sectionsList[i].alias %>"><%= transData.sectionsList[i].title %></a>
@@ -80,7 +102,7 @@
                   class="lastPostUserLink"
                   href="javascript://"
                   rel="nofollow"
-                  onclick="window.open('/index/8-0-savich', 'up67', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;"
+                  onclick="window.open('/profile/user/<%= transData.sectionsList[i].lastPost.author %>', 'up67', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;"
                   ><%= transData.sectionsList[i].lastPost.author %></a
                 ></span
               >

@@ -29,6 +29,15 @@ function pGetSectionByAliasFromDb(alias) {
   });
 }
 
+function pGetSectionByIdFromDb(_id) {
+  return new Promise(function(resolve, reject) {
+    forumsection.findOne({ _id }).then(forumsectionFromDB => {
+      if (forumsectionFromDB) resolve(forumsectionFromDB);
+      else reject('Не могу достать раздел форума из базы!');
+    });
+  });
+}
+
 function pGetTopicsInSectionFromDb(sectionid) {
   return new Promise(function(resolve, reject) {
     forumtopic.find({ sectionid }).then(topicsFromDB => {
@@ -181,7 +190,8 @@ router.get('/', function(req, res) {
         description: sections[i].description,
         createdAt: sections[i].createdAt,
         updatedAt: sections[i].updatedAt,
-        __v: sections[i].__v
+        __v: sections[i].__v,
+        isHot: false
       });
     }
 
@@ -199,7 +209,13 @@ router.get('/', function(req, res) {
             cPostsList.sort(function(a, b) {
               return b.createdAt - a.createdAt;
             });
+
             if (cPostsList.length) {
+              let lastPostAgeDays = parseInt(
+                ((Date.now() - cPostsList[0].createdAt) / (1000 * 60 * 60)) % 24
+              );
+              if (lastPostAgeDays < 5) sectionsList[i].isHot = true;
+
               pGetTopicByIdFromDb(cPostsList[0].topicid).then(motherTopic => {
                 sectionsList[i].lastPost = {
                   createdAt: moment(cPostsList[0].createdAt).format(
@@ -231,7 +247,8 @@ router.get('/', function(req, res) {
         transData: {
           user: { _id, login, group },
           shopCart,
-          sectionsList
+          sectionsList,
+          pageTitle: 'Форум'
         }
       });
     }
@@ -260,16 +277,75 @@ router.get('/section/:sectionalias', function(req, res) {
 
   pGetSectionByAliasFromDb(sectionAlias).then(section => {
     //console.log(section);
+    let pageTitle = section.title + ' - Форум';
     pGetTopicsInSectionFromDb(section._id).then(topics => {
-      console.log(topics);
-      res.render('forum/forum_section', {
-        transData: {
-          user: { _id, login, group },
-          shopCart,
-          section,
-          topics
+      //console.log(topics);
+
+      let topicsList = [];
+      for (let i = 0; i < topics.length; i++) {
+        topicsList.push({
+          _id: topics[i]._id,
+          sectionid: topics[i].sectionid,
+          title: topics[i].title,
+          alias: topics[i].alias,
+          shorttext: topics[i].shorttext,
+          picture: topics[i].picture,
+          fulltext: topics[i].fulltext,
+          author: topics[i].author,
+          authorgroup: topics[i].authorgroup,
+          createdAt: topics[i].createdAt,
+          updatedAt: topics[i].updatedAt,
+          __v: topics[i].__v,
+          isHot: false
+        });
+      }
+      //console.log(topicsList);
+
+      fScanTopicsInfo();
+
+      function fScanTopicsInfo() {
+        let count = 0;
+
+        for (let i = 0; i < topicsList.length; i++) {
+          pGetPostsInTopicFromDb(topicsList[i]._id).then(cPostsList => {
+            topicsList[i].postsCount = cPostsList.length;
+            cPostsList.sort(function(a, b) {
+              return b.createdAt - a.createdAt;
+            });
+
+            if (cPostsList.length) {
+              let lastPostAgeDays = parseInt(
+                ((Date.now() - cPostsList[0].createdAt) / (1000 * 60 * 60)) % 24
+              );
+              if (lastPostAgeDays < 5) topicsList[i].isHot = true;
+
+              topicsList[i].lastPost = {
+                createdAt: moment(cPostsList[0].createdAt).format(
+                  'DD.MM.YYYY, HH:mm, dddd'
+                ),
+                fulltext: cPostsList[0].fulltext,
+                author: cPostsList[0].author
+              };
+            }
+            count++;
+            if (count == topicsList.length) fRenderPage();
+          });
         }
-      });
+      }
+
+      function fRenderPage() {
+        //console.log(topicsList);
+
+        res.render('forum/forum_section', {
+          transData: {
+            user: { _id, login, group },
+            shopCart,
+            section,
+            topicsList,
+            pageTitle
+          }
+        });
+      }
     });
   });
 });
@@ -360,23 +436,27 @@ router.get('/topic/:topicalias', function(req, res) {
   pGetTopicByAliasFromDb(topicAlias).then(topic => {
     let topicDate = moment(topic.updatedAt).format('dddd, DD.MM.YYYY, HH:mm');
     topic.date = topicDate;
-
-    pGetPostsInTopicFromDb(topic._id).then(posts => {
-      //console.log(posts);
-      //console.log(topic);
-      for (let i = 0; i < posts.length; i++) {
-        let postDate = moment(posts[i].updatedAt).format(
-          'dddd, DD.MM.YYYY, HH:mm'
-        );
-        posts[i].date = postDate;
-      }
-
-      res.render('forum/forum_topic', {
-        transData: {
-          user: { _id, login, group },
-          topic,
-          posts
+    let pageTitle = topic.title + ' - Форум';
+    pGetSectionByIdFromDb(topic.sectionid).then(section => {
+      pGetPostsInTopicFromDb(topic._id).then(posts => {
+        //console.log(posts);
+        //console.log(section);
+        for (let i = 0; i < posts.length; i++) {
+          let postDate = moment(posts[i].updatedAt).format(
+            'dddd, DD.MM.YYYY, HH:mm'
+          );
+          posts[i].date = postDate;
         }
+
+        res.render('forum/forum_topic', {
+          transData: {
+            user: { _id, login, group },
+            section,
+            topic,
+            posts,
+            pageTitle
+          }
+        });
       });
     });
   });

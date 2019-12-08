@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <% include ../layout/lay_site_1_head.ejs %>
+  <body>
+    <% include ../layout/lay_site_2_navigation.ejs %>
+
+    <!-- CONTAINER: -->
+    <div class="container">
+        <br />
+      
+            <% if( typeof(transData.targetUser) == 'undefined' ) { %>
+              <H3>Такого пользователя не существует!</H3>
+            <% } else { %>
+              <H1>Профиль пользователя <%= transData.targetUser.name %></H1>
+
+          <div class="card border-success mb-3">
+              <div class="card-header">
+                <h4><%= transData.targetUser.login %><h4>          
+              </div>
+               
+              <div class="card-body">
+                  <table class="table table-hover">
+                      <tbody>
+                        
+                        <tr>
+                          <th scope="row">Группа</th>
+                          <td><%= transData.targetUser.group %></td>
+                          
+                        </tr>
+          
+          
+                        <tr>
+                          <th scope="row">Имя</th>
+                          <td><%= transData.targetUser.name %></td>
+                         
+                        </tr>
+          
+                        <tr>
+                          <th scope="row">E-mail</th>
+                          <td><%= transData.targetUser.email %></td>
+                          
+                        </tr>
+                        <tr>
+                          <th scope="row">Номер телефона</th>
+                          <td>+38<%= transData.targetUser.phonenumber %></td>
+                         
+                        </tr>
+          
+                        
+
+                        <tr>
+                          <th scope="row">Дата регистрации</th>
+                          <td><%= transData.targetUser.createdAt %></td>
+
+                        </tr>
+                       
+                      </tbody>
+                    </table>
+              </div>
+
+          </div>
+            <% } %>
+
+          
+          
+
+        
+      
+            <!-- Footer -->
+            <% include ../layout/lay_site_5_footer.ejs %>
+            <!-- Footer -->
+    </div>
+    <!-- /CONTAINER: -->
+<% include ../layout/lay_site_4_bottomscripts.ejs %>
+  </body>
+</html>

@@ -355,4 +355,53 @@ router.get('/mywishlist', function(req, res) {
   //console.dir(req);
 });
 
+router.get('/user/:targetlogin', function(req, res) {
+  let _id;
+  let login;
+  let group;
+  let shopCart = req.session.shopCart;
+  let targetLogin = req.params.targetlogin;
+  //********** Def main params of the router *********** */
+
+  if (req.session.userId && req.session.userLogin) {
+    _id = req.session.userId;
+    login = req.session.userLogin;
+    group = req.session.userGroup;
+  } else {
+    _id = 0;
+    login = 0;
+    group = 0;
+  }
+
+  let targetUser;
+
+  user.findOne({ login: targetLogin }).then(userFromDB => {
+    //console.log(userFromDB);
+
+    if (userFromDB) {
+      targetUser = {};
+      targetUser.group = userFromDB.group;
+      targetUser.name = userFromDB.name;
+      targetUser.email = userFromDB.email;
+      targetUser.phonenumber = userFromDB.phonenumber;
+      targetUser.login = userFromDB.login;
+      targetUser.createdAt = moment(userFromDB.createdAt).format(
+        'DD.MM.YYYY, HH:mm'
+      );
+      targetUser.updatedAt = moment(userFromDB.updatedAt).format(
+        'DD.MM.YYYY, HH:mm'
+      );
+    }
+
+    res.render('profile/target_profile', {
+      transData: {
+        user: { _id, login, group },
+        shopCart,
+        pageTitle: 'Профиль пользователя',
+        targetUser
+      }
+    });
+  });
+});
+
 module.exports = router;

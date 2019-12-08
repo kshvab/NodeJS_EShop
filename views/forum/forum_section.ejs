@@ -8,9 +8,23 @@
 
     <!-- CONTAINER: -->
     <div class="container">
-      <br />
+       <!-- breadcrumb: -->
+       <ol class="breadcrumb breadcrumb-K8-adapted">
+          <li class="breadcrumb-item">
+            <a href="/">
+              Главная</a>
+          </li>
+          <li class="breadcrumb-item">
+              <a href="/forum">
+                Форум</a>
+            </li>
+          <li class="breadcrumb-item active">
+              <%= transData.section.title %>
+          </li>
+        </ol>
+        <!-- /breadcrumb: -->
 
-      <h1>Форум</h1>
+      <h1><%= transData.section.title %></h1>
       <% if (transData.user.group) { %>
         <div class="forum-top-buttons">
           <a
@@ -26,56 +40,73 @@
 
       <table class="gTable" width="100%" cellspacing="1" cellpadding="0" border="1" bgcolor="#FFFFFF">
         <tbody>
-          <tr>
-            <td class="gTableTop" colspan="7">
-              <div style="float:right" class="gTopCornerRight">
-              </div>
-              <%= transData.section.title %>
-            </td>
-          </tr>
-
 
           <tr>
             <td colspan="2" class="gTableSubTop" width="8%">&nbsp;
             </td>
-            <td class="gTableSubTop" align="left">
-              <a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-1';return false;" rel="nofollow" class="topSortLink">Тема</a>
-            </td>
-            <td class="gTableSubTop" width="7%" align="center">
-              <a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-4';return false;" rel="nofollow" class="topSortLink">Ответы</a>
-            </td>
-            <td class="gTableSubTop" width="6%" align="center">
-              <a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-6';return false;" rel="nofollow" class="topSortLink">Просмотры</a>
-            </td>
-            <td class="gTableSubTop" width="14%" align="center">
-              <a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-7';return false;" rel="nofollow" class="topSortLink">Автор темы</a>
-            </td>
-            <td class="gTableSubTop" width="21%" align="left">
-              <a href="javascript:;" onclick="window.location.href='/forum/2-0-1-0-9';return false;" rel="nofollow" class="topSortLink">Обновления</a><span class="sortArrDown">↓</span>
-            </td>
+            <td class="gTableSubTop" align="left">Тема
+             </td>
+            <td class="gTableSubTop" width="7%" align="center">Ответы
+             </td>
+
+            <td class="gTableSubTop" width="14%" align="center">Автор темы
+             </td>
+            <td class="gTableSubTop" width="21%" align="left">Обновления
+              </td>
           </tr>
               
-          <% for (let i = 0; i<transData.topics.length; i++) { %>
+          <% for (let i = 0; i<transData.topicsList.length; i++) { %>
           <tr id="tt138">
-            <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/f_norm_nonew.gif" title="Нет новых сообщений"></td>
-            <td class="threadIcoTd" width="4%" align="center"><img alt="" src="/images/forum/template/thread.gif" title="Обычная тема"></td>
+
+            <td class="threadIcoTd" width="4%" align="center">
+
+              <%if (transData.topicsList[i].isHot) { %>
+                <img
+                  alt=""
+                  src="/images/forum/template/f_norm_new.gif"
+                  title="Есть новые сообщения"
+                />
+                  <% } else {%>
+                    <img
+                    alt=""
+                    src="/images/forum/template/f_norm_nonew.gif"
+                    title="Нет новых сообщений"
+                  />
+                    <% } %>
+            </td>
+
+            <td class="threadIcoTd" width="4%" align="center">
+
+                 <%if (transData.topicsList[i].postsCount > 2) { %>
+                    <img alt="" src="/images/forum/template/hot.gif" title="Горячая тема">
+                  <% } else {%>
+                    <img alt="" src="/images/forum/template/thread.gif" title="Обычная тема">
+                  <% } %>
+
+              
+            </td>
             <td class="threadNametd">
-              <a class="threadLink" href="/forum/topic/<%=transData.topics[i].alias%>"><%=transData.topics[i].title%></a>
-              <div class="threadDescr"><%=transData.topics[i].shorttext%></div>
+              <a class="threadLink" href="/forum/topic/<%=transData.topicsList[i].alias%>"><%=transData.topicsList[i].title%></a>
+              <div class="threadDescr"><%=transData.topicsList[i].shorttext%></div>
             </td>
-            <td class="threadPostTd" align="center">3</td>
-            <td class="threadViewTd" align="center">336</td>
-            <td class="threadAuthTd" align="center"><span class="threadAuthor"><a class="threadAuthorLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-58', 'up58', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;"><%=transData.topics[i].author%></a></span></td>
+            <td class="threadPostTd" align="center"><%=transData.topicsList[i].postsCount%></td>
+            <td class="threadAuthTd" align="center"><a class="threadAuthorLink" href="javascript://" rel="nofollow" onclick="window.open('/profile/user/<%=transData.topicsList[i].author%>', 'up58', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;"><%=transData.topicsList[i].author%></a></td>
+            
             <td class="threadLastPostTd">
-              <a title="К последнему сообщению" class="forumLastPostLink" href="/forum/2-138-0-17">12.12.2017, 19:09</a>
-              <a href="/forum/2-138-0-17-1"><img alt="" title="К первому непрочитанному сообщению" src="/images/forum/template/lastpost.gif"></a>
-              <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/index/8-0-savich', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;">savich</a></span>
+                <% if(transData.topicsList[i].lastPost) { %>
+              <a title="К теме" class="forumLastPostLink" href="/forum/topic/<%=transData.topicsList[i].alias%>"><%=transData.topicsList[i].lastPost.createdAt%></a>
+     
+              <br>Сообщение от: <span class="lastPostUser"><a class="lastPostUserLink" href="javascript://" rel="nofollow" onclick="window.open('/profile/user/<%=transData.topicsList[i].lastPost.author%>', 'up27', 'scrollbars=1,top=0,left=0,resizable=1,width=700,height=375'); return false;"><%=transData.topicsList[i].lastPost.author%></a></span>
+              <% } %>
             </td>
+
           </tr>
 <%}%>
           
         
-        <tr><td class="threadsDetails" colspan="7">В этом форуме тем: <b>52</b>. На странице показано тем: <b>25</b>.</td></tr><tr><td class="forumOnlineBar" colspan="7">Форум просматривают: <b>1</b> гостей</td></tr> </tbody></table>
+        <tr><td class="threadsDetails" colspan="7">В этом форуме тем: <b><%= transData.topicsList.length %></b>. </td></tr>
+       </tbody>
+      </table>
 
 
 
