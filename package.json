@@ -29,7 +29,7 @@
     "dotenv": "^6.2.0",
     "ejs": "^2.6.1",
     "excel4node": "^1.7.0",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "express-session": "^1.15.6",
     "jimp": "^0.6.0",
     "jquery": "^3.4.0",
